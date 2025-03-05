@@ -25,7 +25,7 @@ Sigue estos pasos para arrancar la aplicación en local:
 
 ## Acceso a la aplicación 🌐
 
-Una vez realizados los pasos de arranque, la aplicación será accesible. Habrá varios puntos de acceso, pero solo el front-end web será accesible para el usuario final:
+Una vez realizados los pasos de arranque de ambos repositorios, la aplicación será accesible. Habrá varios puntos de acceso, pero solo el front-end web será accesible para el usuario final:
 
 - Front-end web: http://localhost:4200/
 
@@ -34,3 +34,17 @@ Una vez realizados los pasos de arranque, la aplicación será accesible. Habrá
 - API Healthcheck: http://localhost:8082/actuator/health
 
 - Panel de control PhpMyAdmin: http://localhost:8081/
+
+
+## Credenciales de acceso 🔑
+
+### Aplicación Web 
+
+Como se ha realizado un volcado inicial de base de datos, las contraseñas estaban encriptadas. Aqui está la lista de usuarios - contraseñas:
+
+- User1 - user@pass
+- User2 - user@pass
+- Vendor1 - vendor@pass
+- Vendor2 - vendor@pass
+- Admin1 - admin@pass
+- Admin2 - admin@pass
