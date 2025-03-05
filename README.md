@@ -1,27 +1,36 @@
-# AlvaroAvilesRedondoTFMAngular
+## [Máster en Ingeniería Web por la Universidad Politécnica de Madrid (miw-upm)](http://miw.etsisi.upm.es)
+## Trabajo de fin de master 📖
+> Este proyecto es uno de los dos proyectos que se han desarrollado para el trabajo de fin de master, el cual consiste en la migración
+> de una API rest con arquitectura 3 capas a una arquitectura hexagonal, así como la aplicación del framework de Angular.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.8.
+### Estado del código ⚙️
+[![DevOps](https://github.com/alvaroavilesr/Alvaro_Aviles_Redondo_TFM_Angular/actions/workflows/build.yml/badge.svg)](https://github.com/alvaroavilesr/Alvaro_Aviles_Redondo_TFM_Angular/actions/workflows/build.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=alvaroavilesr_Alvaro_Aviles_Redondo_TFM_Angular&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=alvaroavilesr_Alvaro_Aviles_Redondo_TFM_Angular)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=alvaroavilesr_Alvaro_Aviles_Redondo_TFM_Angular&metric=bugs)](https://sonarcloud.io/summary/new_code?id=alvaroavilesr_Alvaro_Aviles_Redondo_TFM_Angular)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=alvaroavilesr_Alvaro_Aviles_Redondo_TFM_Angular&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=alvaroavilesr_Alvaro_Aviles_Redondo_TFM_Angular)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=alvaroavilesr_Alvaro_Aviles_Redondo_TFM_Angular&metric=coverage)](https://sonarcloud.io/summary/new_code?id=alvaroavilesr_Alvaro_Aviles_Redondo_TFM_Angular)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=alvaroavilesr_Alvaro_Aviles_Redondo_TFM_Angular&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=alvaroavilesr_Alvaro_Aviles_Redondo_TFM_Angular)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=alvaroavilesr_Alvaro_Aviles_Redondo_TFM_Angular&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=alvaroavilesr_Alvaro_Aviles_Redondo_TFM_Angular)
 
-## Development server
+## Arranque de la aplicación 🚀
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Sigue estos pasos para arrancar la aplicación en local:
+1. Asegurate de tener instalado:
+    - Docker
+    - Docker-compose
+    - Git
+2. Clona este repositorio en tu local.
+3. Ejecuta el comando "docker build -f dockerfile -t alvaro_aviles_redondo_tfm_angular ." y después ejecuta "docker run -d -p 4200:4200 --name Angular-container alvaro_aviles_redondo_tfm_angular".
+4. Todo está listo para ejecutar la aplicación, que ahora es accesible a través del link http://localhost:4200/
 
-## Code scaffolding
+## Acceso a la aplicación 🌐
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Una vez realizados los pasos de arranque, la aplicación será accesible. Habrá varios puntos de acceso, pero solo el front-end web será accesible para el usuario final:
 
-## Build
+- Front-end web: http://localhost:4200/
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- SwaggerUI: http://localhost:8082/swagger-ui/index.html
 
-## Running unit tests
+- API Healthcheck: http://localhost:8082/actuator/health
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Panel de control PhpMyAdmin: http://localhost:8081/
