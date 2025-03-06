@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+section.container {
+  flex-grow: 1;
+}
+
+app-footer {
+  color: white;
+  text-align: center;
+}
