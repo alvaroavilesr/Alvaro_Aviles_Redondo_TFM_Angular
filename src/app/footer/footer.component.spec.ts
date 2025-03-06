@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FooterComponent } from './footer.component';
+import {By} from '@angular/platform-browser';
 
-describe('FooterComponent', () => {
+describe('FooterComponent tests', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
 
@@ -17,7 +18,13 @@ describe('FooterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('FOOTER - should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('FOOTER - should display the correct text', () => {
+    const text = fixture.debugElement.queryAll(By.css('p'));
+    expect(text.length).toBe(1);
+    expect(text[0].nativeElement.textContent).toContain('© 2025 The Clothing Hub, Inc');
   });
 });
