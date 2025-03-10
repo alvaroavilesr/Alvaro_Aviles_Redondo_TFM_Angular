@@ -1,0 +1,21 @@
+<div class="d-flex justify-content-center align-items-center vh-50 mt-5 pt-5">
+  <div class="card p-4 bg-dark text-white" style="width: 50%; max-width: 400px; background-color: #333; margin-top: 130px">
+    <h3 class="text-center mb-4 fw-bold">
+      Login
+      <i class="bi bi-key-fill"></i>
+    </h3>
+    <form id="loginForm">
+      <div class="mb-3">
+        <label for="username" class="form-label">Nombre de usuario</label>
+        <input type="text" name="username" [(ngModel)]="loginModel.username" class="form-control" id="username" placeholder="User1">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" name="password" [(ngModel)]="loginModel.password" class="form-control" id="password" placeholder="C0ntr@señ@">
+      </div>
+      <div class="d-grid pt-3">
+        <button id= "btnLogin" (click) = "login($event)" type="submit" class="btn btn-primary">Login</button>
+      </div>
+    </form>
+  </div>
+</div>
