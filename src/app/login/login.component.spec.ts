@@ -113,4 +113,49 @@ describe('LoginComponent tests', () => {
 
     expect(toastrService.error).toHaveBeenCalledWith('Ha occurido un error inesperado.', 'Login');
   });
+
+  it('LOGIN - should show error when user role is undefined', () => {
+    const mockResponse = {
+      body: {
+        jwtToken: 'fake-token',
+        userResponse: {
+          userName: 'testuser',
+          email: 'test@example.com',
+          role: [undefined]
+        }
+      }
+    };
+
+    loginService.login.and.returnValue(of(mockResponse));
+    component.loginModel = { username: 'testuser', password: 'password' };
+    component.login(new Event('submit'));
+
+    expect(toastrService.error).toHaveBeenCalledWith('Revisa tus credenciales.', 'Login');
+    expect(router.navigate).not.toHaveBeenCalled();
+    expect(sessionStorage.getItem('JWT')).toBeFalsy();
+  });
+
+  it('LOGIN - should navigate to admin home when role is Admin', () => {
+    const mockResponse = {
+      body: {
+        jwtToken: 'admin-token',
+        userResponse: {
+          userName: 'admin',
+          email: 'admin@example.com',
+          role: [{ roleName: 'Admin' }]
+        }
+      }
+    };
+
+    loginService.login.and.returnValue(of(mockResponse));
+    component.loginModel = { username: 'admin', password: 'adminpass' };
+    component.login(new Event('submit'));
+
+    expect(sessionStorage.getItem('JWT')).toBe('admin-token');
+    expect(sessionStorage.getItem('UserName')).toBe('admin');
+    expect(sessionStorage.getItem('UserEmail')).toBe('admin@example.com');
+    expect(sessionStorage.getItem('Role')).toBe('Admin');
+    expect(authService.checkLoginStatus).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['/admin-home']);
+  });
 });
