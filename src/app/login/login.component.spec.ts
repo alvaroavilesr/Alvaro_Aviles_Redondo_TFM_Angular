@@ -115,6 +115,7 @@ describe('LoginComponent tests', () => {
   });
 
   it('LOGIN - should show error when user role is undefined', () => {
+    sessionStorage.clear();
     const mockResponse = {
       body: {
         jwtToken: 'fake-token',
@@ -133,9 +134,11 @@ describe('LoginComponent tests', () => {
     expect(toastrService.error).toHaveBeenCalledWith('Revisa tus credenciales.', 'Login');
     expect(router.navigate).not.toHaveBeenCalled();
     expect(sessionStorage.getItem('JWT')).toBeFalsy();
+    sessionStorage.clear();
   });
 
   it('LOGIN - should navigate to admin home when role is Admin', () => {
+    sessionStorage.clear();
     const mockResponse = {
       body: {
         jwtToken: 'admin-token',
@@ -157,5 +160,6 @@ describe('LoginComponent tests', () => {
     expect(sessionStorage.getItem('Role')).toBe('Admin');
     expect(authService.checkLoginStatus).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['/admin-home']);
+    sessionStorage.clear();
   });
 });
