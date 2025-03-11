@@ -1,7 +1,8 @@
-import { Component, OnDestroy, AfterViewInit, ChangeDetectorRef} from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NgIf, NgOptimizedImage } from '@angular/common';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { AuthService } from '../shared/services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -9,10 +10,29 @@ import { Location } from '@angular/common';
   imports: [
     NgOptimizedImage,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    NgIf
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit, OnDestroy {
+  isLoggedIn: boolean = false;
+  private subscription: Subscription = new Subscription();
+
+  constructor(private router: Router, private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.subscription = this.authService.isLoggedIn$.subscribe(
+      isLoggedIn => this.isLoggedIn = isLoggedIn
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
 }

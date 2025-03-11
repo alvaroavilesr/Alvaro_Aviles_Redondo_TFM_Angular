@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LoginService } from './login.service';
 import {Router} from '@angular/router';
+import {AuthService} from '../shared/services/auth.service';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class LoginComponent {
 
   constructor(private toastr: ToastrService,
               private readonly loginService: LoginService,
-              private router: Router) {}
+              private router: Router,
+              private authService: AuthService) {}
 
   login(event: Event) {
     event.preventDefault();
@@ -44,6 +46,7 @@ export class LoginComponent {
             sessionStorage.setItem('UserName', response.body.userResponse.userName);
             sessionStorage.setItem('UserEmail', response.body.userResponse.email);
             sessionStorage.setItem('Role', response.body.userResponse.role[0].roleName);
+            this.authService.checkLoginStatus();
             if (role === "User") {
               this.router.navigate(['/user-home']);
             } else if (role === "Vendor") {

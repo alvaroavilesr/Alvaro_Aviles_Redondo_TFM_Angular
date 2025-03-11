@@ -33,7 +33,7 @@
           </a>
         </li>
       </ul>
-      <ul id="notLoggedMenu" class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <ul id="notLoggedMenu" class="navbar-nav ms-auto mb-2 mb-lg-0" *ngIf="!isLoggedIn">
         <li class="nav-item">
           <a class="nav-link" routerLink="login" routerLinkActive="active">
             Login
@@ -44,6 +44,14 @@
           <a class="nav-link" routerLink="" routerLinkActive="active">
             Register
             <i class="bi bi-person-fill"></i>
+          </a>
+        </li>
+      </ul>
+      <ul id="LoggedMenu" class="navbar-nav ms-auto mb-2 mb-lg-0" *ngIf="isLoggedIn">
+        <li class="nav-item">
+          <a class="nav-link" (click)="logout()" style="cursor: pointer;">
+            Logout
+            <i class="bi bi-box-arrow-right"></i>
           </a>
         </li>
       </ul>
