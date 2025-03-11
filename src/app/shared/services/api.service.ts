@@ -9,7 +9,7 @@ import {EndPoints} from '../end-points';
 })
 export class ApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   login(loginModel : Login): Observable<any> {
     const headers = new HttpHeaders({

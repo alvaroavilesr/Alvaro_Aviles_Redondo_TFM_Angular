@@ -6,10 +6,10 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  private readonly isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
-  constructor(private router: Router) {
+  constructor(private readonly router: Router) {
     this.checkLoginStatus();
   }
 

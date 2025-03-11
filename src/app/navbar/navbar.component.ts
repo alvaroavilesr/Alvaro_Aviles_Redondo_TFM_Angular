@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgIf, NgOptimizedImage } from '@angular/common';
-import { RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { RouterLink, RouterLinkActive} from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { Subscription } from 'rxjs';
 
@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
   private subscription: Subscription = new Subscription();
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   ngOnInit(): void {
     this.subscription = this.authService.isLoggedIn$.subscribe(

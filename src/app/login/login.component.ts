@@ -22,10 +22,10 @@ export class LoginComponent {
 
   loginModel: Login = { username: '', password: '' };
 
-  constructor(private toastr: ToastrService,
+  constructor(private readonly toastr: ToastrService,
               private readonly loginService: LoginService,
-              private router: Router,
-              private authService: AuthService) {}
+              private readonly router: Router,
+              private readonly authService: AuthService) {}
 
   login(event: Event) {
     event.preventDefault();
