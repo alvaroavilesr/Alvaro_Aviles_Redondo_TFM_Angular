@@ -29,12 +29,6 @@ jobs:
       - name: Generate coverage report
         run: npm run test:coverage -- --browsers=ChromeHeadless
 
-      - name: Debug - List coverage directory
-        run: ls -la coverage/
-
-      - name: Check coverage file path
-        run: find . -name "lcov.info"
-
       - name: SonarCloud Analysis
         run: >
           npx sonar-scanner
