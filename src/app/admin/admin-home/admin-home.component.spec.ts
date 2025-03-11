@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdminHomeComponent } from './admin-home.component';
 
-describe('AdminHomeComponent', () => {
+describe('AdminHomeComponent tests', () => {
   let component: AdminHomeComponent;
   let fixture: ComponentFixture<AdminHomeComponent>;
 
@@ -17,7 +17,7 @@ describe('AdminHomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('ADMIN HOME - should create', () => {
     expect(component).toBeTruthy();
   });
 });

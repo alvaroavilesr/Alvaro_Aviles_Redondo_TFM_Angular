@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VendorHomeComponent } from './vendor-home.component';
 
-describe('VendorHomeComponent', () => {
+describe('VendorHomeComponent tests', () => {
   let component: VendorHomeComponent;
   let fixture: ComponentFixture<VendorHomeComponent>;
 
@@ -17,7 +17,7 @@ describe('VendorHomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('VENDOR HOME - should create', () => {
     expect(component).toBeTruthy();
   });
 });
