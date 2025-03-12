@@ -42,17 +42,17 @@ export class RegisterComponent {
 
     if (!this.registerModel.username || !this.registerModel.email || !this.registerModel.name ||
       !this.registerModel.surname || !this.registerModel.password || !this.registerModel.passwordRepeat) {
-      this.toastr.error('Por favor, completa todos los campos.', 'Register');
+      this.toastr.error('Por favor, completa todos los campos.', 'Registro');
       return false;
     }
 
     if (this.registerModel.password !== this.registerModel.passwordRepeat) {
-      this.toastr.error('Las contraseñas no coinciden.', 'Register');
+      this.toastr.error('Las contraseñas no coinciden.', 'Registro');
       return false;
     }
 
     if (!emailPattern.test(this.registerModel.email)) {
-      this.toastr.error('El formato del correo electrónico no es válido.', 'Register');
+      this.toastr.error('El formato del correo electrónico no es válido.', 'Registro');
       return false;
     }
 
@@ -62,7 +62,7 @@ export class RegisterComponent {
   private processRegistration() {
     this.registerService.register(this.registerModel).subscribe({
       next: () => {
-        this.toastr.success('Usuario registrado correctamente.', 'Register');
+        this.toastr.success('Usuario registrado correctamente.', 'Registro');
         this.resetForm();
       },
       error: (error) => this.handleRegistrationError(error)
@@ -82,9 +82,9 @@ export class RegisterComponent {
 
   private handleRegistrationError(error: any) {
     if (error.status === 400) {
-      this.toastr.error('El nombre de usuario ya está en uso.', 'Register');
+      this.toastr.error('El nombre de usuario ya está en uso.', 'Registro');
     } else {
-      this.toastr.error('Ha ocurrido un error inesperado.', 'Register');
+      this.toastr.error('Ha ocurrido un error inesperado.', 'Registro');
     }
   }
 }
