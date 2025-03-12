@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { UserHomeComponent } from './user/user-home/user-home.component';
 import { VendorHomeComponent } from './vendor/vendor-home/vendor-home.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
+import {RegisterComponent} from './register/register.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -14,6 +15,7 @@ export const routes: Routes = [
   { path: 'help', component: HelpComponentComponent },
   { path: 'about', component: AboutComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'user-home', component: UserHomeComponent },
   { path: 'vendor-home', component: VendorHomeComponent },
   { path: 'admin-home', component: AdminHomeComponent },
