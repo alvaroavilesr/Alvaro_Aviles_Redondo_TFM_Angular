@@ -1,0 +1,37 @@
+<div class="d-flex justify-content-center align-items-center vh-50 mt-5 pt-4">
+  <div class="card p-4 bg-dark text-white" style="width: 100%; max-width: 400px; background-color: #333;">
+    <h3 class="text-center mb-4 fw-bold">
+      Registro
+      <i class="bi bi-person-fill"></i>
+    </h3>
+    <form id="registerForm">
+      <div class="mb-3">
+        <label for="username" class="form-label">Nombre de usuario</label>
+        <input type="text" name="username" [(ngModel)]="registerModel.username" class="form-control"  id="username" placeholder="Usuario123" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo electrónico</label>
+        <input type="email" name="email" [(ngModel)]="registerModel.email" class="form-control" id="email" placeholder="name@example.com" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Nombre</label>
+        <input type="email" name="name" [(ngModel)]="registerModel.name" class="form-control" id="name" placeholder="Alvaro" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Apellido</label>
+        <input type="email" name="surname" [(ngModel)]="registerModel.surname" class="form-control" id="surname" placeholder="Aviles" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" name="password" [(ngModel)]="registerModel.password" class="form-control" id="password" placeholder="C0ntr@señ@" required>
+      </div>
+      <div class="mb-3">
+        <label for="passwordConfirm" class="form-label">Repite la contraseña</label>
+        <input type="password" name="passwordRepeat" [(ngModel)]="registerModel.passwordRepeat" class="form-control" id="passwordConfirm" placeholder="C0ntr@señ@" required>
+      </div>
+      <div class="d-grid pt-3">
+        <button id="btnRegister" (click) = "register($event)" type="submit" class="btn btn-primary">Registrar</button>
+      </div>
+    </form>
+  </div>
+</div>

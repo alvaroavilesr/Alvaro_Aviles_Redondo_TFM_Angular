@@ -91,7 +91,7 @@ describe('NavbarComponent tests', () => {
 
     expect(registerLink.nativeElement.textContent).toContain('Register');
     expect(registerLink.query(By.css('i')).nativeElement.classList).toContain('bi-person-fill');
-    expect(registerLink.attributes['routerLink']).toBe('');
+    expect(registerLink.attributes['routerLink']).toBe('register');
 
     const loggedMenu = fixture.debugElement.query(By.css('#LoggedMenu'));
     expect(loggedMenu).toBeFalsy();

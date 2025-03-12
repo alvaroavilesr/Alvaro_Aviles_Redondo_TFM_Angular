@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 
 describe('AuthService tests', () => {
   let service: AuthService;
@@ -11,9 +11,9 @@ describe('AuthService tests', () => {
     router = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       providers: [
         AuthService,
+        provideRouter([]), // Reemplaza RouterTestingModule
         { provide: Router, useValue: router }
       ]
     });
