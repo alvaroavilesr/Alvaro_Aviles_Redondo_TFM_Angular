@@ -49,19 +49,19 @@ describe('RegisterComponent tests', () => {
   it('should show error if form is incomplete', () => {
     component.registerModel = createRegisterModel({ username: '' });
     component.register(new Event('submit'));
-    expect(toastrService.error).toHaveBeenCalledWith('Por favor, completa todos los campos.', 'Register');
+    expect(toastrService.error).toHaveBeenCalledWith('Por favor, completa todos los campos.', 'Registro');
   });
 
   it('should show error if passwords do not match', () => {
     component.registerModel = createRegisterModel({ password: 'password1', passwordRepeat: 'password2' });
     component.register(new Event('submit'));
-    expect(toastrService.error).toHaveBeenCalledWith('Las contraseñas no coinciden.', 'Register');
+    expect(toastrService.error).toHaveBeenCalledWith('Las contraseñas no coinciden.', 'Registro');
   });
 
   it('should show error if email format is invalid', () => {
     component.registerModel = createRegisterModel({ email: 'invalid-email' });
     component.register(new Event('submit'));
-    expect(toastrService.error).toHaveBeenCalledWith('El formato del correo electrónico no es válido.', 'Register');
+    expect(toastrService.error).toHaveBeenCalledWith('El formato del correo electrónico no es válido.', 'Registro');
   });
 
   it('should call register service on valid form submission', () => {
@@ -91,13 +91,13 @@ describe('RegisterComponent tests', () => {
     component.registerModel = createRegisterModel();
     registerService.register.and.returnValue(throwError(() => ({ status: 400 })));
     component.register(new Event('submit'));
-    expect(toastrService.error).toHaveBeenCalledWith('El nombre de usuario ya está en uso.', 'Register');
+    expect(toastrService.error).toHaveBeenCalledWith('El nombre de usuario ya está en uso.', 'Registro');
   });
 
   it('should show error if registration fails with unexpected error', () => {
     component.registerModel = createRegisterModel();
     registerService.register.and.returnValue(throwError(() => ({ status: 500 })));
     component.register(new Event('submit'));
-    expect(toastrService.error).toHaveBeenCalledWith('Ha ocurrido un error inesperado.', 'Register');
+    expect(toastrService.error).toHaveBeenCalledWith('Ha ocurrido un error inesperado.', 'Registro');
   });
 });
