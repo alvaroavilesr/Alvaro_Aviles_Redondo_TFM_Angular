@@ -1,0 +1,75 @@
+<div class="d-flex justify-content-center align-items-center vh-50 mt-5 pt-5">
+  <div class="card p-4 bg-dark text-white" style="width: 100%; max-width: 900px; background-color: #333; margin-top: 130px">
+    <h3 class="text-center mb-4 fw-bold">
+      Tus datos personales - {{ userData.username }}
+      <i class="bi bi-person-fill"></i>
+    </h3>
+    <br>
+    <form id="registerForm">
+      <div class="mb-3 row align-items-center">
+        <label class="col-sm-4 col-form-label text-large"><strong>Correo electrónico:</strong></label>
+        <div class="col-sm-4">
+          <p class="mb-0 text-large">{{ userData.email }}</p>
+        </div>
+        <div class="col-sm-4 text-end">
+          <button type="button" class="btn btn-primary btn-sm" (click)="openModal('UserEmail')">Cambiar</button>
+        </div>
+      </div>
+      <div class="mb-3 row align-items-center">
+        <label class="col-sm-4 col-form-label text-large"><strong>Nombre:</strong></label>
+        <div class="col-sm-4">
+          <p class="mb-0 text-large">{{ userData.name }}</p>
+        </div>
+        <div class="col-sm-4 text-end">
+          <button type="button" class="btn btn-primary btn-sm" (click)="openModal('FirstName')">Cambiar</button>
+        </div>
+      </div>
+      <div class="mb-3 row align-items-center">
+        <label class="col-sm-4 col-form-label text-large"><strong>Apellido:</strong></label>
+        <div class="col-sm-4">
+          <p class="mb-0 text-large">{{ userData.surname }}</p>
+        </div>
+        <div class="col-sm-4 text-end">
+          <button type="button" class="btn btn-primary btn-sm" (click)="openModal('LastName')">Cambiar</button>
+        </div>
+      </div>
+      <div class="mb-3 row align-items-center">
+        <label class="col-sm-4 col-form-label text-large"><strong>Contraseña:</strong></label>
+        <div class="col-sm-4">
+          <p class="mb-0 text-large">************</p>
+        </div>
+        <div class="col-sm-4 text-end">
+          <button type="button" class="btn btn-primary btn-sm" (click)="openModal('Password')">Cambiar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="modalTitle">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Cambiar {{ getFieldLabel(fieldToEdit) }}</h5>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="fieldToEdit === 'Password'">
+          <label class="form-label">Contraseña actual:</label>
+          <input type="password" class="form-control" [(ngModel)]="currentPassword">
+          <label class="form-label mt-2">Nueva contraseña:</label>
+          <input type="password" class="form-control" [(ngModel)]="newPassword">
+          <label class="form-label mt-2">Repetir nueva contraseña:</label>
+          <input type="password" class="form-control" [(ngModel)]="repeatNewPassword">
+        </div>
+        <div *ngIf="fieldToEdit !== 'Password'">
+          <label class="form-label">Nuevo valor:</label>
+          <input type="text" class="form-control" [(ngModel)]="newValue">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveChanges()">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>

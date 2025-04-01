@@ -18,6 +18,7 @@ import { Subscription } from 'rxjs';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
+  userRole: string | null = null;
   private subscription: Subscription = new Subscription();
 
   constructor(private readonly authService: AuthService) {}
@@ -25,6 +26,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.authService.isLoggedIn$.subscribe(
       isLoggedIn => this.isLoggedIn = isLoggedIn
+    );
+    this.subscription.add(
+      this.authService.userRole$.subscribe(role => this.userRole = role)
     );
   }
 

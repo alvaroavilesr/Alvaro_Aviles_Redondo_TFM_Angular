@@ -9,8 +9,12 @@ export class AuthService {
   private readonly isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
+  private readonly userRoleSubject = new BehaviorSubject<string | null>(null);
+  public userRole$ = this.userRoleSubject.asObservable();
+
   constructor(private readonly router: Router) {
     this.checkLoginStatus();
+    this.checkRole();
   }
 
   checkLoginStatus(): boolean {
@@ -23,12 +27,21 @@ export class AuthService {
     return isLogged;
   }
 
+  checkRole(): string | null {
+    const role = sessionStorage.getItem('Role');
+    this.userRoleSubject.next(role);
+    return role;
+  }
+
   logout(): void {
     sessionStorage.removeItem('JWT');
     sessionStorage.removeItem('UserName');
     sessionStorage.removeItem('UserEmail');
     sessionStorage.removeItem('Role');
+    sessionStorage.removeItem('FirstName');
+    sessionStorage.removeItem('LastName');
     this.isLoggedInSubject.next(false);
+    this.userRoleSubject.next(null);
     this.router.navigate(['/home']);
   }
 }

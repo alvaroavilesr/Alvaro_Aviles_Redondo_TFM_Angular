@@ -7,7 +7,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="!isLoggedIn">
         <li class="nav-item">
           <a class="nav-link" aria-current="page" routerLink="home" routerLinkActive="active">
             Home
@@ -42,12 +42,42 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="register" routerLinkActive="active">
-            Register
+            Registro
             <i class="bi bi-person-fill"></i>
           </a>
         </li>
       </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="isLoggedIn && userRole == 'User'">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" routerLink="user-home" routerLinkActive="active">
+            HOLA USER
+            <i class="bi bi-house-fill"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="isLoggedIn && userRole == 'Vendor'">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" routerLink="user-home" routerLinkActive="active">
+            HOLA VENDOR
+            <i class="bi bi-house-fill"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="isLoggedIn && userRole == 'Admin'">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" routerLink="user-management" routerLinkActive="active">
+            Gestión de usuarios
+            <i class="bi bi-people-fill"></i>
+          </a>
+        </li>
+      </ul>
       <ul id="LoggedMenu" class="navbar-nav ms-auto mb-2 mb-lg-0" *ngIf="isLoggedIn">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="profile" routerLinkActive="active">
+            Perfil
+            <i class="bi bi-person-fill"></i>
+          </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" (click)="logout()" style="cursor: pointer;">
             Logout

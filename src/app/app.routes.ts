@@ -6,10 +6,11 @@ import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { UserHomeComponent } from './user/user-home/user-home.component';
 import { VendorHomeComponent } from './vendor/vendor-home/vendor-home.component';
-import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
-import {RegisterComponent} from './register/register.component';
-import {RoleGuardService} from './shared/services/role-guard.service';
-import {Roles} from './shared/roles';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { RegisterComponent } from './register/register.component';
+import { RoleGuardService } from './shared/services/role-guard.service';
+import { Roles } from './shared/roles';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -28,10 +29,15 @@ export const routes: Routes = [
     canActivate: [RoleGuardService],
     data: { roles: [Roles.VENDOR] }
   },
-  { path: 'admin-home',
-    component: AdminHomeComponent,
+  { path: 'user-management',
+    component: UserManagementComponent,
     canActivate: [RoleGuardService],
     data: { roles: [Roles.ADMIN] }
+  },
+  { path: 'profile',
+    component: ProfileComponent,
+    canActivate: [RoleGuardService],
+    data: { roles: [Roles.VENDOR, Roles.ADMIN, Roles.USER] }
   },
   { path: '', redirectTo:'home', pathMatch: 'full' },
   { path: '**', redirectTo:'home' },
