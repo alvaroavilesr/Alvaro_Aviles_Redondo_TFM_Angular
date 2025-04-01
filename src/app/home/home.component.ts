@@ -14,6 +14,8 @@ export class HomeComponent implements OnInit{
     sessionStorage.removeItem('UserName');
     sessionStorage.removeItem('UserEmail');
     sessionStorage.removeItem('Role');
+    sessionStorage.removeItem('FirstName');
+    sessionStorage.removeItem('LastName');
   }
 
 }

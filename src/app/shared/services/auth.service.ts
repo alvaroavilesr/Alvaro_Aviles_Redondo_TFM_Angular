@@ -38,6 +38,8 @@ export class AuthService {
     sessionStorage.removeItem('UserName');
     sessionStorage.removeItem('UserEmail');
     sessionStorage.removeItem('Role');
+    sessionStorage.removeItem('FirstName');
+    sessionStorage.removeItem('LastName');
     this.isLoggedInSubject.next(false);
     this.userRoleSubject.next(null);
     this.router.navigate(['/home']);
