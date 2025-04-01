@@ -47,12 +47,13 @@ export class LoginComponent {
             sessionStorage.setItem('UserEmail', response.body.userResponse.email);
             sessionStorage.setItem('Role', response.body.userResponse.role[0].roleName);
             this.authService.checkLoginStatus();
+            this.authService.checkRole();
             if (role === "User") {
               this.router.navigate(['/user-home']);
             } else if (role === "Vendor") {
               this.router.navigate(['/vendor-home']);
             } else {
-              this.router.navigate(['/admin-home']);
+              this.router.navigate(['/user-management']);
             }
           }
 
