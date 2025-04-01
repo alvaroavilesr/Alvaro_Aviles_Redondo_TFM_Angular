@@ -19,7 +19,7 @@ describe('LoginComponent tests', () => {
   beforeEach(async () => {
     const toastrSpy = jasmine.createSpyObj('ToastrService', ['error', 'success']);
     const loginSpy = jasmine.createSpyObj('LoginService', ['login']);
-    const authSpy = jasmine.createSpyObj('AuthService', ['checkLoginStatus']);
+    const authSpy = jasmine.createSpyObj('AuthService', ['checkLoginStatus', 'checkRole']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
@@ -64,15 +64,21 @@ describe('LoginComponent tests', () => {
       }
     };
 
+    const mockEvent = {
+      preventDefault: jasmine.createSpy('preventDefault')
+    } as unknown as Event;
+
     loginService.login.and.returnValue(of(mockResponse));
     component.loginModel = { username: 'testUser', password: 'password' };
-    component.login(new Event('submit'));
+    component.login(mockEvent);
 
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
     expect(sessionStorage.getItem('JWT')).toBe('fake-token');
     expect(sessionStorage.getItem('UserName')).toBe('testUser');
     expect(sessionStorage.getItem('UserEmail')).toBe('test@example.com');
     expect(sessionStorage.getItem('Role')).toBe('User');
     expect(authService.checkLoginStatus).toHaveBeenCalled();
+    expect(authService.checkRole).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['/user-home']);
   });
 
@@ -159,7 +165,7 @@ describe('LoginComponent tests', () => {
     expect(sessionStorage.getItem('UserEmail')).toBe('admin@example.com');
     expect(sessionStorage.getItem('Role')).toBe('Admin');
     expect(authService.checkLoginStatus).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalledWith(['/admin-home']);
+    expect(router.navigate).toHaveBeenCalledWith(['/user-management']);
     sessionStorage.clear();
   });
 });
