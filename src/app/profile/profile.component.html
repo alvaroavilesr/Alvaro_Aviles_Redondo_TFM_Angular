@@ -1,1 +1,47 @@
-<p>profile works!</p>
+<div class="d-flex justify-content-center align-items-center vh-50 mt-5 pt-5">
+  <div class="card p-4 bg-dark text-white" style="width: 100%; max-width: 800px; background-color: #333; margin-top: 130px">
+    <h3 class="text-center mb-4 fw-bold">
+      Tus datos personales - {{ userData.username }}
+      <i class="bi bi-person-fill"></i>
+    </h3>
+    <br>
+    <form id="registerForm">
+      <div class="mb-3 row align-items-center">
+        <label class="col-sm-4 col-form-label"><strong>Correo electrónico:</strong></label>
+        <div class="col-sm-4">
+          <p class="mb-0">{{ userData.email }}</p>
+        </div>
+        <div class="col-sm-4 text-end">
+          <button type="button" class="btn btn-primary btn-sm" (click)="showAlert()">Cambiar</button>
+        </div>
+      </div>
+      <div class="mb-3 row align-items-center">
+        <label class="col-sm-4 col-form-label"><strong>Nombre:</strong></label>
+        <div class="col-sm-4">
+          <p class="mb-0">{{ userData.name }}</p>
+        </div>
+        <div class="col-sm-4 text-end">
+          <button type="button" class="btn btn-primary btn-sm" (click)="showAlert()">Cambiar</button>
+        </div>
+      </div>
+      <div class="mb-3 row align-items-center">
+        <label class="col-sm-4 col-form-label"><strong>Apellido:</strong></label>
+        <div class="col-sm-4">
+          <p class="mb-0">{{ userData.surname }}</p>
+        </div>
+        <div class="col-sm-4 text-end">
+          <button type="button" class="btn btn-primary btn-sm" (click)="showAlert()">Cambiar</button>
+        </div>
+      </div>
+      <div class="mb-3 row align-items-center">
+        <label class="col-sm-4 col-form-label"><strong>Contraseña:</strong></label>
+        <div class="col-sm-4">
+          <p class="mb-0">************</p>
+        </div>
+        <div class="col-sm-4 text-end">
+          <button type="button" class="btn btn-primary btn-sm" (click)="showAlert()">Cambiar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
