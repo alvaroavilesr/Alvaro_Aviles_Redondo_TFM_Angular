@@ -40,4 +40,31 @@ export class ApiService {
 
     return this.http.post(EndPoints.REGISTER, body, { headers });
   }
+
+  updateUserData(field: string, newValue: string): Observable<any> {
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    switch (field) {
+      case 'UserEmail':
+        body = { email: newValue };
+        break;
+      case 'FirstName':
+        body = { userFirstName: newValue };
+        break;
+      case 'LastName':
+        body = { userLastName: newValue };
+        break;
+      case 'Password':
+        body = { userPassword: newValue };
+        break;
+    }
+
+    return this.http.put(EndPoints.UPDATE_USER + '/' + sessionStorage.getItem("UserName"), body, { headers });
+  }
+
 }
