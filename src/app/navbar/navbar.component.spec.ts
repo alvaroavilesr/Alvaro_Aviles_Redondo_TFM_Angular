@@ -53,6 +53,16 @@ describe('NavbarComponent tests', () => {
     expect(fixture.debugElement.query(By.css("[routerLink='user-management']"))).toBeTruthy();
   });
 
+  it('NAVBAR - should call logout method on click', () => {
+    authServiceSubject.next(true);
+    userRoleSubject.next('User');
+    fixture.detectChanges();
+    const logoutButton = fixture.debugElement.query(By.css('#LoggedMenu .nav-link[style="cursor: pointer;"]'));
+    expect(logoutButton).toBeTruthy(); // Ensure the button exists
+    logoutButton.nativeElement.click();
+    expect(authService.logout).toHaveBeenCalled();
+  });
+
   it('NAVBAR - should show correct links when logged in', () => {
     authServiceSubject.next(true);
     fixture.detectChanges();
