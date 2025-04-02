@@ -16,14 +16,26 @@ import {NgForOf, NgIf} from '@angular/common';
 })
 export class UserManagementComponent implements OnInit {
   users: any[] = [];
+  filteredUsers: any[] = [];
+  selectedRole: string = 'Cualquiera';
 
   constructor(private readonly userManagementService: UserManagementService) {}
 
   ngOnInit(): void {
     this.userManagementService.getUsers().subscribe((response) => {
       this.users = response;
-      console.log('Usuarios:', this.users);
+      this.filteredUsers = this.users;
     });
+  }
+
+  filterUsersByRole(role: string) {
+    this.selectedRole = role;
+    if (role === 'Any') {
+      this.filteredUsers = this.users;
+    } else {
+      console.log(role)
+      this.filteredUsers = this.users.filter(user => user.role[0].roleName === role);
+    }
   }
 
   modifyData(user: any) {
