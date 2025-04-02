@@ -229,7 +229,7 @@ describe('ProfileComponent tests', () => {
 
     component.updateUserData();
 
-    expect(toastrService.error).toHaveBeenCalledWith('Ha ocurrido un error inesperado.', 'Login');
+    expect(toastrService.error).toHaveBeenCalledWith('Ha ocurrido un error inesperado.', 'Perfil');
   });
 
   it('PROFILE - should handle successful login and password change', () => {
