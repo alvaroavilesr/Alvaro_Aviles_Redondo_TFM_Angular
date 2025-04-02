@@ -49,6 +49,24 @@ export class ApiService {
 
     return this.http.get(EndPoints.GET_USERS , { headers });
   }
+
+  createUser(createUserModel: any): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const body = {
+      userName: createUserModel.username,
+      userFirstName: createUserModel.firstname,
+      userLastName: createUserModel.lastname,
+      email: createUserModel.email,
+      userPassword: createUserModel.password
+    };
+
+    return this.http.post(EndPoints.POST_USER + '/' + createUserModel.role, body, { headers });
+  }
   updateUserData(field: string, newValue: string): Observable<any> {
     let body: any;
     const token = sessionStorage.getItem('JWT');

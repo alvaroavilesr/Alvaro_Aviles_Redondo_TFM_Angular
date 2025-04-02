@@ -4,8 +4,8 @@
       <h2 class="fs-1 fw-bold pt-5 pb-5">Usuarios
         <i class="bi bi-people-fill"></i>
       </h2>
-      <button type="button" class="btn btn-dark btn-customized" id="CreateUserButton">
-        Crear nuevo usuario
+      <button type="button" class="btn btn-dark btn-customized" (click)="openCreateUserModal()" id="CreateUserButton">
+        Crear usuario
       </button>
     </div>
   </div>
@@ -65,6 +65,52 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createUserModalLabel">Crear usuario</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="username" class="form-label">Nombre de Usuario</label>
+            <input type="text" class="form-control" id="username" name="username" [(ngModel)]="createUserModel.username" required>
+          </div>
+          <div class="mb-3">
+            <label for="firstname" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" [(ngModel)]="createUserModel.firstname" required>
+          </div>
+          <div class="mb-3">
+            <label for="lastname" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="createUserModel.lastname" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="createUserModel.email" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="password" name="password" [(ngModel)]="createUserModel.password" required>
+          </div>
+          <div class="mb-3">
+            <label for="role" class="form-label">Rol</label>
+            <select class="form-select" id="role" name="role" [(ngModel)]="createUserModel.role" required>
+              <option value="User">Usuario</option>
+              <option value="Vendor">Vendedor</option>
+              <option value="Admin">Administrador</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeCreateUserModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="createUser()">Crear usuario</button>
       </div>
     </div>
   </div>
