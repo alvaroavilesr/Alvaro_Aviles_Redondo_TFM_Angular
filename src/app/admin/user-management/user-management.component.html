@@ -60,7 +60,7 @@
             </div>
             <div>
               <button class="btn btn-primary me-2" (click)="openUpdateUserModal(user)">Modificar Datos</button>
-              <button class="btn btn-secondary me-2" (click)="modifyPassword(user)">Modificar Contraseña</button>
+              <button class="btn btn-secondary me-2" (click)="openUpdateUserPassModal(user)">Modificar Contraseña</button>
               <button class="btn btn-warning me-2" (click)="changeRole(user)">Cambiar Rol</button>
               <button class="btn btn-danger" (click)="deleteUser(user)">Eliminar</button>
             </div>
@@ -142,6 +142,36 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeUpdateUserModal()">Cancelar</button>
         <button type="button" class="btn btn-primary" (click)="updateUserData()">Modificar datos</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateUserPass" tabindex="-1" aria-labelledby="updateUserPassModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateUserPassLabel">Modificar contraseña usuario</h5>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="selectedUser">
+          <div class="mb-3">
+            <label for="adminPass" class="form-label">Contraseña de administrador</label>
+            <input type="password" class="form-control" id="adminPass" name="adminPass" [(ngModel)]="updateUserPassModel.adminPass" required>
+          </div>
+          <div class="mb-3">
+            <label for="newPass" class="form-label">Nueva contraseña</label>
+            <input type="password" class="form-control" id="newPass" name="newPass" [(ngModel)]="updateUserPassModel.newPass" required>
+          </div>
+          <div class="mb-3">
+            <label for="newPassConfirm" class="form-label">Repite la nueva contraseña</label>
+            <input type="password" class="form-control" id="newPassConfirm" name="newPassConfirm" [(ngModel)]="updateUserPassModel.newPassConfirm" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeUpdateUserPassModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="updateUserPass()">Modificar contraseña</button>
       </div>
     </div>
   </div>

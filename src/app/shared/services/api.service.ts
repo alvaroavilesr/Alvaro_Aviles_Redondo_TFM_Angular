@@ -111,4 +111,21 @@ export class ApiService {
     return this.http.put(EndPoints.UPDATE_USER + '/' + updateUserData.userName, body, { headers });
   }
 
+  updateUserPassword(user: any, newPass: string): Observable<any> {
+    console.log(user);
+    console.log(newPass);
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    body = {
+      userPassword: newPass
+    }
+
+    return this.http.put(EndPoints.UPDATE_USER + '/' + user.userName, body, { headers });
+  }
+
 }

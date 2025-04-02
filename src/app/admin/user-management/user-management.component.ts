@@ -4,6 +4,7 @@ import {UserManagementService} from './user-management.service';
 import {NgForOf, NgIf} from '@angular/common';
 import { CreateUserModel } from '../../shared/models/createUser.model';
 import {ToastrService} from 'ngx-toastr';
+import {Login} from '../../shared/models/login.model';
 
 @Component({
   selector: 'app-admin-home',
@@ -17,6 +18,7 @@ import {ToastrService} from 'ngx-toastr';
   styleUrl: './user-management.component.css'
 })
 export class UserManagementComponent implements OnInit {
+  loginModel: Login = { username: '', password: '' };
   users: any[] = [];
   filteredUsers: any[] = [];
   selectedRole: string = 'Any';
@@ -30,7 +32,11 @@ export class UserManagementComponent implements OnInit {
     role: 'User'
   };
   selectedUser: any = null;
-
+  updateUserPassModel: { adminPass: string; newPass: string; newPassConfirm: string } = {
+    adminPass: '',
+    newPass: '',
+    newPassConfirm: ''
+  };
   constructor(private readonly userManagementService: UserManagementService,
               private readonly toastr: ToastrService) {}
 
@@ -125,10 +131,58 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
-  modifyPassword(user: any) {
-    console.log('Modificar contraseña de:', user);
+  openUpdateUserPassModal(user: any) {
+    this.selectedUser = { ...user };
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('updateUserPass'));
+    modal.show();
   }
 
+  closeUpdateUserPassModal(){
+    const modalElement = document.getElementById('updateUserPass');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
+
+  updateUserPass() {
+    this.loginModel.username = <string>sessionStorage.getItem('UserName');
+    this.loginModel.password = this.updateUserPassModel.adminPass;
+    this.userManagementService.login(this.loginModel).subscribe({
+      next: () => {
+        if (this.updateUserPassModel.newPassConfirm !== this.updateUserPassModel.newPass) {
+          this.toastr.error('Las contraseñas no coinciden.', 'Modificar contraseña');
+          return;
+        }
+        this.updatePass();
+      },
+      error: () => {
+        if (this.updateUserPassModel.adminPass.trim() === '' || this.updateUserPassModel.newPass.trim() === '' || this.updateUserPassModel.newPassConfirm.trim() === '') {
+          this.toastr.error('Por favor, completa todos los campos.', 'Modificar contraseña');
+          return;
+        }
+        this.toastr.error('Revisa tus credenciales.', 'Modificar contraseña');
+        return;
+      }
+    });
+    this.closeUpdateUserPassModal();
+  }
+
+  updatePass() {
+    this.userManagementService
+      .updateUserPassword(this.selectedUser, this.updateUserPassModel.newPass)
+      .subscribe({
+        next: () => {
+          this.toastr.success('Contraseña actualizada correctamente.', 'Modificar contraseña');
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+        error: () => {
+          this.toastr.error('Ha ocurrido un error inesperado', 'Modificar contraseña');
+        }
+      });
+  }
   changeRole(user: any) {
     console.log('Cambiar rol de:', user);
   }
