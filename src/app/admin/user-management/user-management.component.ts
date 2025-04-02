@@ -17,7 +17,8 @@ import {NgForOf, NgIf} from '@angular/common';
 export class UserManagementComponent implements OnInit {
   users: any[] = [];
   filteredUsers: any[] = [];
-  selectedRole: string = 'Cualquiera';
+  selectedRole: string = 'Any';
+  searchTerm: string = '';
 
   constructor(private readonly userManagementService: UserManagementService) {}
 
@@ -30,12 +31,21 @@ export class UserManagementComponent implements OnInit {
 
   filterUsersByRole(role: string) {
     this.selectedRole = role;
-    if (role === 'Any') {
-      this.filteredUsers = this.users;
-    } else {
-      console.log(role)
-      this.filteredUsers = this.users.filter(user => user.role[0].roleName === role);
-    }
+    this.searchTerm = ''; // Reset search term
+    this.applyFilters();
+  }
+
+  searchUsers() {
+    this.selectedRole = 'Any'; // Reset selected role
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    this.filteredUsers = this.users.filter(user => {
+      const matchesRole = this.selectedRole === 'Any' || user.role[0]?.roleName === this.selectedRole;
+      const matchesSearch = user.userName.toLowerCase().includes(this.searchTerm.toLowerCase());
+      return matchesRole && matchesSearch;
+    });
   }
 
   modifyData(user: any) {
