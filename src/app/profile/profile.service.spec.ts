@@ -56,7 +56,7 @@ describe('ProfileService tests', () => {
       result = response;
     });
 
-    expect(apiServiceSpy.updateUserData).toHaveBeenCalledWith(field, newValue);
+    expect(apiServiceSpy.updateUserData).toHaveBeenCalledWith(field);
     expect(result).toEqual(expectedResponse);
   });
 });

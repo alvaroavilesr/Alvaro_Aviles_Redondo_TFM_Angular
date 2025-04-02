@@ -209,8 +209,6 @@ describe('ProfileComponent tests', () => {
     spyOn(sessionStorage, 'setItem');
     spyOn(component, 'closeModal');
 
-    // Don't use jasmine.clock() in this test to avoid conflicts
-
     component.userData = { username: 'testuser' };
     component.fieldToEdit = 'FirstName';
     component.newValue = 'Nuevo Nombre';
