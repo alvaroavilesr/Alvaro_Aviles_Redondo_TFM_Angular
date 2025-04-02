@@ -15,6 +15,6 @@ export class ProfileService {
   updateUserData(field: string, newValue: string): Observable<any> {
     console.log('field: ', field);
     console.log('newValue: ', newValue);
-    return this.apiService.updateUserData(field, newValue);
+    return this.apiService.updateUserDataProfile(field, newValue);
   }
 }

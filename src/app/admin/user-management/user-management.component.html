@@ -1,3 +1,4 @@
+<!-- user-management.component.html -->
 <div class="container text-center" id="itemContainer">
   <div class="row mt-2">
     <div class="col">
@@ -58,7 +59,7 @@
               <h5 class="card-title"><strong>[{{ user.role[0].roleName }}] - {{ user.userName }}</strong> - {{ user.email }}</h5>
             </div>
             <div>
-              <button class="btn btn-primary me-2" (click)="modifyData(user)">Modificar Datos</button>
+              <button class="btn btn-primary me-2" (click)="openUpdateUserModal(user)">Modificar Datos</button>
               <button class="btn btn-secondary me-2" (click)="modifyPassword(user)">Modificar Contraseña</button>
               <button class="btn btn-warning me-2" (click)="changeRole(user)">Cambiar Rol</button>
               <button class="btn btn-danger" (click)="deleteUser(user)">Eliminar</button>
@@ -111,6 +112,36 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeCreateUserModal()">Cancelar</button>
         <button type="button" class="btn btn-primary" (click)="createUser()">Crear usuario</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateUserData" tabindex="-1" aria-labelledby="updateUserDataModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateUserDataLabel">Modificar datos usuario</h5>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="selectedUser">
+          <div class="mb-3">
+            <label for="firstnameUpdate" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="firstnameUpdate" name="firstname" [(ngModel)]="selectedUser.userFirstName" required>
+          </div>
+          <div class="mb-3">
+            <label for="lastnameUpdate" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="lastnameUpdate" name="lastname" [(ngModel)]="selectedUser.userLastName" required>
+          </div>
+          <div class="mb-3">
+            <label for="emailUpdate" class="form-label">Email</label>
+            <input type="email" class="form-control" id="emailUpdate" name="email" [(ngModel)]="selectedUser.email" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeUpdateUserModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="updateUserData()">Modificar datos</button>
       </div>
     </div>
   </div>

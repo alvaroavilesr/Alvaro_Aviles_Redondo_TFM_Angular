@@ -29,6 +29,7 @@ export class UserManagementComponent implements OnInit {
     password: '',
     role: 'User'
   };
+  selectedUser: any = null;
 
   constructor(private readonly userManagementService: UserManagementService,
               private readonly toastr: ToastrService) {}
@@ -76,7 +77,6 @@ export class UserManagementComponent implements OnInit {
           }, 2000);
         },
         error: (error) => {
-          console.log(error.status);
           if (error.status === 400) {
             this.toastr.error('El formato del correo no es válido o el nombre de usuario está en uso.', 'Crear usuario');
           }
@@ -91,8 +91,38 @@ export class UserManagementComponent implements OnInit {
       modal.hide();
     }
   }
-  modifyData(user: any) {
-    console.log('Modificar datos de:', user);
+
+  openUpdateUserModal(user: any) {
+    this.selectedUser = { ...user };
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('updateUserData'));
+    modal.show();
+  }
+
+  updateUserData() {
+    this.userManagementService
+      .updateUserData(this.selectedUser)
+      .subscribe({
+        next: () => {
+          this.toastr.success('Datos actualizados correctamente.', 'Modificar datos usuario');
+          this.closeUpdateUserModal();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+        error: (error) => {
+          if (error.status === 400) {
+            this.toastr.error('El formato del correo no es válido.', 'Crear usuario');
+          }
+        }
+      });
+  }
+
+  closeUpdateUserModal(){
+    const modalElement = document.getElementById('updateUserData');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
   }
 
   modifyPassword(user: any) {

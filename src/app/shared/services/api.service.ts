@@ -67,7 +67,8 @@ export class ApiService {
 
     return this.http.post(EndPoints.POST_USER + '/' + createUserModel.role, body, { headers });
   }
-  updateUserData(field: string, newValue: string): Observable<any> {
+
+  updateUserDataProfile(field: string, newValue: string): Observable<any> {
     let body: any;
     const token = sessionStorage.getItem('JWT');
     const headers = new HttpHeaders({
@@ -91,6 +92,23 @@ export class ApiService {
     }
 
     return this.http.put(EndPoints.UPDATE_USER + '/' + sessionStorage.getItem("UserName"), body, { headers });
+  }
+
+  updateUserData(updateUserData: any): Observable<any> {
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    body = {
+      userFirstName: updateUserData.userFirstName,
+      userLastName: updateUserData.userLastName,
+      email: updateUserData.email
+    };
+
+    return this.http.put(EndPoints.UPDATE_USER + '/' + updateUserData.userName, body, { headers });
   }
 
 }

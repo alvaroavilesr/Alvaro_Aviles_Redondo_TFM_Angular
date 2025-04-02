@@ -15,4 +15,8 @@ export class UserManagementService {
   createUser(createUserModel: CreateUserModel): Observable<any> {
     return this.apiService.createUser(createUserModel);
   }
+
+  updateUserData(updateUserData: any): Observable<any> {
+    return this.apiService.updateUserData(updateUserData);
+  }
 }
