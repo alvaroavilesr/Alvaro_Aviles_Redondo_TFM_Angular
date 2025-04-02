@@ -23,6 +23,8 @@ export class UserManagementComponent implements OnInit {
   filteredUsers: any[] = [];
   selectedRole: string = 'Any';
   searchTerm: string = '';
+  newRole: string = 'User';
+  selectedUser: any = null;
   createUserModel: CreateUserModel = {
     username: '',
     firstname: '',
@@ -31,12 +33,12 @@ export class UserManagementComponent implements OnInit {
     password: '',
     role: 'User'
   };
-  selectedUser: any = null;
   updateUserPassModel: { adminPass: string; newPass: string; newPassConfirm: string } = {
     adminPass: '',
     newPass: '',
     newPassConfirm: ''
   };
+
   constructor(private readonly userManagementService: UserManagementService,
               private readonly toastr: ToastrService) {}
 
@@ -165,7 +167,6 @@ export class UserManagementComponent implements OnInit {
         return;
       }
     });
-    this.closeUpdateUserPassModal();
   }
 
   updatePass() {
@@ -174,6 +175,7 @@ export class UserManagementComponent implements OnInit {
       .subscribe({
         next: () => {
           this.toastr.success('Contraseña actualizada correctamente.', 'Modificar contraseña');
+          this.closeUpdateUserPassModal();
           setTimeout(() => {
             window.location.reload();
           }, 2000);
@@ -183,8 +185,37 @@ export class UserManagementComponent implements OnInit {
         }
       });
   }
-  changeRole(user: any) {
-    console.log('Cambiar rol de:', user);
+
+  closeUpdateUserRoleModal(){
+    const modalElement = document.getElementById('updateUserRole');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
+
+  openUpdateUserRoleModal(user: any) {
+    this.selectedUser = { ...user };
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('updateUserRole'));
+    modal.show();
+  }
+
+  updateUserRole() {
+    console.log('Nuevo rol:', this.newRole);
+    this.userManagementService
+      .updateUserRole(this.selectedUser, this.newRole)
+      .subscribe({
+        next: () => {
+          this.toastr.success('Rol actualizado correctamente.', 'Modificar rol');
+          this.closeUpdateUserRoleModal();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+        error: () => {
+          this.toastr.error('Ha ocurrido un error inesperado.', 'Modificar rol');
+        }
+      });
   }
 
   deleteUser(user: any) {

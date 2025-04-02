@@ -61,7 +61,7 @@
             <div>
               <button class="btn btn-primary me-2" (click)="openUpdateUserModal(user)">Modificar Datos</button>
               <button class="btn btn-secondary me-2" (click)="openUpdateUserPassModal(user)">Modificar Contraseña</button>
-              <button class="btn btn-warning me-2" (click)="changeRole(user)">Cambiar Rol</button>
+              <button class="btn btn-warning me-2" (click)="openUpdateUserRoleModal(user)">Cambiar Rol</button>
               <button class="btn btn-danger" (click)="deleteUser(user)">Eliminar</button>
             </div>
           </div>
@@ -172,6 +172,30 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeUpdateUserPassModal()">Cancelar</button>
         <button type="button" class="btn btn-primary" (click)="updateUserPass()">Modificar contraseña</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateUserRole" tabindex="-1" aria-labelledby="updateUserRoleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateUserRoleLabel">Modificar rol de usuario</h5>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="selectedUser">
+          <label for="role" class="form-label">Rol</label>
+          <select class="form-select" id="newRole" name="role" [(ngModel)]="newRole" required>
+            <option value="User">Usuario</option>
+            <option value="Vendor">Vendedor</option>
+            <option value="Admin">Administrador</option>
+          </select>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeUpdateUserRoleModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="updateUserRole()">Modificar rol</button>
       </div>
     </div>
   </div>

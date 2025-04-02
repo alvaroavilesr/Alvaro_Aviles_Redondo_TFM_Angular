@@ -112,8 +112,6 @@ export class ApiService {
   }
 
   updateUserPassword(user: any, newPass: string): Observable<any> {
-    console.log(user);
-    console.log(newPass);
     let body: any;
     const token = sessionStorage.getItem('JWT');
     const headers = new HttpHeaders({
@@ -128,4 +126,13 @@ export class ApiService {
     return this.http.put(EndPoints.UPDATE_USER + '/' + user.userName, body, { headers });
   }
 
+  updateUserRole(user: any, newRole: string): Observable<any> {
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+
+    return this.http.put(EndPoints.UPDATE_USER + '/' + user.userName + '/' + newRole, body,  { headers });
+  }
 }

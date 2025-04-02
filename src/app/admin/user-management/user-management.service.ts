@@ -28,4 +28,8 @@ export class UserManagementService {
   updateUserPassword(user: any, newPass: string): Observable<any> {
     return this.apiService.updateUserPassword(user, newPass);
   }
+
+  updateUserRole(user: any, newRole: string): Observable<any> {
+    return this.apiService.updateUserRole(user, newRole);
+  }
 }
