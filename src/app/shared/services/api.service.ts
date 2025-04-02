@@ -135,4 +135,13 @@ export class ApiService {
 
     return this.http.put(EndPoints.UPDATE_USER + '/' + user.userName + '/' + newRole, body,  { headers });
   }
+
+  deleteUser(user: any): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+
+    return this.http.delete(EndPoints.DELETE_USER + '/' + user.userName,  { headers });
+  }
 }

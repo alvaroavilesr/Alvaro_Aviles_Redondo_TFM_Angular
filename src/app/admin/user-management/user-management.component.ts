@@ -18,6 +18,7 @@ import {Login} from '../../shared/models/login.model';
   styleUrl: './user-management.component.css'
 })
 export class UserManagementComponent implements OnInit {
+  protected readonly sessionStorage = sessionStorage;
   loginModel: Login = { username: '', password: '' };
   users: any[] = [];
   filteredUsers: any[] = [];
@@ -201,7 +202,6 @@ export class UserManagementComponent implements OnInit {
   }
 
   updateUserRole() {
-    console.log('Nuevo rol:', this.newRole);
     this.userManagementService
       .updateUserRole(this.selectedUser, this.newRole)
       .subscribe({
@@ -218,9 +218,34 @@ export class UserManagementComponent implements OnInit {
       });
   }
 
-  deleteUser(user: any) {
-    console.log('Eliminar usuario:', user);
+  closeDeleteUserModal(){
+    const modalElement = document.getElementById('deleteUser');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
   }
 
-  protected readonly sessionStorage = sessionStorage;
+  openDeleteUserModal(user: any) {
+    this.selectedUser = { ...user };
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('deleteUser'));
+    modal.show();
+  }
+
+  deleteUser() {
+    this.userManagementService
+      .deleteUser(this.selectedUser)
+      .subscribe({
+        next: () => {
+          this.toastr.success('Usuario eliminado correctamente', 'Eliminar usuario');
+          this.closeDeleteUserModal();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+        error: () => {
+          this.toastr.error('Ha ocurrido un error inesperado.', 'Eliminar usuario');
+        }
+      });
+  }
 }

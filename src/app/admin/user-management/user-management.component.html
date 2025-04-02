@@ -62,7 +62,7 @@
               <button class="btn btn-primary me-2" (click)="openUpdateUserModal(user)">Modificar Datos</button>
               <button class="btn btn-secondary me-2" (click)="openUpdateUserPassModal(user)">Modificar Contraseña</button>
               <button class="btn btn-warning me-2" (click)="openUpdateUserRoleModal(user)">Cambiar Rol</button>
-              <button class="btn btn-danger" (click)="deleteUser(user)">Eliminar</button>
+              <button class="btn btn-danger" (click)="openDeleteUserModal(user)">Eliminar</button>
             </div>
           </div>
         </div>
@@ -196,6 +196,23 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeUpdateUserRoleModal()">Cancelar</button>
         <button type="button" class="btn btn-primary" (click)="updateUserRole()">Modificar rol</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteUserLabel">Eliminar usuario</h5>
+      </div>
+      <div class="modal-body">
+        <p>Esta acción es irreversible. ¿Estás realmente seguro?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeDeleteUserModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="deleteUser()">Eliminar usuario</button>
       </div>
     </div>
   </div>

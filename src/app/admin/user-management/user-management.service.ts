@@ -32,4 +32,8 @@ export class UserManagementService {
   updateUserRole(user: any, newRole: string): Observable<any> {
     return this.apiService.updateUserRole(user, newRole);
   }
+
+  deleteUser(user: any): Observable<any> {
+    return this.apiService.deleteUser(user);
+  }
 }
