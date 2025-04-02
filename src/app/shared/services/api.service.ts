@@ -41,7 +41,34 @@ export class ApiService {
     return this.http.post(EndPoints.REGISTER, body, { headers });
   }
 
-  updateUserData(field: string, newValue: string): Observable<any> {
+  getUsers(): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(EndPoints.GET_USERS , { headers });
+  }
+
+  createUser(createUserModel: any): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const body = {
+      userName: createUserModel.username,
+      userFirstName: createUserModel.firstname,
+      userLastName: createUserModel.lastname,
+      email: createUserModel.email,
+      userPassword: createUserModel.password
+    };
+
+    return this.http.post(EndPoints.POST_USER + '/' + createUserModel.role, body, { headers });
+  }
+
+  updateUserDataProfile(field: string, newValue: string): Observable<any> {
     let body: any;
     const token = sessionStorage.getItem('JWT');
     const headers = new HttpHeaders({
@@ -67,4 +94,54 @@ export class ApiService {
     return this.http.put(EndPoints.UPDATE_USER + '/' + sessionStorage.getItem("UserName"), body, { headers });
   }
 
+  updateUserData(updateUserData: any): Observable<any> {
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    body = {
+      userFirstName: updateUserData.userFirstName,
+      userLastName: updateUserData.userLastName,
+      email: updateUserData.email
+    };
+
+    return this.http.put(EndPoints.UPDATE_USER + '/' + updateUserData.userName, body, { headers });
+  }
+
+  updateUserPassword(user: any, newPass: string): Observable<any> {
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    body = {
+      userPassword: newPass
+    }
+
+    return this.http.put(EndPoints.UPDATE_USER + '/' + user.userName, body, { headers });
+  }
+
+  updateUserRole(user: any, newRole: string): Observable<any> {
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+
+    return this.http.put(EndPoints.UPDATE_USER + '/' + user.userName + '/' + newRole, body,  { headers });
+  }
+
+  deleteUser(user: any): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+
+    return this.http.delete(EndPoints.DELETE_USER + '/' + user.userName,  { headers });
+  }
 }

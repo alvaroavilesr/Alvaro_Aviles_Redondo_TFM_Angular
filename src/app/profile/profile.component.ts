@@ -110,7 +110,11 @@ export class ProfileComponent implements OnInit {
         if (error.status === 401) {
           this.toastr.error('Tu sesión ha expirado.', 'Perfil');
         } else {
-          this.toastr.error('Ha ocurrido un error inesperado.', 'Login');
+          if (error.status === 400) {
+            this.toastr.error('El formato del correo no es válido', 'Perfil');
+          }else{
+            this.toastr.error('Ha ocurrido un error inesperado.', 'Perfil');
+          }
         }
       }
     });

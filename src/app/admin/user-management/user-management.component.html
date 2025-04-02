@@ -1,1 +1,219 @@
-<p>user-management works!</p>
+<!-- user-management.component.html -->
+<div class="container text-center" id="itemContainer">
+  <div class="row mt-2">
+    <div class="col">
+      <h2 class="fs-1 fw-bold pt-5 pb-5">Usuarios
+        <i class="bi bi-people-fill"></i>
+      </h2>
+      <button type="button" class="btn btn-dark btn-customized" (click)="openCreateUserModal()" id="CreateUserButton">
+        Crear usuario
+      </button>
+    </div>
+  </div>
+  <div class="row pt-3 mt-5">
+    <div class="col">
+      <div class="dropdown">
+        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          Rol
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="ButtonCategories">
+          <li><a class="dropdown-item" (click)="filterUsersByRole('Any')">Cualquiera</a></li>
+          <li><a class="dropdown-item" (click)="filterUsersByRole('User')">Usuarios</a></li>
+          <li><a class="dropdown-item" (click)="filterUsersByRole('Vendor')">Vendedores</a></li>
+          <li><a class="dropdown-item" (click)="filterUsersByRole('Admin')">Administradores</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3 mt-5 text-center">
+    <div class="col d-flex justify-content-center">
+      <div class="input-group mb-3 w-50">
+        <input type="text" class="form-control" placeholder="Usuario..." [(ngModel)]="searchTerm">
+        <div class="input-group-append">
+          <button class="btn btn-dark" type="button" (click)="searchUsers()">Buscar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5" id="UserContainer">
+    <div class="col-12 mb-3" *ngIf="filteredUsers.length === 0 && selectedRole === 'Any' && searchTerm === ''">
+      <div class="alert alert-danger" role="alert">
+        No hay usuarios disponibles.
+      </div>
+    </div>
+    <div class="col-12 mb-3" *ngIf="filteredUsers.length === 0 && selectedRole !== 'Any' && searchTerm === ''">
+      <div class="alert alert-danger" role="alert">
+        No hay usuarios disponibles para el rol seleccionado.
+      </div>
+    </div>
+    <div class="col-12 mb-3" *ngIf="filteredUsers.length === 0 && searchTerm !== ''">
+      <div class="alert alert-danger" role="alert">
+        No hay usuarios que coincidan con la búsqueda.
+      </div>
+    </div>
+    <div class="col-12 mb-3" *ngFor="let user of filteredUsers">
+      <div *ngIf="user.userName !== sessionStorage.getItem('UserName')" class="card">
+        <div class="card">
+          <div class="card-body d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="card-title"><strong>[{{ user.role[0].roleName }}] - {{ user.userName }}</strong> - {{ user.email }}</h5>
+            </div>
+            <div>
+              <button class="btn btn-primary me-2" (click)="openUpdateUserModal(user)">Modificar Datos</button>
+              <button class="btn btn-secondary me-2" (click)="openUpdateUserPassModal(user)">Modificar Contraseña</button>
+              <button class="btn btn-warning me-2" (click)="openUpdateUserRoleModal(user)">Cambiar Rol</button>
+              <button class="btn btn-danger" (click)="openDeleteUserModal(user)">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createUserModalLabel">Crear usuario</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="username" class="form-label">Nombre de Usuario</label>
+            <input type="text" class="form-control" id="username" name="username" [(ngModel)]="createUserModel.username" required>
+          </div>
+          <div class="mb-3">
+            <label for="firstname" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" [(ngModel)]="createUserModel.firstname" required>
+          </div>
+          <div class="mb-3">
+            <label for="lastname" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="createUserModel.lastname" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="createUserModel.email" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="password" name="password" [(ngModel)]="createUserModel.password" required>
+          </div>
+          <div class="mb-3">
+            <label for="role" class="form-label">Rol</label>
+            <select class="form-select" id="role" name="role" [(ngModel)]="createUserModel.role" required>
+              <option value="User">Usuario</option>
+              <option value="Vendor">Vendedor</option>
+              <option value="Admin">Administrador</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeCreateUserModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="createUser()">Crear usuario</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateUserData" tabindex="-1" aria-labelledby="updateUserDataModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateUserDataLabel">Modificar datos usuario</h5>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="selectedUser">
+          <div class="mb-3">
+            <label for="firstnameUpdate" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="firstnameUpdate" name="firstname" [(ngModel)]="selectedUser.userFirstName" required>
+          </div>
+          <div class="mb-3">
+            <label for="lastnameUpdate" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="lastnameUpdate" name="lastname" [(ngModel)]="selectedUser.userLastName" required>
+          </div>
+          <div class="mb-3">
+            <label for="emailUpdate" class="form-label">Email</label>
+            <input type="email" class="form-control" id="emailUpdate" name="email" [(ngModel)]="selectedUser.email" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeUpdateUserModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="updateUserData()">Modificar datos</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateUserPass" tabindex="-1" aria-labelledby="updateUserPassModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateUserPassLabel">Modificar contraseña usuario</h5>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="selectedUser">
+          <div class="mb-3">
+            <label for="adminPass" class="form-label">Contraseña de administrador</label>
+            <input type="password" class="form-control" id="adminPass" name="adminPass" [(ngModel)]="updateUserPassModel.adminPass" required>
+          </div>
+          <div class="mb-3">
+            <label for="newPass" class="form-label">Nueva contraseña</label>
+            <input type="password" class="form-control" id="newPass" name="newPass" [(ngModel)]="updateUserPassModel.newPass" required>
+          </div>
+          <div class="mb-3">
+            <label for="newPassConfirm" class="form-label">Repite la nueva contraseña</label>
+            <input type="password" class="form-control" id="newPassConfirm" name="newPassConfirm" [(ngModel)]="updateUserPassModel.newPassConfirm" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeUpdateUserPassModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="updateUserPass()">Modificar contraseña</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateUserRole" tabindex="-1" aria-labelledby="updateUserRoleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateUserRoleLabel">Modificar rol de usuario</h5>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="selectedUser">
+          <label for="role" class="form-label">Rol</label>
+          <select class="form-select" id="newRole" name="role" [(ngModel)]="newRole" required>
+            <option value="User">Usuario</option>
+            <option value="Vendor">Vendedor</option>
+            <option value="Admin">Administrador</option>
+          </select>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeUpdateUserRoleModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="updateUserRole()">Modificar rol</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteUserLabel">Eliminar usuario</h5>
+      </div>
+      <div class="modal-body">
+        <p>Esta acción es irreversible. ¿Estás realmente seguro?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeDeleteUserModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="deleteUser()">Eliminar usuario</button>
+      </div>
+    </div>
+  </div>
+</div>

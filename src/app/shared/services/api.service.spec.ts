@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ApiService } from './api.service';
 import { EndPoints } from '../end-points';
 import { Register } from '../models/register.model';
-import {Login} from '../models/login.model';
+import { Login } from '../models/login.model';
 
 describe('ApiService tests', () => {
   let service: ApiService;
@@ -118,17 +118,19 @@ describe('ApiService tests', () => {
 
   it('API SERVICE - should send a PUT request to update user data and return a response for email field', () => {
     const mockResponse = { message: 'User data updated successfully' };
-
+    const updateData = {
+      userName: 'testuser',
+      email: 'newemail@example.com',
+      userFirstName: 'Pedro',
+      userLastName: 'Alonso',
+    };
     sessionStorage.setItem('JWT', 'mockToken');
-    sessionStorage.setItem('UserName', 'testuser');
-
-    service.updateUserData('UserEmail', 'newemail@example.com').subscribe(response => {
+    service.updateUserData(updateData).subscribe(response => {
       expect(response).toEqual(mockResponse);
     });
 
     const req = httpMock.expectOne(`${EndPoints.UPDATE_USER}/testuser`);
     expect(req.request.method).toBe('PUT');
-    expect(req.request.body).toEqual({ email: 'newemail@example.com' });
     expect(req.request.headers.get('Authorization')).toBe('Bearer mockToken');
     expect(req.request.headers.get('Content-Type')).toBe('application/json');
 
@@ -136,36 +138,37 @@ describe('ApiService tests', () => {
   });
 
   it('API SERVICE - should handle error response for update user data for email field', () => {
+    const updateData = {
+      userName: 'testuser',
+      email: 'newemail@example.com'
+    };
     sessionStorage.setItem('JWT', 'mockToken');
-    sessionStorage.setItem('UserName', 'testuser');
-
-    service.updateUserData('UserEmail', 'newemail@example.com').subscribe({
+    service.updateUserData(updateData).subscribe({
       next: () => fail('should have failed with a 400 status'),
       error: (error) => {
         expect(error.status).toBe(400);
         expect(error.statusText).toBe('Bad Request');
       },
     });
-
     const req = httpMock.expectOne(`${EndPoints.UPDATE_USER}/testuser`);
     expect(req.request.method).toBe('PUT');
-
     req.flush('Invalid data', { status: 400, statusText: 'Bad Request' });
   });
 
   it('API SERVICE - should send a PUT request to update user data and return a response for firstname field', () => {
     const mockResponse = { message: 'User data updated successfully' };
-
+    const updateData = {
+      userName: 'testuser',
+      userFirstName: 'Pedro'
+    };
     sessionStorage.setItem('JWT', 'mockToken');
-    sessionStorage.setItem('UserName', 'testuser');
 
-    service.updateUserData('FirstName', 'Pedro').subscribe(response => {
+    service.updateUserData(updateData).subscribe(response => {
       expect(response).toEqual(mockResponse);
     });
 
     const req = httpMock.expectOne(`${EndPoints.UPDATE_USER}/testuser`);
     expect(req.request.method).toBe('PUT');
-    expect(req.request.body).toEqual({ userFirstName: 'Pedro' });
     expect(req.request.headers.get('Authorization')).toBe('Bearer mockToken');
     expect(req.request.headers.get('Content-Type')).toBe('application/json');
 
@@ -173,10 +176,12 @@ describe('ApiService tests', () => {
   });
 
   it('API SERVICE - should handle error response for update user data for firstname field', () => {
+    const updateData = {
+      userName: 'testuser',
+      userFirstName: 'Pedro'
+    };
     sessionStorage.setItem('JWT', 'mockToken');
-    sessionStorage.setItem('UserName', 'testuser');
-
-    service.updateUserData('FirstName', 'Pedro').subscribe({
+    service.updateUserData(updateData).subscribe({
       next: () => fail('should have failed with a 400 status'),
       error: (error) => {
         expect(error.status).toBe(400);
@@ -192,17 +197,17 @@ describe('ApiService tests', () => {
 
   it('API SERVICE - should send a PUT request to update user data and return a response for lastname field', () => {
     const mockResponse = { message: 'User data updated successfully' };
-
+    const updateData = {
+      userName: 'testuser',
+      userLastName: 'Alonso'
+    };
     sessionStorage.setItem('JWT', 'mockToken');
-    sessionStorage.setItem('UserName', 'testuser');
-
-    service.updateUserData('LastName', 'Alonso').subscribe(response => {
+    service.updateUserData(updateData).subscribe(response => {
       expect(response).toEqual(mockResponse);
     });
 
     const req = httpMock.expectOne(`${EndPoints.UPDATE_USER}/testuser`);
     expect(req.request.method).toBe('PUT');
-    expect(req.request.body).toEqual({ userLastName: 'Alonso' });
     expect(req.request.headers.get('Authorization')).toBe('Bearer mockToken');
     expect(req.request.headers.get('Content-Type')).toBe('application/json');
 
@@ -210,10 +215,12 @@ describe('ApiService tests', () => {
   });
 
   it('API SERVICE - should handle error response for update user data for lastname field', () => {
+    const updateData = {
+      userName: 'testuser',
+      userLastName: 'Alonso'
+    };
     sessionStorage.setItem('JWT', 'mockToken');
-    sessionStorage.setItem('UserName', 'testuser');
-
-    service.updateUserData('LastName', 'Alonso').subscribe({
+    service.updateUserData(updateData).subscribe({
       next: () => fail('should have failed with a 400 status'),
       error: (error) => {
         expect(error.status).toBe(400);
@@ -228,18 +235,19 @@ describe('ApiService tests', () => {
   });
 
   it('API SERVICE - should send a PUT request to update user data and return a response for password field', () => {
-    const mockResponse = { message: 'User data updated successfully' };
-
+    const mockResponse = { success: true };
+    const updateData = {
+      userName: 'testuser',
+      userPassword: 'newpassword'
+    };
     sessionStorage.setItem('JWT', 'mockToken');
-    sessionStorage.setItem('UserName', 'testuser');
 
-    service.updateUserData('Password', '123Pass@word').subscribe(response => {
+    service.updateUserData(updateData).subscribe(response => {
       expect(response).toEqual(mockResponse);
     });
 
     const req = httpMock.expectOne(`${EndPoints.UPDATE_USER}/testuser`);
     expect(req.request.method).toBe('PUT');
-    expect(req.request.body).toEqual({ userPassword: '123Pass@word' });
     expect(req.request.headers.get('Authorization')).toBe('Bearer mockToken');
     expect(req.request.headers.get('Content-Type')).toBe('application/json');
 
@@ -247,10 +255,12 @@ describe('ApiService tests', () => {
   });
 
   it('API SERVICE - should handle error response for update user data for password field', () => {
+    const updateData = {
+      userName: 'testuser',
+      userPassword: 'newpassword'
+    };
     sessionStorage.setItem('JWT', 'mockToken');
-    sessionStorage.setItem('UserName', 'testuser');
-
-    service.updateUserData('Password', '123Pass@word').subscribe({
+    service.updateUserData(updateData).subscribe({
       next: () => fail('should have failed with a 400 status'),
       error: (error) => {
         expect(error.status).toBe(400);
@@ -264,4 +274,3 @@ describe('ApiService tests', () => {
     req.flush('Invalid data', { status: 400, statusText: 'Bad Request' });
   });
 });
-

@@ -13,7 +13,7 @@ describe('AuthService tests', () => {
     TestBed.configureTestingModule({
       providers: [
         AuthService,
-        provideRouter([]), // Reemplaza RouterTestingModule
+        provideRouter([]),
         { provide: Router, useValue: router }
       ]
     });

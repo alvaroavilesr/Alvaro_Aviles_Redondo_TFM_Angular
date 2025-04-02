@@ -9,7 +9,7 @@ describe('ProfileService tests', () => {
   let apiServiceSpy: jasmine.SpyObj<ApiService>;
 
   beforeEach(() => {
-    const apiSpy = jasmine.createSpyObj('ApiService', ['login', 'updateUserData']);
+    const apiSpy = jasmine.createSpyObj('ApiService', ['login', 'updateUserDataProfile']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -49,14 +49,14 @@ describe('ProfileService tests', () => {
     const newValue = 'newemail@example.com';
 
     const expectedResponse = { success: true };
-    apiServiceSpy.updateUserData.and.returnValue(of(expectedResponse));
+    apiServiceSpy.updateUserDataProfile.and.returnValue(of(expectedResponse));
 
     let result: any;
     profileService.updateUserData(field, newValue).subscribe(response => {
       result = response;
     });
 
-    expect(apiServiceSpy.updateUserData).toHaveBeenCalledWith(field, newValue);
+    expect(apiServiceSpy.updateUserDataProfile).toHaveBeenCalledWith(field, newValue);
     expect(result).toEqual(expectedResponse);
   });
 });

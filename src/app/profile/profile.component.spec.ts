@@ -209,8 +209,6 @@ describe('ProfileComponent tests', () => {
     spyOn(sessionStorage, 'setItem');
     spyOn(component, 'closeModal');
 
-    // Don't use jasmine.clock() in this test to avoid conflicts
-
     component.userData = { username: 'testuser' };
     component.fieldToEdit = 'FirstName';
     component.newValue = 'Nuevo Nombre';
@@ -229,7 +227,7 @@ describe('ProfileComponent tests', () => {
 
     component.updateUserData();
 
-    expect(toastrService.error).toHaveBeenCalledWith('Ha ocurrido un error inesperado.', 'Login');
+    expect(toastrService.error).toHaveBeenCalledWith('Ha ocurrido un error inesperado.', 'Perfil');
   });
 
   it('PROFILE - should handle successful login and password change', () => {
