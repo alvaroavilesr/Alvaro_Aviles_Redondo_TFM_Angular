@@ -41,6 +41,14 @@ export class ApiService {
     return this.http.post(EndPoints.REGISTER, body, { headers });
   }
 
+  getUsers(): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(EndPoints.GET_USERS , { headers });
+  }
   updateUserData(field: string, newValue: string): Observable<any> {
     let body: any;
     const token = sessionStorage.getItem('JWT');

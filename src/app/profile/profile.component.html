@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-center align-items-center vh-50 mt-5 pt-5">
-  <div class="card p-4 bg-dark text-white" style="width: 100%; max-width: 900px; background-color: #333; margin-top: 130px">
-    <h3 class="text-center mb-4 fw-bold">
+  <div class="card p-4 bg-white text-dark" style="width: 100%; max-width: 900px; background-color: #333; margin-top: 130px">
+    <h2 class="text-center mb-4 fw-bold">
       Tus datos personales - {{ userData.username }}
       <i class="bi bi-person-fill"></i>
-    </h3>
+    </h2>
     <br>
     <form id="registerForm">
       <div class="mb-3 row align-items-center">
@@ -12,7 +12,7 @@
           <p class="mb-0 text-large">{{ userData.email }}</p>
         </div>
         <div class="col-sm-4 text-end">
-          <button type="button" class="btn btn-primary btn-sm" (click)="openModal('UserEmail')">Cambiar</button>
+          <button type="button" class="btn btn-dark btn-sm" (click)="openModal('UserEmail')">Cambiar</button>
         </div>
       </div>
       <div class="mb-3 row align-items-center">
@@ -21,7 +21,7 @@
           <p class="mb-0 text-large">{{ userData.name }}</p>
         </div>
         <div class="col-sm-4 text-end">
-          <button type="button" class="btn btn-primary btn-sm" (click)="openModal('FirstName')">Cambiar</button>
+          <button type="button" class="btn btn-dark btn-sm" (click)="openModal('FirstName')">Cambiar</button>
         </div>
       </div>
       <div class="mb-3 row align-items-center">
@@ -30,7 +30,7 @@
           <p class="mb-0 text-large">{{ userData.surname }}</p>
         </div>
         <div class="col-sm-4 text-end">
-          <button type="button" class="btn btn-primary btn-sm" (click)="openModal('LastName')">Cambiar</button>
+          <button type="button" class="btn btn-dark btn-sm" (click)="openModal('LastName')">Cambiar</button>
         </div>
       </div>
       <div class="mb-3 row align-items-center">
@@ -39,7 +39,7 @@
           <p class="mb-0 text-large">************</p>
         </div>
         <div class="col-sm-4 text-end">
-          <button type="button" class="btn btn-primary btn-sm" (click)="openModal('Password')">Cambiar</button>
+          <button type="button" class="btn btn-dark btn-sm" (click)="openModal('Password')">Cambiar</button>
         </div>
       </div>
     </form>
