@@ -260,4 +260,13 @@ describe('ProfileComponent tests', () => {
     expect(component.updateUserData).not.toHaveBeenCalled();
   });
 
+  it('PROFILE - should show error message when email format is invalid', () => {
+    const errorResponse = { status: 400 };
+    profileService.updateUserData.and.returnValue(throwError(errorResponse));
+
+    component.updateUserData();
+
+    expect(toastrService.error).toHaveBeenCalledWith('El formato del correo no es válido', 'Perfil');
+  });
+
 });
