@@ -273,4 +273,191 @@ describe('ApiService tests', () => {
 
     req.flush('Invalid data', { status: 400, statusText: 'Bad Request' });
   });
+
+  it('API SERVICE - should send GET request with Authorization header', () => {
+    const mockToken = 'mock-jwt-token';
+    sessionStorage.setItem('JWT', mockToken);
+
+    service.getUsers().subscribe();
+
+    const req = httpMock.expectOne('http://localhost:8082/api/users');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+  });
+
+  it('API SERVICE - should send a POST request to create a user with Authorization header', () => {
+    const mockToken = 'mock-jwt-token';
+    sessionStorage.setItem('JWT', mockToken);
+
+    const createUserModel = {
+      username: 'newuser',
+      firstname: 'New',
+      lastname: 'User',
+      email: 'newuser@example.com',
+      password: 'newpassword',
+      role: 'user'
+    };
+
+    const mockResponse = { message: 'User created successfully' };
+
+    service.createUser(createUserModel).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.POST_USER}/user`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+    expect(req.request.headers.get('Content-Type')).toBe('application/json');
+    expect(req.request.body).toEqual({
+      userName: 'newuser',
+      userFirstName: 'New',
+      userLastName: 'User',
+      email: 'newuser@example.com',
+      userPassword: 'newpassword'
+    });
+
+    req.flush(mockResponse, { status: 200, statusText: 'OK' });
+  });
+
+  it('API SERVICE - should send a PUT request to update user data profile with Authorization header', () => {
+    const mockToken = 'mock-jwt-token';
+    sessionStorage.setItem('JWT', mockToken);
+
+    const field = 'UserEmail';
+    const newValue = 'newemail@example.com';
+    const mockResponse = { message: 'User data updated successfully' };
+
+    service.updateUserDataProfile(field, newValue).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.UPDATE_USER}/${sessionStorage.getItem("UserName")}`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+    expect(req.request.headers.get('Content-Type')).toBe('application/json');
+    expect(req.request.body).toEqual({ email: newValue });
+
+    req.flush(mockResponse, { status: 200, statusText: 'OK' });
+  });
+
+  it('API SERVICE - should send a PUT request to update user data profile for FirstName with Authorization header', () => {
+    const mockToken = 'mock-jwt-token';
+    sessionStorage.setItem('JWT', mockToken);
+
+    const field = 'FirstName';
+    const newValue = 'NewFirstName';
+    const mockResponse = { message: 'User data updated successfully' };
+
+    service.updateUserDataProfile(field, newValue).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.UPDATE_USER}/${sessionStorage.getItem("UserName")}`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+    expect(req.request.headers.get('Content-Type')).toBe('application/json');
+    expect(req.request.body).toEqual({ userFirstName: newValue });
+
+    req.flush(mockResponse, { status: 200, statusText: 'OK' });
+  });
+
+  it('API SERVICE - should send a PUT request to update user data profile for LastName with Authorization header', () => {
+    const mockToken = 'mock-jwt-token';
+    sessionStorage.setItem('JWT', mockToken);
+
+    const field = 'LastName';
+    const newValue = 'NewLastName';
+    const mockResponse = { message: 'User data updated successfully' };
+
+    service.updateUserDataProfile(field, newValue).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.UPDATE_USER}/${sessionStorage.getItem("UserName")}`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+    expect(req.request.headers.get('Content-Type')).toBe('application/json');
+    expect(req.request.body).toEqual({ userLastName: newValue });
+
+    req.flush(mockResponse, { status: 200, statusText: 'OK' });
+  });
+
+  it('API SERVICE - should send a PUT request to update user data profile for Password with Authorization header', () => {
+    const mockToken = 'mock-jwt-token';
+    sessionStorage.setItem('JWT', mockToken);
+
+    const field = 'Password';
+    const newValue = 'NewPassword';
+    const mockResponse = { message: 'User data updated successfully' };
+
+    service.updateUserDataProfile(field, newValue).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.UPDATE_USER}/${sessionStorage.getItem("UserName")}`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+    expect(req.request.headers.get('Content-Type')).toBe('application/json');
+    expect(req.request.body).toEqual({ userPassword: newValue });
+
+    req.flush(mockResponse, { status: 200, statusText: 'OK' });
+  });
+
+  it('API SERVICE - should send a PUT request to update user password with Authorization header', () => {
+    const mockToken = 'mock-jwt-token';
+    sessionStorage.setItem('JWT', mockToken);
+
+    const user = { userName: 'testuser' };
+    const newPass = 'newpassword';
+    const mockResponse = { message: 'Password updated successfully' };
+
+    service.updateUserPassword(user, newPass).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.UPDATE_USER}/${user.userName}`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+    expect(req.request.headers.get('Content-Type')).toBe('application/json');
+    expect(req.request.body).toEqual({ userPassword: newPass });
+
+    req.flush(mockResponse, { status: 200, statusText: 'OK' });
+  });
+
+  it('API SERVICE - should send a PUT request to update user role with Authorization header', () => {
+    const mockToken = 'mock-jwt-token';
+    sessionStorage.setItem('JWT', mockToken);
+
+    const user = { userName: 'testuser' };
+    const newRole = 'admin';
+    const mockResponse = { message: 'User role updated successfully' };
+
+    service.updateUserRole(user, newRole).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.UPDATE_USER}/${user.userName}/${newRole}`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+
+    req.flush(mockResponse, { status: 200, statusText: 'OK' });
+  });
+
+  it('API SERVICE - should send a DELETE request to delete a user with Authorization header', () => {
+    const mockToken = 'mock-jwt-token';
+    sessionStorage.setItem('JWT', mockToken);
+
+    const user = { userName: 'testuser' };
+    const mockResponse = { message: 'User deleted successfully' };
+
+    service.deleteUser(user).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.DELETE_USER}/${user.userName}`);
+    expect(req.request.method).toBe('DELETE');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+
+    req.flush(mockResponse, { status: 200, statusText: 'OK' });
+  });
 });

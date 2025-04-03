@@ -102,6 +102,7 @@ export class ProfileComponent implements OnInit {
           sessionStorage.setItem(this.fieldToEdit, this.newValue);
         }
         this.closeModal();
+        /* istanbul ignore next */
         setTimeout(() => {
           window.location.reload();
         }, 2000);

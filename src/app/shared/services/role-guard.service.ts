@@ -13,13 +13,11 @@ export class RoleGuardService implements CanActivate {
 
     if (!token) {
       this.router.navigate(['/home']);
-      console.log('No token');
       return false;
     }
 
     if (requiredRoles && requiredRoles.length > 0 && !requiredRoles.includes(userRole as Roles)) {
       this.router.navigate(['/home']);
-      console.log('No role');
       return false;
     }
 

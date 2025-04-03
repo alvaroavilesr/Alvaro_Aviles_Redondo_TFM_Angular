@@ -81,6 +81,7 @@ export class UserManagementComponent implements OnInit {
         next: () => {
           this.toastr.success('Usuario creado correctamente.', 'Crear usuario');
           this.closeCreateUserModal();
+          /* istanbul ignore next */
           setTimeout(() => {
             window.location.reload();
           }, 2000);
@@ -114,6 +115,7 @@ export class UserManagementComponent implements OnInit {
         next: () => {
           this.toastr.success('Datos actualizados correctamente.', 'Modificar datos usuario');
           this.closeUpdateUserModal();
+          /* istanbul ignore next */
           setTimeout(() => {
             window.location.reload();
           }, 2000);
@@ -177,6 +179,7 @@ export class UserManagementComponent implements OnInit {
         next: () => {
           this.toastr.success('Contraseña actualizada correctamente.', 'Modificar contraseña');
           this.closeUpdateUserPassModal();
+          /* istanbul ignore next */
           setTimeout(() => {
             window.location.reload();
           }, 2000);
@@ -208,6 +211,7 @@ export class UserManagementComponent implements OnInit {
         next: () => {
           this.toastr.success('Rol actualizado correctamente.', 'Modificar rol');
           this.closeUpdateUserRoleModal();
+          /* istanbul ignore next */
           setTimeout(() => {
             window.location.reload();
           }, 2000);
@@ -239,6 +243,7 @@ export class UserManagementComponent implements OnInit {
         next: () => {
           this.toastr.success('Usuario eliminado correctamente', 'Eliminar usuario');
           this.closeDeleteUserModal();
+          /* istanbul ignore next */
           setTimeout(() => {
             window.location.reload();
           }, 2000);
