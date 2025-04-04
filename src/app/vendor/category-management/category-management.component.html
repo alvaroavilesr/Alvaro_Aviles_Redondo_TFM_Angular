@@ -32,7 +32,7 @@
             <h5 class="card-title">{{category.name}}</h5>
           </div>
           <div>
-            <button class="btn btn-primary me-2">Modificar nombre</button>
+            <button class="btn btn-primary me-2" (click)="openUpdateCategoryModal(category)">Modificar nombre</button>
             <button class="btn btn-danger">Eliminar</button>
           </div>
         </div>
@@ -58,6 +58,28 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeCreateCategoryModal()">Cancelar</button>
         <button type="button" class="btn btn-primary" (click)="createCategory()">Crear categoria</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateCategoryName" tabindex="-1" aria-labelledby="updateCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateCategoryModalLabel">Modificar nombre categoria</h5>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="selectedCategory">
+          <div class="mb-3">
+            <label for="nameUpdate" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nameUpdate" name="firstname" [(ngModel)]="updateCategoryName" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeUpdateCategoryModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="updateCategory()">Modificar datos</button>
       </div>
     </div>
   </div>

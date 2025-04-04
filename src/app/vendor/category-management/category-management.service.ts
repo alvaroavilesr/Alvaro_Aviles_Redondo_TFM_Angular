@@ -15,4 +15,7 @@ export class CategoryManagementService {
     return this.apiService.createCategory(createCategoryName);
   }
 
+  updateCategory(updateCategoryName: any, id: any): Observable<any> {
+    return this.apiService.updateCategory(updateCategoryName, id);
+  }
 }

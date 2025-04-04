@@ -22,6 +22,8 @@ export class CategoryManagementComponent implements OnInit {
   categories: any[] = [];
   searchTerm: string = '';
   createCategoryName: string = '';
+  updateCategoryName: string = '';
+  selectedCategory: any = null;
 
   constructor(private readonly categoryManagementService: CategoryManagementService,
               private readonly toastr: ToastrService) {}
@@ -70,4 +72,36 @@ export class CategoryManagementComponent implements OnInit {
     });
   }
 
+  closeUpdateCategoryModal(){
+    const modalElement = document.getElementById('updateCategoryName');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
+
+  openUpdateCategoryModal(category: any) {
+    this.updateCategoryName = category.name;
+    this.selectedCategory = {...category}
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('updateCategoryName'));
+    modal.show();
+  }
+
+  updateCategory() {
+    this.categoryManagementService
+      .updateCategory(this.updateCategoryName, this.selectedCategory.categoryId)
+      .subscribe({
+        next: () => {
+          this.toastr.success('Categoria modificada correctamente.', 'Modificar categoria');
+          this.closeUpdateCategoryModal();
+          /* istanbul ignore next */
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+        error: () => {
+          this.toastr.error('El nombre de categoria ya está en uso.', 'Modificar categoria');
+        }
+      });
+  }
 }

@@ -167,4 +167,21 @@ export class ApiService {
 
     return this.http.post(EndPoints.POST_CATEGORY , body, { headers });
   }
+
+  updateCategory(createCategoryName: any, id: any): Observable<any> {
+    console.log(createCategoryName);
+    console.log(id);
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    body = {
+      name: createCategoryName
+    };
+
+    return this.http.put(EndPoints.PUT_CATEGORY + '/' + id, body, { headers });
+  }
 }
