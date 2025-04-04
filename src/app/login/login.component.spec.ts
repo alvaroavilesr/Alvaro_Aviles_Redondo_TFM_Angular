@@ -99,7 +99,7 @@ describe('LoginComponent tests', () => {
     component.login(new Event('submit'));
 
     expect(sessionStorage.getItem('Role')).toBe('Vendor');
-    expect(router.navigate).toHaveBeenCalledWith(['/vendor-home']);
+    expect(router.navigate).toHaveBeenCalledWith(['/category-management']);
   });
 
   it('LOGIN - should handle login failure due to invalid credentials', () => {

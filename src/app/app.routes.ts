@@ -5,7 +5,7 @@ import { HelpComponentComponent } from './help-component/help-component.componen
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { UserHomeComponent } from './user/user-home/user-home.component';
-import { VendorHomeComponent } from './vendor/vendor-home/vendor-home.component';
+import { CategoryManagementComponent } from './vendor/category-management/category-management.component';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { RegisterComponent } from './register/register.component';
 import { RoleGuardService } from './shared/services/role-guard.service';
@@ -24,8 +24,8 @@ export const routes: Routes = [
     canActivate: [RoleGuardService],
     data: { roles: [Roles.USER] }
   },
-  { path: 'vendor-home',
-    component: VendorHomeComponent,
+  { path: 'category-management',
+    component: CategoryManagementComponent,
     canActivate: [RoleGuardService],
     data: { roles: [Roles.VENDOR] }
   },

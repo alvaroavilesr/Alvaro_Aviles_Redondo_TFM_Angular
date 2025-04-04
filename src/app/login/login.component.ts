@@ -53,7 +53,7 @@ export class LoginComponent {
             if (role === "User") {
               this.router.navigate(['/user-home']);
             } else if (role === "Vendor") {
-              this.router.navigate(['/vendor-home']);
+              this.router.navigate(['/category-management']);
             } else {
               this.router.navigate(['/user-management']);
             }

@@ -144,4 +144,53 @@ export class ApiService {
 
     return this.http.delete(EndPoints.DELETE_USER + '/' + user.userName,  { headers });
   }
+
+  getCategories(): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(EndPoints.GET_CATEGORIES , { headers });
+  }
+
+  createCategory(createCategoryName: any): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const body = {
+      name: createCategoryName
+    };
+
+    return this.http.post(EndPoints.POST_CATEGORY , body, { headers });
+  }
+
+  updateCategory(createCategoryName: any, id: any): Observable<any> {
+    console.log(createCategoryName);
+    console.log(id);
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    body = {
+      name: createCategoryName
+    };
+
+    return this.http.put(EndPoints.PUT_CATEGORY + '/' + id, body, { headers });
+  }
+
+  deleteCategory(id: any): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+
+    return this.http.delete(EndPoints.DELETE_CATEGORY + '/' + id,  { headers });
+  }
 }
