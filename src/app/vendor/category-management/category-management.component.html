@@ -33,7 +33,7 @@
           </div>
           <div>
             <button class="btn btn-primary me-2" (click)="openUpdateCategoryModal(category)">Modificar nombre</button>
-            <button class="btn btn-danger">Eliminar</button>
+            <button class="btn btn-danger" (click)="openDeleteCategoryModal(category)">Eliminar</button>
           </div>
         </div>
       </div>
@@ -80,6 +80,23 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeUpdateCategoryModal()">Cancelar</button>
         <button type="button" class="btn btn-primary" (click)="updateCategory()">Modificar datos</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteCategory" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteCategoryLabel">Eliminar categoria</h5>
+      </div>
+      <div class="modal-body">
+        <p>Esta acción es irreversible. ¿Estás realmente seguro?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeDeleteCategoryModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="deleteCategory()">Eliminar categoria</button>
       </div>
     </div>
   </div>

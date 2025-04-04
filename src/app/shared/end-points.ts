@@ -8,4 +8,5 @@ export class EndPoints {
   static readonly GET_CATEGORIES = 'http://localhost:8082/api/categories';
   static readonly POST_CATEGORY = 'http://localhost:8082/api/category';
   static readonly PUT_CATEGORY = 'http://localhost:8082/api/category';
+  static readonly DELETE_CATEGORY = 'http://localhost:8082/api/category';
 }

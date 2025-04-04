@@ -104,4 +104,36 @@ export class CategoryManagementComponent implements OnInit {
         }
       });
   }
+
+  closeDeleteCategoryModal(){
+    const modalElement = document.getElementById('deleteCategory');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
+
+  openDeleteCategoryModal(category: any) {
+    this.selectedCategory = {...category}
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('deleteCategory'));
+    modal.show();
+  }
+
+  deleteCategory() {
+    this.categoryManagementService
+      .deleteCategory(this.selectedCategory.categoryId)
+      .subscribe({
+        next: () => {
+          this.toastr.success('Categoria eliminada correctamente.', 'Eliminar categoria');
+          this.closeDeleteCategoryModal();
+          /* istanbul ignore next */
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+        error: () => {
+          this.toastr.error('La categoría ya esta asociada a un producto.', 'Eliminar categoria');
+        }
+      });
+  }
 }

@@ -18,4 +18,8 @@ export class CategoryManagementService {
   updateCategory(updateCategoryName: any, id: any): Observable<any> {
     return this.apiService.updateCategory(updateCategoryName, id);
   }
+
+  deleteCategory(id: any): Observable<any> {
+    return this.apiService.deleteCategory(id);
+  }
 }
