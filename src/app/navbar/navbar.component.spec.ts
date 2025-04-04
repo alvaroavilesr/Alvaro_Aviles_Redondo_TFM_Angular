@@ -46,7 +46,7 @@ describe('NavbarComponent tests', () => {
 
     userRoleSubject.next('Vendor');
     fixture.detectChanges();
-    expect(fixture.debugElement.query(By.css("[routerLink='user-home']"))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css("[routerLink='category-management']"))).toBeTruthy();
 
     userRoleSubject.next('Admin');
     fixture.detectChanges();
