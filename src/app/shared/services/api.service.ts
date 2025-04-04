@@ -144,4 +144,27 @@ export class ApiService {
 
     return this.http.delete(EndPoints.DELETE_USER + '/' + user.userName,  { headers });
   }
+
+  getCategories(): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(EndPoints.GET_CATEGORIES , { headers });
+  }
+
+  createCategory(createCategoryName: any): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const body = {
+      name: createCategoryName
+    };
+
+    return this.http.post(EndPoints.POST_CATEGORY , body, { headers });
+  }
 }

@@ -1,0 +1,64 @@
+<div class="container text-center" id="itemContainer">
+  <div class="row mt-2">
+    <div class="col">
+      <h2 class="fs-1 fw-bold pt-5 pb-5">Categorias
+        <i class="bi bi-tags-fill"></i>
+      </h2>
+      <button type="button" class="btn btn-dark btn-customized" (click)="openCreateCategoryModal()" id="CreateCategoryButton">
+        Crear categoria
+      </button>
+    </div>
+  </div>
+  <div class="row pt-3 mt-5 text-center">
+    <div class="col d-flex justify-content-center">
+      <div class="input-group mb-3 w-50">
+        <input type="text" class="form-control" placeholder="Categoria..." [(ngModel)]="searchTerm">
+        <div class="input-group-append">
+          <button class="btn btn-dark" type="button" (click)="searchCategories()">Buscar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5" id="UserContainer">
+    <div class="col-12 mb-3" *ngIf="filteredCategories.length === 0 && searchTerm === ''">
+      <div class="alert alert-danger" role="alert">
+        No hay categorias que coincidan con la búsqueda.
+      </div>
+    </div>
+    <div class="col-12 mb-3" *ngFor="let category of filteredCategories">
+      <div class="card">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="card-title">{{category.name}}</h5>
+          </div>
+          <div>
+            <button class="btn btn-primary me-2">Modificar nombre</button>
+            <button class="btn btn-danger">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createCategoryModalLabel">Crear categoria</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="username" class="form-label">Nombre de Categoria</label>
+            <input type="text" class="form-control" id="username" name="username" [(ngModel)]="createCategoryName" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeCreateCategoryModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="createCategory()">Crear categoria</button>
+      </div>
+    </div>
+  </div>
+</div>
