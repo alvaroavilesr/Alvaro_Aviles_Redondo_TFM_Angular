@@ -19,6 +19,7 @@ export class CategoryManagementComponent implements OnInit {
 
   protected readonly sessionStorage = sessionStorage;
   filteredCategories: any[] = [];
+  categories: any[] = [];
   searchTerm: string = '';
   createCategoryName: string = '';
 
@@ -27,6 +28,7 @@ export class CategoryManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoryManagementService.getCategories().subscribe((response) => {
+      this.categories = response;
       this.filteredCategories = response;
     });
   }
@@ -63,8 +65,9 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   searchCategories() {
-    console.log(this.filteredCategories);
-
+    this.filteredCategories = this.categories.filter(category => {
+      return category.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+    });
   }
 
 }
