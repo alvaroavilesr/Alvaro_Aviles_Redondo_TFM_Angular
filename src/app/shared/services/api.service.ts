@@ -193,4 +193,13 @@ export class ApiService {
 
     return this.http.delete(EndPoints.DELETE_CATEGORY + '/' + id,  { headers });
   }
+
+  getItems(): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(EndPoints.GET_ITEMS , { headers });
+  }
 }
