@@ -4,7 +4,7 @@
       <h2 class="fs-1 fw-bold pt-5 pb-5">Productos
         <i class="bi bi-bag-fill"></i>
       </h2>
-      <button type="button" class="btn btn-dark btn-customized" id="CreateProductButton">
+      <button type="button" class="btn btn-dark btn-customized" (click)="openCreateProductModal()" id="CreateProductButton">
         Crear producto
       </button>
     </div>
@@ -56,9 +56,68 @@
           <h5 class="card-title">[{{product.category.name}}] {{product.name}} - {{product.price}}€ - {{product.size}} </h5>
         </div>
         <div>
-          <button class="btn btn-primary me-2">Modificar nombre</button>
+          <button class="btn btn-primary me-2">Ver detalles</button>
+          <button class="btn btn-secondary me-2">Modificar datos</button>
+          <button class="btn btn-warning me-2">Modificar categoria</button>
           <button class="btn btn-danger">Eliminar</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="createItemModal" tabindex="-1" aria-labelledby="createItemModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createItemModalLabel">Crear producto</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="itemName" class="form-label">Nombre del producto</label>
+            <input type="text" class="form-control" id="itemName" name="itemName" [(ngModel)]="createItemModel.itemName" required>
+          </div>
+          <div class="mb-3">
+            <label for="itemDescription" class="form-label">Descripcion del producto</label>
+            <input type="text" class="form-control" id="itemDescription" name="itemDescription" [(ngModel)]="createItemModel.itemDescription" required>
+          </div>
+          <div class="mb-3">
+            <label for="itemLongDescription" class="form-label">Detalles del producto</label>
+            <textarea class="form-control" id="itemLongDescription" name="itemLongDescription" [(ngModel)]="createItemModel.itemLongDescription" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="itemSize" class="form-label">Talla</label>
+            <select class="form-select" id="itemSize" name="itemSize" [(ngModel)]="createItemModel.itemSize" required>
+              <option *ngFor="let size of sizes" [value]="size">{{ size }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="itemCategory" class="form-label">Categoria</label>
+            <select class="form-select" id="itemCategory" name="itemSize" [(ngModel)]="createItemCategory" required>
+              <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="itemPrice" class="form-label">Precio</label>
+            <input type="text" class="form-control" id="itemPrice" name="itemPrice" [(ngModel)]="createItemModel.itemPrice" required>
+          </div>
+          <div class="mb-3">
+            <label for="itemImage" class="form-label">Imagen asociada</label>
+            <select class="form-select" id="itemImage" name="itemImage" [(ngModel)]="createItemModel.itemImage" required>
+              <option *ngFor="let image of images" [value]="image + '.jpg'">
+                {{ formatImageName(image) }}
+              </option>
+            </select>
+          </div>
+          <div class="text-center mb-3" *ngIf="createItemModel.itemImage">
+            <img [src]="createItemModel.itemImage" alt="Vista previa de imagen" class="img-thumbnail" style="max-height: 200px;">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeCreateProductModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="createProduct()">Crear producto</button>
       </div>
     </div>
   </div>

@@ -15,4 +15,8 @@ export class ItemManagementService {
   getCategories(): Observable<any> {
     return this.apiService.getCategories();
   }
+
+  createItem(createItemModel: any, createItemCategory: any): Observable<any> {
+    return this.apiService.createItem(createItemModel, createItemCategory);
+  }
 }

@@ -75,23 +75,28 @@ export class UserManagementComponent implements OnInit {
   }
 
   createUser() {
-    this.userManagementService
-      .createUser(this.createUserModel)
-      .subscribe({
-        next: () => {
-          this.toastr.success('Usuario creado correctamente.', 'Crear usuario');
-          this.closeCreateUserModal();
-          /* istanbul ignore next */
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        },
-        error: (error) => {
-          if (error.status === 400) {
-            this.toastr.error('El formato del correo no es válido o el nombre de usuario está en uso.', 'Crear usuario');
+    if (!this.createUserModel.username || !this.createUserModel.firstname || !this.createUserModel.lastname ||
+      !this.createUserModel.email || !this.createUserModel.password) {
+      this.toastr.error('Por favor, rellena todos los campos.', 'Crear usuario');
+    }else {
+      this.userManagementService
+        .createUser(this.createUserModel)
+        .subscribe({
+          next: () => {
+            this.toastr.success('Usuario creado correctamente.', 'Crear usuario');
+            this.closeCreateUserModal();
+            /* istanbul ignore next */
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          },
+          error: (error) => {
+            if (error.status === 400) {
+              this.toastr.error('El formato del correo no es válido o el nombre de usuario está en uso.', 'Crear usuario');
+            }
           }
-        }
-      });
+        });
+    }
   }
 
   closeCreateUserModal(){
@@ -109,23 +114,27 @@ export class UserManagementComponent implements OnInit {
   }
 
   updateUserData() {
-    this.userManagementService
-      .updateUserData(this.selectedUser)
-      .subscribe({
-        next: () => {
-          this.toastr.success('Datos actualizados correctamente.', 'Modificar datos usuario');
-          this.closeUpdateUserModal();
-          /* istanbul ignore next */
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        },
-        error: (error) => {
-          if (error.status === 400) {
-            this.toastr.error('El formato del correo no es válido.', 'Crear usuario');
+    if (!this.selectedUser.userFirstName || !this.selectedUser.userLastName || !this.selectedUser.email) {
+      this.toastr.error('Por favor, rellena todos los campos.', 'Modificar datos usuario');
+    }else{
+      this.userManagementService
+        .updateUserData(this.selectedUser)
+        .subscribe({
+          next: () => {
+            this.toastr.success('Datos actualizados correctamente.', 'Modificar datos usuario');
+            this.closeUpdateUserModal();
+            /* istanbul ignore next */
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          },
+          error: (error) => {
+            if (error.status === 400) {
+              this.toastr.error('El formato del correo no es válido.', 'Crear usuario');
+            }
           }
-        }
-      });
+        });
+    }
   }
 
   closeUpdateUserModal(){

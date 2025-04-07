@@ -49,21 +49,25 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   createCategory() {
-    this.categoryManagementService
-      .createCategory(this.createCategoryName)
-      .subscribe({
-        next: () => {
-          this.toastr.success('Categoria creada correctamente.', 'Crear categoria');
-          this.closeCreateCategoryModal();
-          /* istanbul ignore next */
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        },
-        error: () => {
-          this.toastr.error('El nombre de categoria ya está en uso.', 'Crear categoria');
-        }
-      });
+    if (!this.createCategoryName) {
+      this.toastr.error('Por favor, rellena todos los campos.', 'Crear categoria');
+    }else{
+      this.categoryManagementService
+        .createCategory(this.createCategoryName)
+        .subscribe({
+          next: () => {
+            this.toastr.success('Categoria creada correctamente.', 'Crear categoria');
+            this.closeCreateCategoryModal();
+            /* istanbul ignore next */
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          },
+          error: () => {
+            this.toastr.error('El nombre de categoria ya está en uso.', 'Crear categoria');
+          }
+        });
+    }
   }
 
   searchCategories() {
@@ -88,21 +92,25 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   updateCategory() {
-    this.categoryManagementService
-      .updateCategory(this.updateCategoryName, this.selectedCategory.categoryId)
-      .subscribe({
-        next: () => {
-          this.toastr.success('Categoria modificada correctamente.', 'Modificar categoria');
-          this.closeUpdateCategoryModal();
-          /* istanbul ignore next */
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        },
-        error: () => {
-          this.toastr.error('El nombre de categoria ya está en uso.', 'Modificar categoria');
-        }
-      });
+    if (!this.updateCategoryName) {
+      this.toastr.error('Por favor, rellena todos los campos.', 'Modificar categoria');
+    }else{
+      this.categoryManagementService
+        .updateCategory(this.updateCategoryName, this.selectedCategory.categoryId)
+        .subscribe({
+          next: () => {
+            this.toastr.success('Categoria modificada correctamente.', 'Modificar categoria');
+            this.closeUpdateCategoryModal();
+            /* istanbul ignore next */
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          },
+          error: () => {
+            this.toastr.error('El nombre de categoria ya está en uso.', 'Modificar categoria');
+          }
+        });
+    }
   }
 
   closeDeleteCategoryModal(){

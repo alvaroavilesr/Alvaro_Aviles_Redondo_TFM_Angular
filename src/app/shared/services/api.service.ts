@@ -202,4 +202,23 @@ export class ApiService {
 
     return this.http.get(EndPoints.GET_ITEMS , { headers });
   }
+
+  createItem(createItemModel: any, createItemCategory: any): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const body = {
+      name: createItemModel.itemName,
+      description: createItemModel.itemDescription,
+      longDescription: createItemModel.itemLongDescription,
+      size: createItemModel.itemSize,
+      price: createItemModel.itemPrice,
+      image: createItemModel.itemImage
+    };
+
+    return this.http.post(EndPoints.POST_ITEM + "/" + createItemCategory , body, { headers });
+  }
 }
