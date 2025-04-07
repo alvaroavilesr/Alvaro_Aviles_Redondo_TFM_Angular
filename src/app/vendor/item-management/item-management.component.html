@@ -16,7 +16,7 @@
           Categoria
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="ButtonCategories">
-          <li><a class="dropdown-item">Cualquiera</a></li>
+          <li><a class="dropdown-item" (click)="filterProductsByCategory('Any')">Cualquiera</a></li>
           <li *ngFor="let category of categories">
             <a class="dropdown-item" (click)="filterProductsByCategory(category.name)">{{ category.name }}</a>
           </li>
