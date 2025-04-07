@@ -11,4 +11,8 @@ export class ItemManagementService {
   getItems(): Observable<any> {
     return this.apiService.getItems();
   }
+
+  getCategories(): Observable<any> {
+    return this.apiService.getCategories();
+  }
 }

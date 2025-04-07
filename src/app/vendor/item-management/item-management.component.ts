@@ -19,6 +19,7 @@ import {ItemManagementService} from './item-management.service';
 export class ItemManagementComponent implements OnInit {
   filteredProducts: any[] = [];
   products: any[] = [];
+  categories: any[] = [];
   searchTerm: string = '';
   selectedCategory: string = 'Any';
 
@@ -27,9 +28,11 @@ export class ItemManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.itemManagementService.getItems().subscribe((response) => {
-      console.log(response)
       this.products = response;
       this.filteredProducts = this.products;
+    });
+    this.itemManagementService.getCategories().subscribe((response) => {
+      this.categories = response;
     });
   }
 
@@ -47,7 +50,7 @@ export class ItemManagementComponent implements OnInit {
   applyFilters() {
     this.filteredProducts = this.products.filter(product => {
       const matchesSearchTerm = product.name.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesCategory = this.selectedCategory === 'Any' || product.category === this.selectedCategory;
+      const matchesCategory = this.selectedCategory === 'Any' || product.category.name === this.selectedCategory;
       return matchesSearchTerm && matchesCategory;
     });
   }
