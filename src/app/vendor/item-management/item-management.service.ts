@@ -19,4 +19,8 @@ export class ItemManagementService {
   createItem(createItemModel: any, createItemCategory: any): Observable<any> {
     return this.apiService.createItem(createItemModel, createItemCategory);
   }
+
+  deleteItem(itemId: any): Observable<any> {
+    return this.apiService.deleteItem(itemId);
+  }
 }

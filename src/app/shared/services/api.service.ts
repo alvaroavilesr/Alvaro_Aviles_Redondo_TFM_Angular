@@ -221,4 +221,13 @@ export class ApiService {
 
     return this.http.post(EndPoints.POST_ITEM + "/" + createItemCategory , body, { headers });
   }
+
+  deleteItem(id: any): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+
+    return this.http.delete(EndPoints.DELETE_ITEM + '/' + id,  { headers });
+  }
 }

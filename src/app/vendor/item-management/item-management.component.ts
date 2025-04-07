@@ -128,4 +128,37 @@ export class ItemManagementComponent implements OnInit {
     const imageName = imagePath.split('/').pop()?.replace('.jpg', '') || '';
     return imageName.replace(/([a-z])([A-Z])/g, '$1 $2');
   }
+
+  closeDeleteProductModal(){
+    const modalElement = document.getElementById('deleteProduct');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
+
+  openDeleteProductModal(product: any) {
+    this.selectedProduct = {...product}
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('deleteProduct'));
+    modal.show();
+  }
+
+  deleteProduct() {
+    this.itemManagementService
+      .deleteItem(this.selectedProduct.itemId)
+      .subscribe({
+        next: () => {
+          this.toastr.success('Producto eliminado correctamente.', 'Eliminar producto');
+          this.closeDeleteProductModal();
+          /* istanbul ignore next */
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+        error: () => {
+          this.toastr.error('El producto está asociado a un pedido.', 'Eliminar producto');
+        }
+      });
+  }
+
 }

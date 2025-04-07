@@ -59,7 +59,7 @@
           <button class="btn btn-primary me-2">Ver detalles</button>
           <button class="btn btn-secondary me-2">Modificar datos</button>
           <button class="btn btn-warning me-2">Modificar categoria</button>
-          <button class="btn btn-danger">Eliminar</button>
+          <button class="btn btn-danger" (click)="openDeleteProductModal(product)">Eliminar</button>
         </div>
       </div>
     </div>
@@ -118,6 +118,23 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeCreateProductModal()">Cancelar</button>
         <button type="button" class="btn btn-primary" (click)="createProduct()">Crear producto</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteProduct" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteItemLabel">Eliminar producto</h5>
+      </div>
+      <div class="modal-body">
+        <p>Esta acción es irreversible. ¿Estás realmente seguro?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeDeleteProductModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="deleteProduct()">Eliminar producto</button>
       </div>
     </div>
   </div>
