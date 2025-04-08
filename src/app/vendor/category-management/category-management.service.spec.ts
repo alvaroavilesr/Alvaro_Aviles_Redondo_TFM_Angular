@@ -24,7 +24,7 @@ describe('CategoryManagementService', () => {
     httpMock.verify();
   });
 
-  it('should fetch categories', () => {
+  it('CATEGORY MANAGEMENT SERVICE - should fetch categories', () => {
     const mockCategories = [{ id: 1, name: 'Category 1' }];
     const token = 'mock-token';
     sessionStorage.setItem('JWT', token);
@@ -39,7 +39,7 @@ describe('CategoryManagementService', () => {
     req.flush(mockCategories);
   });
 
-  it('should create a category', () => {
+  it('CATEGORY MANAGEMENT SERVICE - should create a category', () => {
     const mockResponse = { id: 1, name: 'New Category' };
     const token = 'mock-token';
     const createCategoryName = 'New Category';
@@ -57,7 +57,7 @@ describe('CategoryManagementService', () => {
     req.flush(mockResponse);
   });
 
-  it('should update a category', () => {
+  it('CATEGORY MANAGEMENT SERVICE - should update a category', () => {
     const mockResponse = { id: 1, name: 'Updated Category' };
     const token = 'mock-token';
     const updateCategoryName = 'Updated Category';
@@ -76,7 +76,7 @@ describe('CategoryManagementService', () => {
     req.flush(mockResponse);
   });
 
-  it('should delete a category', () => {
+  it('CATEGORY MANAGEMENT SERVICE - should delete a category', () => {
     const mockResponse = { message: 'Category deleted' };
     const token = 'mock-token';
     const id = 1;

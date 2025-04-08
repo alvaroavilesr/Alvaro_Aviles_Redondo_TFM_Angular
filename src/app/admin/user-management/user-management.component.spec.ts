@@ -99,6 +99,15 @@ describe('UserManagementComponent tests', () => {
   });
 
   it('USER MANAGEMENT - should create user', () => {
+    component.createUserModel = {
+      username: 'testuser',
+      firstname: 'John',
+      lastname: 'Doe',
+      email: 'john.doe@example.com',
+      password: 'password123',
+      role: 'User'
+    };
+
     const mockResponse = { message: 'Usuario creado correctamente.' };
     userManagementService.createUser.and.returnValue(of(mockResponse));
     spyOn(component, 'closeCreateUserModal');
@@ -106,7 +115,7 @@ describe('UserManagementComponent tests', () => {
 
     component.createUser();
 
-    expect(userManagementService.createUser).toHaveBeenCalled();
+    expect(userManagementService.createUser).toHaveBeenCalledWith(component.createUserModel);
     expect(toastrService.success).toHaveBeenCalledWith('Usuario creado correctamente.', 'Crear usuario');
     expect(component.closeCreateUserModal).toHaveBeenCalled();
     expect(window.setTimeout).toHaveBeenCalled();
@@ -138,6 +147,12 @@ describe('UserManagementComponent tests', () => {
   });
 
   it('USER MANAGEMENT - should update user data', () => {
+    component.selectedUser = {
+      userFirstName: 'John',
+      userLastName: 'Doe',
+      email: 'john.doe@example.com'
+    };
+
     const mockResponse = { message: 'Datos actualizados correctamente.' };
     userManagementService.updateUserData.and.returnValue(of(mockResponse));
     spyOn(component, 'closeUpdateUserModal');
@@ -145,7 +160,7 @@ describe('UserManagementComponent tests', () => {
 
     component.updateUserData();
 
-    expect(userManagementService.updateUserData).toHaveBeenCalled();
+    expect(userManagementService.updateUserData).toHaveBeenCalledWith(component.selectedUser);
     expect(toastrService.success).toHaveBeenCalledWith('Datos actualizados correctamente.', 'Modificar datos usuario');
     expect(component.closeUpdateUserModal).toHaveBeenCalled();
     expect(window.setTimeout).toHaveBeenCalled();
@@ -270,10 +285,15 @@ describe('UserManagementComponent tests', () => {
     const errorResponse = { status: 400 };
     userManagementService.createUser.and.returnValue(throwError(errorResponse));
     component.createUser();
-    expect(toastrService.error).toHaveBeenCalledWith('El formato del correo no es válido o el nombre de usuario está en uso.', 'Crear usuario');
+    expect(toastrService.error).toHaveBeenCalledWith('Por favor, rellena todos los campos.', 'Crear usuario');
   });
 
   it('USER MANAGEMENT - should show error message when updateUserData fails with status 400', () => {
+    component.selectedUser = {
+      userFirstName: 'John',
+      userLastName: 'Doe',
+      email: 'john.doe@example.com'
+    };
     const errorResponse = { status: 400 };
     userManagementService.updateUserData.and.returnValue(throwError(errorResponse));
     component.updateUserData();

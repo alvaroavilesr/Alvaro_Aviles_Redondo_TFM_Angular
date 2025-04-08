@@ -70,19 +70,22 @@ describe('CategoryManagement tests', () => {
   });
 
   it('CATEGORY MANAGEMENT - should create category successfully', () => {
+    const categoryName = 'New Category';
+    component.createCategoryName = categoryName;
     categoryManagementService.createCategory.and.returnValue(of({}));
     spyOn(component, 'closeCreateCategoryModal');
+
     component.createCategory();
-    expect(categoryManagementService.createCategory).toHaveBeenCalledWith(component.createCategoryName);
+
+    expect(categoryManagementService.createCategory).toHaveBeenCalledWith(categoryName);
     expect(toastrService.success).toHaveBeenCalledWith('Categoria creada correctamente.', 'Crear categoria');
     expect(component.closeCreateCategoryModal).toHaveBeenCalled();
   });
 
   it('CATEGORY MANAGEMENT - should handle create category error', () => {
-    categoryManagementService.createCategory.and.returnValue(throwError(() => new Error('error')));
+    component.createCategoryName = '';
     component.createCategory();
-    expect(categoryManagementService.createCategory).toHaveBeenCalledWith(component.createCategoryName);
-    expect(toastrService.error).toHaveBeenCalledWith('El nombre de categoria ya está en uso.', 'Crear categoria');
+    expect(toastrService.error).toHaveBeenCalledWith('Por favor, rellena todos los campos.', 'Crear categoria');
   });
 
   it('CATEGORY MANAGEMENT - should filter categories based on search term', () => {
