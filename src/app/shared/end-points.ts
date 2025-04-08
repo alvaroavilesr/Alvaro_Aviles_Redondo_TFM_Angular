@@ -13,4 +13,5 @@ export class EndPoints {
   static readonly POST_ITEM = 'http://localhost:8082/api/item';
   static readonly DELETE_ITEM = 'http://localhost:8082/api/item';
   static readonly PUT_ITEM = 'http://localhost:8082/api/item';
+  static readonly PUT_ITEM_CATEGORY = 'http://localhost:8082/api/item';
 }

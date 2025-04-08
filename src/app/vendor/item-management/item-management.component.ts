@@ -24,6 +24,7 @@ export class ItemManagementComponent implements OnInit {
   categories: any[] = [];
   searchTerm: string = '';
   createItemCategory: string = '';
+  updateCategory: string = '';
   selectedCategory: string = 'Any';
   selectedProduct: any = null;
   createItemModel = {
@@ -211,4 +212,40 @@ export class ItemManagementComponent implements OnInit {
     }
   }
 
+  closeUpdateItemCategoryModal(){
+    const modalElement = document.getElementById('updateItemCategory');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
+
+  openUpdateItemCategoryModal(product: any) {
+    this.selectedProduct = {...product}
+    this.updateCategory = product.category.name;
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('updateItemCategory'));
+    modal.show();
+  }
+
+  updateItemCategory(){
+    if (!this.updateCategory || this.updateCategory === '') {
+      this.toastr.error('Por favor, rellena todos los campos.', 'Modificar categoria producto');
+    }else{
+      this.itemManagementService
+        .updateItemCategory(this.selectedProduct.itemId, this.updateCategory)
+        .subscribe({
+          next: () => {
+            this.toastr.success('Categoria modificada correctamente.', 'Modificar categoria producto');
+            this.closeUpdateItemCategoryModal();
+            /* istanbul ignore next */
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          },
+          error: () => {
+            this.toastr.error('Ha ocurrido un error inesperado.', 'Modificar categoria producto');
+          }
+        });
+    }
+  }
 }

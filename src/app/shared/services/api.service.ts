@@ -230,7 +230,6 @@ export class ApiService {
   }
 
   updateItem(updatedItem: any): Observable<any> {
-    console.log(updatedItem);
     let body: any;
     const token = sessionStorage.getItem('JWT');
     const headers = new HttpHeaders({
@@ -248,5 +247,16 @@ export class ApiService {
     };
 
     return this.http.put(EndPoints.PUT_ITEM + '/' + updatedItem.itemId, body, { headers });
+  }
+
+  updateItemCategory(itemId: any, updatedCategory: any): Observable<any> {
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.put(EndPoints.PUT_ITEM_CATEGORY + '/' + itemId + '/' + updatedCategory, body, { headers });
   }
 }

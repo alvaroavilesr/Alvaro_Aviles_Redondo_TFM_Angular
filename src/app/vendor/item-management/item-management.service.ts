@@ -27,4 +27,8 @@ export class ItemManagementService {
   updateItem(updatedItem: any): Observable<any> {
     return this.apiService.updateItem(updatedItem);
   }
+
+  updateItemCategory(itemId: any, updatedCategory: any): Observable<any> {
+    return this.apiService.updateItemCategory(itemId, updatedCategory);
+  }
 }

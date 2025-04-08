@@ -58,7 +58,7 @@
         <div>
           <button class="btn btn-primary me-2" (click)="openDetailsProductModal(product)">Ver detalles</button>
           <button class="btn btn-secondary me-2" (click)="openUpdateProductModal(product)">Modificar datos</button>
-          <button class="btn btn-warning me-2">Modificar categoria</button>
+          <button class="btn btn-warning me-2" (click)="openUpdateItemCategoryModal(product)">Modificar categoria</button>
           <button class="btn btn-danger" (click)="openDeleteProductModal(product)">Eliminar</button>
         </div>
       </div>
@@ -195,6 +195,28 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeUpdateProductModal()">Cancelar</button>
         <button type="button" class="btn btn-primary" (click)="updateProductData()">Modificar datos</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateItemCategory" tabindex="-1" aria-labelledby="updateItemCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateItemCategoryLabel">Modificar categoria de producto</h5>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="updateCategory">
+          <label for="newCategory" class="form-label">Categoria</label>
+          <select class="form-select" id="newCategory" name="newCategory" [(ngModel)]="updateCategory" required>
+            <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
+          </select>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeUpdateItemCategoryModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="updateItemCategory()">Modificar categoria</button>
       </div>
     </div>
   </div>
