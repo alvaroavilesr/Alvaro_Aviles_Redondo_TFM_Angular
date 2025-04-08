@@ -169,8 +169,6 @@ export class ApiService {
   }
 
   updateCategory(createCategoryName: any, id: any): Observable<any> {
-    console.log(createCategoryName);
-    console.log(id);
     let body: any;
     const token = sessionStorage.getItem('JWT');
     const headers = new HttpHeaders({
@@ -192,5 +190,73 @@ export class ApiService {
     });
 
     return this.http.delete(EndPoints.DELETE_CATEGORY + '/' + id,  { headers });
+  }
+
+  getItems(): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(EndPoints.GET_ITEMS , { headers });
+  }
+
+  createItem(createItemModel: any, createItemCategory: any): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const body = {
+      name: createItemModel.itemName,
+      description: createItemModel.itemDescription,
+      longDescription: createItemModel.itemLongDescription,
+      size: createItemModel.itemSize,
+      price: createItemModel.itemPrice,
+      image: createItemModel.itemImage
+    };
+
+    return this.http.post(EndPoints.POST_ITEM + "/" + createItemCategory , body, { headers });
+  }
+
+  deleteItem(id: any): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+
+    return this.http.delete(EndPoints.DELETE_ITEM + '/' + id,  { headers });
+  }
+
+  updateItem(updatedItem: any): Observable<any> {
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    body = {
+      name: updatedItem.name,
+      description: updatedItem.description,
+      longDescription: updatedItem.longDescription,
+      size: updatedItem.size,
+      price: updatedItem.price,
+      image: updatedItem.image
+    };
+
+    return this.http.put(EndPoints.PUT_ITEM + '/' + updatedItem.itemId, body, { headers });
+  }
+
+  updateItemCategory(itemId: any, updatedCategory: any): Observable<any> {
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.put(EndPoints.PUT_ITEM_CATEGORY + '/' + itemId + '/' + updatedCategory, body, { headers });
   }
 }

@@ -11,6 +11,7 @@ import { RegisterComponent } from './register/register.component';
 import { RoleGuardService } from './shared/services/role-guard.service';
 import { Roles } from './shared/roles';
 import { ProfileComponent } from './profile/profile.component';
+import {ItemManagementComponent} from './vendor/item-management/item-management.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -26,6 +27,11 @@ export const routes: Routes = [
   },
   { path: 'category-management',
     component: CategoryManagementComponent,
+    canActivate: [RoleGuardService],
+    data: { roles: [Roles.VENDOR] }
+  },
+  { path: 'item-management',
+    component: ItemManagementComponent,
     canActivate: [RoleGuardService],
     data: { roles: [Roles.VENDOR] }
   },

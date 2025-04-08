@@ -528,4 +528,122 @@ describe('ApiService tests', () => {
     expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
     req.flush(mockResponse);
   });
+
+  it('API SERVICE - should send a GET request to fetch items with Authorization header', () => {
+    const mockItems = [{ id: 1, name: 'Item 1' }];
+    const token = 'mock-token';
+    sessionStorage.setItem('JWT', token);
+
+    service.getItems().subscribe(items => {
+      expect(items).toEqual(mockItems);
+    });
+
+    const req = httpMock.expectOne(EndPoints.GET_ITEMS);
+    expect(req.request.method).toBe('GET');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
+    req.flush(mockItems);
+  });
+
+  it('API SERVICE - should send a POST request to create an item with Authorization header', () => {
+    const mockResponse = { id: 1, name: 'New Item' };
+    const token = 'mock-token';
+    sessionStorage.setItem('JWT', token);
+
+    const createItemModel = {
+      itemName: 'New Item',
+      itemDescription: 'Description',
+      itemLongDescription: 'Long Description',
+      itemSize: 'M',
+      itemPrice: 100,
+      itemImage: 'image.jpg'
+    };
+    const createItemCategory = 'Category1';
+
+    service.createItem(createItemModel, createItemCategory).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.POST_ITEM}/Category1`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
+    expect(req.request.headers.get('Content-Type')).toBe('application/json');
+    expect(req.request.body).toEqual({
+      name: 'New Item',
+      description: 'Description',
+      longDescription: 'Long Description',
+      size: 'M',
+      price: 100,
+      image: 'image.jpg'
+    });
+    req.flush(mockResponse);
+  });
+
+  it('API SERVICE - should send a DELETE request to delete an item with Authorization header', () => {
+    const mockResponse = { message: 'Item deleted successfully' };
+    const token = 'mock-token';
+    const itemId = 1;
+    sessionStorage.setItem('JWT', token);
+
+    service.deleteItem(itemId).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.DELETE_ITEM}/${itemId}`);
+    expect(req.request.method).toBe('DELETE');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
+    req.flush(mockResponse);
+  });
+
+  it('API SERVICE - should send a PUT request to update an item with Authorization header', () => {
+    const mockResponse = { message: 'Item updated successfully' };
+    const token = 'mock-token';
+    sessionStorage.setItem('JWT', token);
+
+    const updatedItem = {
+      itemId: 1,
+      name: 'Updated Item',
+      description: 'Updated Description',
+      longDescription: 'Updated Long Description',
+      size: 'L',
+      price: 150,
+      image: 'updated-image.jpg'
+    };
+
+    service.updateItem(updatedItem).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.PUT_ITEM}/1`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
+    expect(req.request.headers.get('Content-Type')).toBe('application/json');
+    expect(req.request.body).toEqual({
+      name: 'Updated Item',
+      description: 'Updated Description',
+      longDescription: 'Updated Long Description',
+      size: 'L',
+      price: 150,
+      image: 'updated-image.jpg'
+    });
+    req.flush(mockResponse);
+  });
+
+  it('API SERVICE - should send a PUT request to update an item category with Authorization header', () => {
+    const mockResponse = { message: 'Item category updated successfully' };
+    const token = 'mock-token';
+    sessionStorage.setItem('JWT', token);
+
+    const itemId = 1;
+    const updatedCategory = 'NewCategory';
+
+    service.updateItemCategory(itemId, updatedCategory).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.PUT_ITEM_CATEGORY}/${itemId}/NewCategory`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
+    expect(req.request.headers.get('Content-Type')).toBe('application/json');
+    req.flush(mockResponse);
+  });
 });
