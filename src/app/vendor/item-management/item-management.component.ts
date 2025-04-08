@@ -161,4 +161,18 @@ export class ItemManagementComponent implements OnInit {
       });
   }
 
+  closeDetailsProductModal(){
+    const modalElement = document.getElementById('detailsProduct');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
+
+  openDetailsProductModal(product: any) {
+    this.selectedProduct = {...product}
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('detailsProduct'));
+    modal.show();
+  }
+
 }
