@@ -210,4 +210,26 @@ describe('CategoryManagement tests', () => {
     expect(categoryManagementService.deleteCategory).toHaveBeenCalledWith(1);
     expect(toastrService.error).toHaveBeenCalledWith('La categoría ya esta asociada a un producto.', 'Eliminar categoria');
   });
+
+  it('CATEGORY MANAGEMENT - should show error message when category name is already in use', () => {
+    component.createCategoryName = 'Existing Category';
+    categoryManagementService.createCategory.and.returnValue(throwError(() => new Error('error')));
+    component.createCategory();
+    expect(toastrService.error).toHaveBeenCalledWith(
+      'El nombre de categoria ya está en uso.',
+      'Crear categoria'
+    );
+    expect(categoryManagementService.createCategory).toHaveBeenCalledWith('Existing Category');
+  });
+
+  it('CATEGORY MANAGEMENT - should show error message when updateCategoryName is empty', () => {
+    component.updateCategoryName = '';
+    component.selectedCategory = { id: 1, name: 'Category 1', categoryId: 1 };
+    component.updateCategory();
+    expect(toastrService.error).toHaveBeenCalledWith(
+      'Por favor, rellena todos los campos.',
+      'Modificar categoria'
+    );
+    expect(categoryManagementService.updateCategory).not.toHaveBeenCalled();
+  });
 });

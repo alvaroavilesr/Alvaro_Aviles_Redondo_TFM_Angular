@@ -384,4 +384,40 @@ describe('UserManagementComponent tests', () => {
     expect(userManagementService.deleteUser).toHaveBeenCalledWith(component.selectedUser);
     expect(toastrService.error).toHaveBeenCalledWith('Ha ocurrido un error inesperado.', 'Eliminar usuario');
   });
+
+  it('USER MANAGEMENT - should show error message when createUser fails with status 400', () => {
+    component.createUserModel = {
+      username: 'testuser',
+      firstname: 'John',
+      lastname: 'Doe',
+      email: 'john.doe@example.com',
+      password: 'password123',
+      role: 'User'
+    };
+
+    const errorResponse = { status: 400 };
+    userManagementService.createUser.and.returnValue(throwError(errorResponse));
+
+    component.createUser();
+
+    expect(userManagementService.createUser).toHaveBeenCalledWith(component.createUserModel);
+    expect(toastrService.error).toHaveBeenCalledWith(
+      'El formato del correo no es válido o el nombre de usuario está en uso.',
+      'Crear usuario'
+    );
+  });
+
+  it('USER MANAGEMENT - should show error message when required fields are missing in updateUserData', () => {
+    component.selectedUser = {
+      userFirstName: '',
+      userLastName: 'Doe',
+      email: ''
+    };
+    component.updateUserData();
+    expect(toastrService.error).toHaveBeenCalledWith(
+      'Por favor, rellena todos los campos.',
+      'Modificar datos usuario'
+    );
+    expect(userManagementService.updateUserData).not.toHaveBeenCalled();
+  });
 });
