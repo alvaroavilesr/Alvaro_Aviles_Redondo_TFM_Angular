@@ -57,7 +57,7 @@
         </div>
         <div>
           <button class="btn btn-primary me-2" (click)="openDetailsProductModal(product)">Ver detalles</button>
-          <button class="btn btn-secondary me-2">Modificar datos</button>
+          <button class="btn btn-secondary me-2" (click)="openUpdateProductModal(product)">Modificar datos</button>
           <button class="btn btn-warning me-2">Modificar categoria</button>
           <button class="btn btn-danger" (click)="openDeleteProductModal(product)">Eliminar</button>
         </div>
@@ -111,7 +111,7 @@
             </select>
           </div>
           <div class="text-center mb-3" *ngIf="createItemModel.itemImage">
-            <img [src]="createItemModel.itemImage" alt="Vista previa de imagen" class="img-thumbnail" style="max-height: 200px;">
+            <img [src]="'/images/products/' + createItemModel.itemImage" alt="Vista previa de imagen" class="img-thumbnail" style="max-height: 200px;">
           </div>
         </form>
       </div>
@@ -138,6 +138,63 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeDetailsProductModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateProductData" tabindex="-1" aria-labelledby="updateProductDataModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateProductDataLabel">Modificar datos producto</h5>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="selectedProduct">
+          <div class="mb-3">
+            <label for="itemNameUpdate" class="form-label">Nombre del producto</label>
+            <input type="text" class="form-control" id="itemNameUpdate" name="itemName" [(ngModel)]="selectedProduct.name" required>
+          </div>
+          <div class="mb-3">
+            <label for="itemDescriptionUpdate" class="form-label">Descripcion del producto</label>
+            <input type="text" class="form-control" id="itemDescriptionUpdate" name="itemDescription" [(ngModel)]="selectedProduct.description" required>
+          </div>
+          <div class="mb-3">
+            <label for="itemLongDescriptionUpdate" class="form-label">Detalles del producto</label>
+            <textarea class="form-control" id="itemLongDescriptionUpdate" name="itemLongDescription" [(ngModel)]="selectedProduct.longDescription" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="itemSizeUpdate" class="form-label">Talla</label>
+            <select class="form-select" id="itemSizeUpdate" name="itemSize" [(ngModel)]="selectedProduct.size" required>
+              <option *ngFor="let size of sizes" [value]="size">{{ size }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="itemCategoryUpdate" class="form-label">Categoria</label>
+            <select class="form-select" id="itemCategoryUpdate" name="itemSize" [(ngModel)]="selectedProduct.category.name" required>
+              <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="itemPriceUpdate" class="form-label">Precio</label>
+            <input type="text" class="form-control" id="itemPriceUpdate" name="itemPrice" [(ngModel)]="selectedProduct.price" required>
+          </div>
+          <div class="mb-3">
+            <label for="itemImageUpdate" class="form-label">Imagen asociada</label>
+            <select class="form-select" id="itemImageUpdate" name="itemImage" [(ngModel)]="selectedProduct.image" required>
+              <option *ngFor="let image of images" [value]="image + '.jpg'">
+                {{ formatImageName(image) }}
+              </option>
+            </select>
+          </div>
+          <div class="text-center mb-3" *ngIf="selectedProduct.image">
+            <img [src]="'/images/products/' + selectedProduct.image" alt="Vista previa de imagen" class="img-thumbnail" style="max-height: 200px;">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeUpdateProductModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="updateProductData()">Modificar datos</button>
       </div>
     </div>
   </div>

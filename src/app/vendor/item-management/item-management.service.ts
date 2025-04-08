@@ -23,4 +23,8 @@ export class ItemManagementService {
   deleteItem(itemId: any): Observable<any> {
     return this.apiService.deleteItem(itemId);
   }
+
+  updateItem(updatedItem: any): Observable<any> {
+    return this.apiService.updateItem(updatedItem);
+  }
 }

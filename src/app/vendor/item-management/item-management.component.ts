@@ -49,7 +49,6 @@ export class ItemManagementComponent implements OnInit {
   }
 
   loadImages(): void {
-    const imagePath = '/images/products/';
     this.images = [
       'CamisaAzul',
       'CamisaBlanca',
@@ -66,7 +65,7 @@ export class ItemManagementComponent implements OnInit {
       'SudaderaNegra',
       'Vaqueros1',
       'Vaqueros2'
-    ].map(image => imagePath + image);
+    ]
   }
 
   filterProductsByCategory(category: string) {
@@ -173,6 +172,43 @@ export class ItemManagementComponent implements OnInit {
     this.selectedProduct = {...product}
     const modal = new (window as any).bootstrap.Modal(document.getElementById('detailsProduct'));
     modal.show();
+  }
+
+  closeUpdateProductModal(){
+    const modalElement = document.getElementById('updateProductData');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
+
+  openUpdateProductModal(product: any) {
+    this.selectedProduct = {...product}
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('updateProductData'));
+    modal.show();
+  }
+
+  updateProductData() {
+    if (!this.selectedProduct.name || !this.selectedProduct.description || !this.selectedProduct.longDescription ||
+        !this.selectedProduct.size || !this.selectedProduct.price || !this.selectedProduct.image || !this.selectedProduct.category) {
+      this.toastr.error('Por favor, rellena todos los campos.', 'Modificar producto');
+    }else{
+      this.itemManagementService
+        .updateItem(this.selectedProduct)
+        .subscribe({
+          next: () => {
+            this.toastr.success('Producto modificado correctamente.', 'Modificar producto');
+            this.closeUpdateProductModal();
+            /* istanbul ignore next */
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          },
+          error: () => {
+            this.toastr.error('Ha ocurrido un error inesperado.', 'Modificar producto');
+          }
+        });
+    }
   }
 
 }

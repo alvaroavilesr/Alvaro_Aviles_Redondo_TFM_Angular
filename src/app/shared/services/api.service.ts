@@ -169,8 +169,6 @@ export class ApiService {
   }
 
   updateCategory(createCategoryName: any, id: any): Observable<any> {
-    console.log(createCategoryName);
-    console.log(id);
     let body: any;
     const token = sessionStorage.getItem('JWT');
     const headers = new HttpHeaders({
@@ -229,5 +227,26 @@ export class ApiService {
     });
 
     return this.http.delete(EndPoints.DELETE_ITEM + '/' + id,  { headers });
+  }
+
+  updateItem(updatedItem: any): Observable<any> {
+    console.log(updatedItem);
+    let body: any;
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    body = {
+      name: updatedItem.name,
+      description: updatedItem.description,
+      longDescription: updatedItem.longDescription,
+      size: updatedItem.size,
+      price: updatedItem.price,
+      image: updatedItem.image
+    };
+
+    return this.http.put(EndPoints.PUT_ITEM + '/' + updatedItem.itemId, body, { headers });
   }
 }
