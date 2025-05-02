@@ -11,4 +11,8 @@ export class OrderManagementService {
   getOrders(): Observable<any> {
     return this.apiService.getOrders();
   }
+
+  deleteOrder(orderId: any): Observable<any> {
+    return this.apiService.deleteOrder(orderId);
+  }
 }

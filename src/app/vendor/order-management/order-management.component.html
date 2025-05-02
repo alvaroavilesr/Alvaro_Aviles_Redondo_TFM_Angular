@@ -33,9 +33,27 @@
           <h5 class="card-title">[{{order.userName}}] - {{order.price}} € - {{order.itemAmount}} productos</h5>
         </div>
         <div>
-          <button class="btn btn-primary me-2" (click)="openDetailsProductModal(order)">Ver detalles</button>
-          <button class="btn btn-danger" (click)="openDeleteProductModal(order)">Eliminar</button>
+          <button class="btn btn-primary me-2" (click)="openDetailsOrderModal(order)">Ver detalles</button>
+          <button class="btn btn-danger" (click)="openDeleteOrderModal(order)">Eliminar</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="deleteOrder" tabindex="-1" aria-labelledby="deleteOrderModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteItemLabel">Eliminar pedido</h5>
+      </div>
+      <div class="modal-body">
+        <p>Esta acción es irreversible. ¿Estás realmente seguro?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeDeleteOrderModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="deleteOrder()">Eliminar pedido</button>
       </div>
     </div>
   </div>
