@@ -21,13 +21,13 @@ export class OrderManagementComponent implements OnInit {
   orders: any[] = [];
   searchTerm: string = '';
   selectedOrder: any = null;
+  formattedDate: any = null;
 
   constructor(private readonly orderManagementService: OrderManagementService,
               private readonly toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.orderManagementService.getOrders().subscribe((response) => {
-      console.log(response);
       this.orders = response;
       this.filteredOrders = this.orders;
     });
@@ -39,8 +39,19 @@ export class OrderManagementComponent implements OnInit {
     });
   }
 
-  openDetailsOrderModal(order: any): void {
-    console.log("Detalles del producto: " + order)
+  closeDetailsOrderModal(){
+    const modalElement = document.getElementById('detailsOrder');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
+
+  openDetailsOrderModal(order: any) {
+    this.selectedOrder = {...order}
+    this.formattedDate = this.selectedOrder.date.split('T')[0].split('-').reverse().join('/');
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('detailsOrder'));
+    modal.show();
   }
 
   closeDeleteOrderModal(){
