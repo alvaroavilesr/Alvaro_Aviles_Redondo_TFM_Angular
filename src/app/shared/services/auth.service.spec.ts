@@ -71,4 +71,5 @@ describe('AuthService tests', () => {
       expect(isLoggedIn).toBeFalse();
     });
   });
+
 });

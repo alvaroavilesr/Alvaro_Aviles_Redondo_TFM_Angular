@@ -646,4 +646,38 @@ describe('ApiService tests', () => {
     expect(req.request.headers.get('Content-Type')).toBe('application/json');
     req.flush(mockResponse);
   });
+
+  it('API SERVICE - debería hacer una petición GET con token de autorización en getOrders', () => {
+    const mockOrders = [
+      { id: 1, cliente: 'Cliente A', total: 100 },
+      { id: 2, cliente: 'Cliente B', total: 200 }
+    ];
+    const token = 'mock-token';
+    sessionStorage.setItem('JWT', token);
+
+    service.getOrders().subscribe(response => {
+      expect(response).toEqual(mockOrders);
+    });
+
+    const req = httpMock.expectOne(EndPoints.GET_ORDERS);
+    expect(req.request.method).toBe('GET');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
+    req.flush(mockOrders);
+  });
+
+  it('API SERVICE - debería hacer una petición DELETE con token de autorización en deleteOrder', () => {
+    const orderId = 123;
+    const token = 'mock-token';
+    sessionStorage.setItem('JWT', token);
+    const mockResponse = { success: true };
+
+    service.deleteOrder(orderId).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.DELETE_ORDER}/${orderId}`);
+    expect(req.request.method).toBe('DELETE');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
+    req.flush(mockResponse);
+  });
 });
