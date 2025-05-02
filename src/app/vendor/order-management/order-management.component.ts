@@ -32,8 +32,10 @@ export class OrderManagementComponent implements OnInit {
     });
   }
 
-  searchOrders(): void {
-    console.log("Buscar!")
+  searchOrders() {
+    this.filteredOrders = this.orders.filter(order => {
+      return order.userName.toLowerCase().includes(this.searchTerm.toLowerCase());
+    });
   }
 
   openDetailsProductModal(order: any): void {
