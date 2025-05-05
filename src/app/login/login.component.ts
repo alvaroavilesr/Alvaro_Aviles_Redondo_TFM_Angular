@@ -51,7 +51,7 @@ export class LoginComponent {
             this.authService.checkLoginStatus();
             this.authService.checkRole();
             if (role === "User") {
-              this.router.navigate(['/user-home']);
+              this.router.navigate(['/shop']);
             } else if (role === "Vendor") {
               this.router.navigate(['/category-management']);
             } else {

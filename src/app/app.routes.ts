@@ -4,7 +4,7 @@ import { ContactComponent } from './contact/contact.component';
 import { HelpComponentComponent } from './help-component/help-component.component';
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
-import { UserHomeComponent } from './user/user-home/user-home.component';
+import { ShopComponent } from './user/shop/shop.component';
 import { CategoryManagementComponent } from './vendor/category-management/category-management.component';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { RegisterComponent } from './register/register.component';
@@ -21,8 +21,8 @@ export const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'user-home',
-    component: UserHomeComponent,
+  { path: 'shop',
+    component: ShopComponent,
     canActivate: [RoleGuardService],
     data: { roles: [Roles.USER] }
   },
