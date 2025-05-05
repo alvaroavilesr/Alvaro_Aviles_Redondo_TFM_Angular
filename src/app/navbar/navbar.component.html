@@ -49,7 +49,7 @@
       </ul>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="isLoggedIn && userRole == 'User'">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="user-home" routerLinkActive="active">
+          <a class="nav-link" aria-current="page" routerLink="shop" routerLinkActive="active">
             Tienda
             <i class="bi bi-bag-fill"></i>
           </a>
@@ -84,6 +84,12 @@
         </li>
       </ul>
       <ul id="LoggedMenu" class="navbar-nav ms-auto mb-2 mb-lg-0" *ngIf="isLoggedIn">
+        <li class="nav-item" *ngIf="isLoggedIn && userRole == 'User'">
+          <a class="nav-link" routerLink="cart" routerLinkActive="active">
+            Carrito
+            <i class="bi bi-cart-fill"></i>
+          </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="profile" routerLinkActive="active">
             Perfil

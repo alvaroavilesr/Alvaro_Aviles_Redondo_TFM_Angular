@@ -23,7 +23,6 @@ export class ShopComponent implements OnInit {
   selectedCategory: string = 'Any';
   selectedProduct: any = null;
   amount: any = null;
-  itemArrayEmpty: any = [];
 
   constructor(private readonly shopService: ShopService,
               private readonly toastr: ToastrService) {}
