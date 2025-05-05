@@ -79,7 +79,7 @@ describe('LoginComponent tests', () => {
     expect(sessionStorage.getItem('Role')).toBe('User');
     expect(authService.checkLoginStatus).toHaveBeenCalled();
     expect(authService.checkRole).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalledWith(['/user-home']);
+    expect(router.navigate).toHaveBeenCalledWith(['/shop']);
   });
 
   it('LOGIN - should call loginService and handle successful login for Vendor', () => {
