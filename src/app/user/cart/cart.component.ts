@@ -19,6 +19,7 @@ export class CartComponent implements OnInit {
   products: any[] = [];
   cart: any[] = [];
   itemsAndAmounts: any[] = [];
+  selectedProduct: any = null;
 
   constructor(private readonly cartService: CartService,
               private readonly toastr: ToastrService) {}
@@ -54,8 +55,18 @@ export class CartComponent implements OnInit {
     });
   }
 
-  openDetailsProductModal(product: any) {
+  closeDetailsProductModal(){
+    const modalElement = document.getElementById('detailsProduct');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
 
+  openDetailsProductModal(product: any) {
+    this.selectedProduct = {...product}
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('detailsProduct'));
+    modal.show();
   }
 
   openDeleteFromCartModal(product: any) {

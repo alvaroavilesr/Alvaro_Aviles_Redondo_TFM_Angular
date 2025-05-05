@@ -33,3 +33,23 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="detailsProduct" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailsItemLabel">Detalles producto</h5>
+      </div>
+      <div class="modal-body" *ngIf="selectedProduct">
+        <h5>{{selectedProduct.name}} - {{selectedProduct.price}}€ - {{selectedProduct.size}}</h5>
+        <p>{{selectedProduct.description}}</p>
+        <img [src]="'/images/products/' + selectedProduct.image" alt="Vista previa de imagen" class="img-thumbnail mb-2" style="max-height: 200px;">
+        <br>
+        <p>{{selectedProduct.longDescription}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeDetailsProductModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
