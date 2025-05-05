@@ -22,6 +22,8 @@ export class ShopComponent implements OnInit {
   searchTerm: string = '';
   selectedCategory: string = 'Any';
   selectedProduct: any = null;
+  amount: any = null;
+  itemArrayEmpty: any = [];
 
   constructor(private readonly shopService: ShopService,
               private readonly toastr: ToastrService) {}
@@ -69,7 +71,31 @@ export class ShopComponent implements OnInit {
     modal.show();
   }
 
-  addToCart(product: any) {
-    console.log('Product added to cart:', product);
+  closeAddToCartModal(){
+    const modalElement = document.getElementById('addToCart');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+    this.amount = null;
+  }
+
+  openAddToCartModal(product: any) {
+    this.selectedProduct = {...product}
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('addToCart'));
+    modal.show();
+  }
+
+  addToCart() {
+    if(sessionStorage.getItem("itemsAndAmountsCart") === null){
+      let itemArrayEmpty: never[] = [];
+      sessionStorage.setItem("itemsAndAmountsCart", JSON.stringify(itemArrayEmpty));
+    }
+    let itemArray = JSON.parse(<string>sessionStorage.getItem("itemsAndAmountsCart"));
+    itemArray.push(this.selectedProduct.itemId);
+    itemArray.push(this.amount);
+    sessionStorage.setItem("itemsAndAmountsCart", JSON.stringify(itemArray));
+    this.toastr.success('Producto añadido al carrito.', 'Añadir al carrito');
+    this.closeAddToCartModal();
   }
 }
