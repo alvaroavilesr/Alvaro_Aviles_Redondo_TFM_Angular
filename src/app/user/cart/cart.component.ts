@@ -69,7 +69,37 @@ export class CartComponent implements OnInit {
     modal.show();
   }
 
-  openDeleteFromCartModal(product: any) {
+  closeDeleteFromCartModal(){
+    const modalElement = document.getElementById('deleteFromCart');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
 
+  openDeleteFromCartModal(product: any) {
+    this.selectedProduct = {...product}
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('deleteFromCart'));
+    modal.show();
+  }
+
+  deleteProductFromCart() {
+    let itemsAndAmountsCart = JSON.parse(<string>sessionStorage.getItem("itemsAndAmountsCart"));
+    const newItemsAndAmountsCart = [];
+
+    for (let i = 0; i < itemsAndAmountsCart.length; i += 2) {
+      if (itemsAndAmountsCart[i] !== this.selectedProduct.itemId) {
+        newItemsAndAmountsCart.push(itemsAndAmountsCart[i]);
+        newItemsAndAmountsCart.push(itemsAndAmountsCart[i + 1]);
+      }
+    }
+
+    sessionStorage.setItem("itemsAndAmountsCart", JSON.stringify(newItemsAndAmountsCart));
+
+    this.itemsAndAmounts = newItemsAndAmountsCart;
+    this.loadCart();
+
+    this.closeDeleteFromCartModal();
+    this.toastr.success('Producto eliminado del carrito.', 'Eliminar del carrito');
   }
 }

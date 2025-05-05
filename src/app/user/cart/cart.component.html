@@ -53,3 +53,20 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="deleteFromCart" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteItemLabel">Eliminar del carrito</h5>
+      </div>
+      <div class="modal-body">
+        <p>¿Quieres eliminar el producto del carrito?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeDeleteFromCartModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="deleteProductFromCart()">Eliminar del carrito</button>
+      </div>
+    </div>
+  </div>
+</div>
