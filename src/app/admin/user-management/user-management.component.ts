@@ -26,6 +26,7 @@ export class UserManagementComponent implements OnInit {
   searchTerm: string = '';
   newRole: string = 'User';
   selectedUser: any = null;
+  isLoading: boolean = true;
   createUserModel: CreateUserModel = {
     username: '',
     firstname: '',
@@ -44,9 +45,15 @@ export class UserManagementComponent implements OnInit {
               private readonly toastr: ToastrService) {}
 
   ngOnInit(): void {
-    this.userManagementService.getUsers().subscribe((response) => {
-      this.users = response;
-      this.filteredUsers = this.users;
+    this.userManagementService.getUsers().subscribe({
+      next: (response) => {
+        this.users = response;
+        this.filteredUsers = this.users;
+        this.isLoading = false;
+      },
+      error: () => {
+      this.isLoading = false;
+    }
     });
   }
 
@@ -85,10 +92,7 @@ export class UserManagementComponent implements OnInit {
           next: () => {
             this.toastr.success('Usuario creado correctamente.', 'Crear usuario');
             this.closeCreateUserModal();
-            /* istanbul ignore next */
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            this.ngOnInit();
           },
           error: (error) => {
             if (error.status === 400) {
@@ -123,10 +127,7 @@ export class UserManagementComponent implements OnInit {
           next: () => {
             this.toastr.success('Datos actualizados correctamente.', 'Modificar datos usuario');
             this.closeUpdateUserModal();
-            /* istanbul ignore next */
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            this.ngOnInit();
           },
           error: (error) => {
             if (error.status === 400) {
@@ -188,10 +189,7 @@ export class UserManagementComponent implements OnInit {
         next: () => {
           this.toastr.success('Contraseña actualizada correctamente.', 'Modificar contraseña');
           this.closeUpdateUserPassModal();
-          /* istanbul ignore next */
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          this.ngOnInit();
         },
         error: () => {
           this.toastr.error('Ha ocurrido un error inesperado', 'Modificar contraseña');
@@ -220,10 +218,7 @@ export class UserManagementComponent implements OnInit {
         next: () => {
           this.toastr.success('Rol actualizado correctamente.', 'Modificar rol');
           this.closeUpdateUserRoleModal();
-          /* istanbul ignore next */
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          this.ngOnInit();
         },
         error: () => {
           this.toastr.error('Ha ocurrido un error inesperado.', 'Modificar rol');
@@ -252,10 +247,7 @@ export class UserManagementComponent implements OnInit {
         next: () => {
           this.toastr.success('Usuario eliminado correctamente', 'Eliminar usuario');
           this.closeDeleteUserModal();
-          /* istanbul ignore next */
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          this.ngOnInit();
         },
         error: () => {
           this.toastr.error('Ha ocurrido un error inesperado.', 'Eliminar usuario');

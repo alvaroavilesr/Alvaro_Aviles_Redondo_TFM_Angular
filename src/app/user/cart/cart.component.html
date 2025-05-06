@@ -6,14 +6,14 @@
       </h2>
     </div>
   </div>
-  <div class="row mb-5">
+  <div class="row mb-5" *ngIf="cart.length !== 0">
     <div class="col">
       <button class="btn btn-success" type="button" id="dropdownMenuButton" aria-expanded="false">
         Hacer pedido
       </button>
     </div>
   </div>
-  <div class="col-12 mb-3 pt-3" *ngIf="products.length === 0 || cart.length === 0">
+  <div class="col-12 mb-3 pt-3" *ngIf="!isLoading && (products.length === 0 || cart.length === 0)">
     <div class="alert alert-danger" role="alert">
       No hay productos en el carrito.
     </div>

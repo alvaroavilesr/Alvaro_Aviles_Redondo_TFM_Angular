@@ -20,6 +20,7 @@ export class CartComponent implements OnInit {
   cart: any[] = [];
   itemsAndAmounts: any[] = [];
   selectedProduct: any = null;
+  isLoading: boolean = true;
 
   constructor(private readonly cartService: CartService,
               private readonly toastr: ToastrService) {}
@@ -30,28 +31,34 @@ export class CartComponent implements OnInit {
   }
 
   loadCart() {
-    this.cartService.getItems().subscribe((response) => {
-      this.products = response;
+    this.cartService.getItems().subscribe({
+      next: (response) => {
+        this.products = response;
 
-      const quantityByProductId = new Map<number, number>();
+        const quantityByProductId = new Map<number, number>();
 
-      for (let i = 0; i < this.itemsAndAmounts.length; i += 2) {
-        const productId = this.itemsAndAmounts[i];
-        const quantity = this.itemsAndAmounts[i + 1];
+        for (let i = 0; i < this.itemsAndAmounts.length; i += 2) {
+          const productId = this.itemsAndAmounts[i];
+          const quantity = this.itemsAndAmounts[i + 1];
 
-        if (quantityByProductId.has(productId)) {
-          quantityByProductId.set(productId, quantityByProductId.get(productId)! + quantity);
-        } else {
-          quantityByProductId.set(productId, quantity);
+          if (quantityByProductId.has(productId)) {
+            quantityByProductId.set(productId, quantityByProductId.get(productId)! + quantity);
+          } else {
+            quantityByProductId.set(productId, quantity);
+          }
         }
-      }
 
-      this.cart = this.products
-        .filter(product => quantityByProductId.has(product.itemId))
-        .map(product => ({
-          ...product,
-          quantity: quantityByProductId.get(product.itemId)
-        }));
+        this.cart = this.products
+          .filter(product => quantityByProductId.has(product.itemId))
+          .map(product => ({
+            ...product,
+            quantity: quantityByProductId.get(product.itemId)
+          }));
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+      }
     });
   }
 

@@ -34,17 +34,17 @@
       </div>
     </div>
   </div>
-  <div class="col-12 mb-3" *ngIf="products.length === 0">
+  <div class="col-12 mb-3" *ngIf="!isLoading && products.length === 0">
     <div class="alert alert-danger" role="alert">
       No hay productos disponibles.
     </div>
   </div>
-  <div class="col-12 mb-3" *ngIf="filteredProducts.length === 0 && selectedCategory !== 'Any' && searchTerm === ''">
+  <div class="col-12 mb-3" *ngIf="!isLoading && filteredProducts.length === 0 && selectedCategory !== 'Any' && searchTerm === ''">
     <div class="alert alert-danger" role="alert">
       No hay productos disponibles para la categoria seleccionada.
     </div>
   </div>
-  <div class="col-12 mb-3" *ngIf="filteredProducts.length === 0 && searchTerm !== ''">
+  <div class="col-12 mb-3" *ngIf="!isLoading && filteredProducts.length === 0 && searchTerm !== ''">
     <div class="alert alert-danger" role="alert">
       No hay productos que coincidan con la búsqueda.
     </div>

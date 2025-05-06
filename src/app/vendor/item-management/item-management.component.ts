@@ -27,6 +27,7 @@ export class ItemManagementComponent implements OnInit {
   updateCategory: string = '';
   selectedCategory: string = 'Any';
   selectedProduct: any = null;
+  isLoading: boolean = true;
   createItemModel = {
     itemName: '',
     itemDescription: '',
@@ -39,9 +40,19 @@ export class ItemManagementComponent implements OnInit {
               private readonly toastr: ToastrService) {}
 
   ngOnInit(): void {
-    this.itemManagementService.getItems().subscribe((response) => {
-      this.products = response;
-      this.filteredProducts = this.products;
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
+    this.itemManagementService.getItems().subscribe({
+      next: (response) => {
+        this.products = response;
+        this.filteredProducts = this.products;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+      }
     });
     this.itemManagementService.getCategories().subscribe((response) => {
       this.categories = response;
@@ -112,10 +123,7 @@ export class ItemManagementComponent implements OnInit {
           next: () => {
             this.toastr.success('Producto creado correctamente.', 'Crear producto');
             this.closeCreateProductModal();
-            /* istanbul ignore next */
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            this.loadProducts();
           },
           error: () => {
             this.toastr.error('Ha ocurrido un error inesperado', 'Crear producto');
@@ -150,10 +158,7 @@ export class ItemManagementComponent implements OnInit {
         next: () => {
           this.toastr.success('Producto eliminado correctamente.', 'Eliminar producto');
           this.closeDeleteProductModal();
-          /* istanbul ignore next */
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          this.loadProducts();
         },
         error: () => {
           this.toastr.error('El producto está asociado a un pedido.', 'Eliminar producto');
@@ -200,10 +205,7 @@ export class ItemManagementComponent implements OnInit {
           next: () => {
             this.toastr.success('Producto modificado correctamente.', 'Modificar producto');
             this.closeUpdateProductModal();
-            /* istanbul ignore next */
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            this.loadProducts();
           },
           error: () => {
             this.toastr.error('Ha ocurrido un error inesperado.', 'Modificar producto');
@@ -237,10 +239,7 @@ export class ItemManagementComponent implements OnInit {
           next: () => {
             this.toastr.success('Categoria modificada correctamente.', 'Modificar categoria producto');
             this.closeUpdateItemCategoryModal();
-            /* istanbul ignore next */
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            this.loadProducts();
           },
           error: () => {
             this.toastr.error('Ha ocurrido un error inesperado.', 'Modificar categoria producto');

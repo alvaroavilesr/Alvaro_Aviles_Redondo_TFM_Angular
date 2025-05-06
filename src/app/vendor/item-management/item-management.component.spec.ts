@@ -245,6 +245,8 @@ describe('ItemManagementComponent', () => {
 
   it('ITEM MANAGEMENT - should delete product successfully', () => {
     component.selectedProduct = { itemId: 1, name: 'Product 1' };
+    itemManagementService.getItems.and.returnValue(of([]));
+    itemManagementService.getCategories.and.returnValue(of([]));
     itemManagementService.deleteItem.and.returnValue(of({}));
 
     spyOn(component, 'closeDeleteProductModal');
@@ -276,6 +278,8 @@ describe('ItemManagementComponent', () => {
       itemImage: 'image.jpg'
     };
     component.createItemCategory = 'Category 1';
+    itemManagementService.getItems.and.returnValue(of([]));
+    itemManagementService.getCategories.and.returnValue(of([]));
     itemManagementService.createItem.and.returnValue(of({}));
 
     spyOn(component, 'closeCreateProductModal');
@@ -389,6 +393,8 @@ describe('ItemManagementComponent', () => {
       image: 'image.jpg',
       category: 'Category 1'
     };
+    itemManagementService.getItems.and.returnValue(of([]));
+    itemManagementService.getCategories.and.returnValue(of([]));
     itemManagementService.updateItem.and.returnValue(of({}));
 
     spyOn(component, 'closeUpdateProductModal');
@@ -461,6 +467,8 @@ describe('ItemManagementComponent', () => {
   it('ITEM MANAGEMENT - should update category successfully when updateCategory is valid', () => {
     component.updateCategory = 'New Category';
     component.selectedProduct = { itemId: 1 };
+    itemManagementService.getItems.and.returnValue(of([]));
+    itemManagementService.getCategories.and.returnValue(of([]));
     itemManagementService.updateItemCategory.and.returnValue(of({}));
 
     spyOn(component, 'closeUpdateItemCategoryModal');

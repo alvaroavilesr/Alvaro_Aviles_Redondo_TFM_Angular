@@ -75,6 +75,8 @@ describe('CategoryManagement tests', () => {
     categoryManagementService.createCategory.and.returnValue(of({}));
     spyOn(component, 'closeCreateCategoryModal');
 
+    categoryManagementService.getCategories.and.returnValue(of([]));
+
     component.createCategory();
 
     expect(categoryManagementService.createCategory).toHaveBeenCalledWith(categoryName);
@@ -143,6 +145,7 @@ describe('CategoryManagement tests', () => {
   it('CATEGORY MANAGEMENT - should update category successfully', () => {
     component.selectedCategory = { id: 1, name: 'Category 1', categoryId: 1 };
     component.updateCategoryName = 'Updated Category';
+    categoryManagementService.getCategories.and.returnValue(of([]));
     categoryManagementService.updateCategory.and.returnValue(of({}));
     spyOn(component, 'closeUpdateCategoryModal');
     component.updateCategory();
@@ -191,6 +194,7 @@ describe('CategoryManagement tests', () => {
 
   it('CATEGORY MANAGEMENT - should delete category successfully', () => {
     component.selectedCategory = { id: 1, name: 'Category 1', categoryId: 1 };
+    categoryManagementService.getCategories.and.returnValue(of([]));
     categoryManagementService.deleteCategory.and.returnValue(of({}));
     spyOn(component, 'closeDeleteCategoryModal');
 

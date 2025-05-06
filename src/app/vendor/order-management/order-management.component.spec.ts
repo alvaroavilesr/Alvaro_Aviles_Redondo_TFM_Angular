@@ -167,6 +167,7 @@ describe('OrderManagementComponent tests', () => {
 
   it('ORDER MANAGEMENT COMPONENT - debería eliminar un pedido correctamente', () => {
     component.selectedOrder = { orderId: 123, userName: 'Test User', total: 100 };
+    orderManagementService.getOrders.and.returnValue(of([]));
     orderManagementService.deleteOrder.and.returnValue(of({}));
 
     spyOn(component, 'closeDeleteOrderModal');

@@ -22,14 +22,24 @@ export class OrderManagementComponent implements OnInit {
   searchTerm: string = '';
   selectedOrder: any = null;
   formattedDate: any = null;
+  isLoading: boolean = true;
 
   constructor(private readonly orderManagementService: OrderManagementService,
               private readonly toastr: ToastrService) {}
 
   ngOnInit(): void {
-    this.orderManagementService.getOrders().subscribe((response) => {
-      this.orders = response;
-      this.filteredOrders = this.orders;
+    this.loadOrders();
+  }
+
+  loadOrders(): void {
+    this.orderManagementService.getOrders().subscribe({
+      next: (response) => {
+        this.orders = response;
+        this.filteredOrders = this.orders;
+        this.isLoading = false;
+      }, error: () => {
+        this.isLoading = false;
+      }
     });
   }
 
@@ -75,10 +85,7 @@ export class OrderManagementComponent implements OnInit {
         next: () => {
           this.toastr.success('Pedido eliminado correctamente.', 'Eliminar pedido');
           this.closeDeleteOrderModal();
-          /* istanbul ignore next */
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          this.loadOrders();
         },
         error: () => {
           this.toastr.error('Ha ocurrido un error inesperado.', 'Eliminar pedido');
