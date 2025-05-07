@@ -680,4 +680,62 @@ describe('ApiService tests', () => {
     expect(req.request.headers.get('Authorization')).toBe(`Bearer ${token}`);
     req.flush(mockResponse);
   });
+
+  it('API SERVICE - debería enviar una solicitud POST para crear un pedido con encabezado de autorización', () => {
+    const mockToken = 'mock-jwt-token';
+    const mockUserName = 'testUser';
+    sessionStorage.setItem('JWT', mockToken);
+    sessionStorage.setItem('UserName', mockUserName);
+
+    const orderModel = {
+      date: '2023-06-15',
+      address: 'Calle Test 123',
+      itemIdsAndAmounts: {1: 2, 2: 1}
+    };
+
+    const mockResponse = { orderId: 1, message: 'Pedido creado correctamente' };
+
+    service.createOrder(orderModel).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.CREATE_ORDER}/${mockUserName}`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+    expect(req.request.headers.get('Content-Type')).toBe('application/json');
+    expect(req.request.body).toEqual({
+      date: '2023-06-15',
+      address: 'Calle Test 123',
+      itemIdsAndAmounts: {1: 2, 2: 1}
+    });
+
+    req.flush(mockResponse);
+  });
+
+  it('API SERVICE - debería enviar una solicitud GET para obtener un pedido específico con encabezado de autorización', () => {
+    const mockToken = 'mock-jwt-token';
+    sessionStorage.setItem('JWT', mockToken);
+
+    const orderId = 1;
+    const mockResponse = {
+      orderId: 1,
+      date: '2023-06-15',
+      address: 'Calle Test 123',
+      items: [
+        { itemId: 1, quantity: 2, price: 100 },
+        { itemId: 2, quantity: 1, price: 50 }
+      ],
+      total: 250
+    };
+
+    service.getOrder(orderId).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${EndPoints.GET_ORDER}/${orderId}`);
+    expect(req.request.method).toBe('GET');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+
+    req.flush(mockResponse);
+  });
 });
