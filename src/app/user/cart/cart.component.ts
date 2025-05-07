@@ -3,6 +3,8 @@ import {FormsModule} from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
 import {CartService} from './cart.service';
+import {OrderModel} from '../../shared/models/order.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -21,9 +23,14 @@ export class CartComponent implements OnInit {
   itemsAndAmounts: any[] = [];
   selectedProduct: any = null;
   isLoading: boolean = true;
-
+  orderModel: OrderModel = {
+    date: new Date(),
+    address: '',
+    itemIdsAndAmounts: []
+  };
   constructor(private readonly cartService: CartService,
-              private readonly toastr: ToastrService) {}
+              private readonly toastr: ToastrService,
+              private readonly router: Router) {}
 
   ngOnInit(): void {
     this.itemsAndAmounts = JSON.parse(<string>sessionStorage.getItem('itemsAndAmountsCart'));
@@ -31,6 +38,11 @@ export class CartComponent implements OnInit {
   }
 
   loadCart() {
+    if (!this.itemsAndAmounts || this.itemsAndAmounts.length === 0) {
+      this.cart = [];
+      this.isLoading = false;
+      return;
+    }
     this.cartService.getItems().subscribe({
       next: (response) => {
         this.products = response;
@@ -108,5 +120,40 @@ export class CartComponent implements OnInit {
 
     this.closeDeleteFromCartModal();
     this.toastr.success('Producto eliminado del carrito.', 'Eliminar del carrito');
+  }
+
+  closeMakeOrderModal(){
+    const modalElement = document.getElementById('makeOrder');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
+
+  openMakeOrderModal() {
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('makeOrder'));
+    modal.show();
+  }
+
+  makeOrder() {
+    if (!this.orderModel.address || this.orderModel.address.trim() === '') {
+      this.toastr.error('Por favor, introduce una dirección.', 'Hacer pedido');
+    }else {
+      this.orderModel.date = new Date();
+      this.orderModel.itemIdsAndAmounts = this.itemsAndAmounts;
+      this.cartService
+        .makeOrder(this.orderModel)
+        .subscribe({
+          next: (response) => {
+            sessionStorage.removeItem('itemsAndAmountsCart');
+            sessionStorage.setItem('orderId', response.orderId);
+            this.closeMakeOrderModal();
+            this.router.navigate(['/orderSummary']);
+          },
+          error: () => {
+            this.toastr.error('Ha ocurrido un error inesperado.', 'Hacer pedido');
+          }
+        });
+    }
   }
 }

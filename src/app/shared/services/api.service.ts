@@ -277,4 +277,30 @@ export class ApiService {
 
     return this.http.delete(EndPoints.DELETE_ORDER + '/' + id,  { headers });
   }
+
+  createOrder(orderModel: any): Observable<any> {
+    const userName = sessionStorage.getItem('UserName');
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const body = {
+      date: orderModel.date,
+      address: orderModel.address,
+      itemIdsAndAmounts: orderModel.itemIdsAndAmounts
+    };
+
+    return this.http.post(EndPoints.CREATE_ORDER + "/" + userName , body, { headers });
+  }
+
+  getOrder(orderId: any): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(EndPoints.GET_ORDER + '/' + orderId , { headers });
+  }
 }

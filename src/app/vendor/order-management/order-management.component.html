@@ -16,7 +16,7 @@
       </div>
     </div>
   </div>
-  <div class="col-12 mb-3" *ngIf="!isLoading || orders.length === 0">
+  <div class="col-12 mb-3" *ngIf="!isLoading && orders.length === 0">
     <div class="alert alert-danger" role="alert">
       No hay pedidos disponibles.
     </div>

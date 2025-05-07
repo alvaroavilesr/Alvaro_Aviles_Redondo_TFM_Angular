@@ -36,6 +36,9 @@ export class OrderManagementComponent implements OnInit {
       next: (response) => {
         this.orders = response;
         this.filteredOrders = this.orders;
+        this.filteredOrders.forEach(order => {
+          order.price = parseFloat(order.price.toFixed(2));
+        });
         this.isLoading = false;
       }, error: () => {
         this.isLoading = false;
@@ -59,6 +62,7 @@ export class OrderManagementComponent implements OnInit {
 
   openDetailsOrderModal(order: any) {
     this.selectedOrder = {...order}
+    this.selectedOrder.price = parseFloat(this.selectedOrder.price.toFixed(2));
     this.formattedDate = this.selectedOrder.date.split('T')[0].split('-').reverse().join('/');
     const modal = new (window as any).bootstrap.Modal(document.getElementById('detailsOrder'));
     modal.show();
@@ -74,6 +78,7 @@ export class OrderManagementComponent implements OnInit {
 
   openDeleteOrderModal(order: any) {
     this.selectedOrder = {...order}
+    this.selectedOrder.price = parseFloat(this.selectedOrder.price.toFixed(2));
     const modal = new (window as any).bootstrap.Modal(document.getElementById('deleteOrder'));
     modal.show();
   }

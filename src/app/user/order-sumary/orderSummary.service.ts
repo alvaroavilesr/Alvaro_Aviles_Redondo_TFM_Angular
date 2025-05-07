@@ -4,16 +4,13 @@ import {ApiService} from '../../shared/services/api.service';
 import {OrderModel} from '../../shared/models/order.model';
 
 @Injectable({providedIn: 'root'})
-export class CartService {
+export class OrderSummaryService {
 
   constructor(private readonly apiService: ApiService) {
   }
 
-  getItems(): Observable<any> {
-    return this.apiService.getItems();
+  getOrder(orderId: any): Observable<any> {
+    return this.apiService.getOrder(orderId);
   }
 
-  makeOrder(orderModel: OrderModel): Observable<any> {
-    return this.apiService.createOrder(orderModel);
-  }
 }

@@ -8,7 +8,7 @@
   </div>
   <div class="row mb-5" *ngIf="cart.length !== 0">
     <div class="col">
-      <button class="btn btn-success" type="button" id="dropdownMenuButton" aria-expanded="false">
+      <button class="btn btn-success" type="button" id="dropdownMenuButton" aria-expanded="false" (click)="openMakeOrderModal()">
         Hacer pedido
       </button>
     </div>
@@ -66,6 +66,28 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeDeleteFromCartModal()">Cancelar</button>
         <button type="button" class="btn btn-primary" (click)="deleteProductFromCart()">Eliminar del carrito</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="makeOrder" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="makeOrderLabel">Hacer pedido</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="address" class="form-label">Dirección postal</label>
+            <input type="text" class="form-control" id="address" name="address" [(ngModel)]="orderModel.address" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeMakeOrderModal()">Cancelar</button>
+        <button type="button" class="btn btn-success" (click)="makeOrder()">Hacer pedido</button>
       </div>
     </div>
   </div>
