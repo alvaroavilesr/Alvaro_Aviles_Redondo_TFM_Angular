@@ -37,7 +37,9 @@ export class OrderManagementComponent implements OnInit {
         this.orders = response;
         this.filteredOrders = this.orders;
         this.filteredOrders.forEach(order => {
-          order.price = parseFloat(order.price.toFixed(2));
+          if (order.price != null && !isNaN(order.price)) {
+            order.price = parseFloat(order.price.toFixed(2));
+          }
         });
         this.isLoading = false;
       }, error: () => {

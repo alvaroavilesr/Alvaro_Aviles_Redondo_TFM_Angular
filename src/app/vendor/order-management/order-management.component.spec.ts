@@ -100,7 +100,8 @@ describe('OrderManagementComponent tests', () => {
       orderId: 1,
       userName: 'Usuario1',
       date: '2023-11-01T12:00:00',
-      total: 100
+      total: 100,
+      price: 10.10
     };
     const mockModalElement = document.createElement('div');
     const mockModalInstance = jasmine.createSpyObj('Modal', ['show']);
@@ -145,7 +146,8 @@ describe('OrderManagementComponent tests', () => {
       orderId: 1,
       userName: 'Usuario1',
       date: '2023-11-01T12:00:00',
-      total: 100
+      total: 100,
+      price: 10.10
     };
     const mockModalElement = document.createElement('div');
     const mockModalInstance = jasmine.createSpyObj('Modal', ['show']);
