@@ -18,4 +18,5 @@ export class EndPoints {
   static readonly DELETE_ORDER = 'http://localhost:8082/api/order';
   static readonly CREATE_ORDER = 'http://localhost:8082/api/order';
   static readonly GET_ORDER = 'http://localhost:8082/api/order';
+  static readonly GET_USER_ORDERS = 'http://localhost:8082/api/orders';
 }

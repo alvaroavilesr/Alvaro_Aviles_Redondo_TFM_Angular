@@ -15,6 +15,7 @@ import {ItemManagementComponent} from './vendor/item-management/item-management.
 import {OrderManagementComponent} from './vendor/order-management/order-management.component';
 import {CartComponent} from './user/cart/cart.component';
 import {OrderSumaryComponent} from './user/order-sumary/order-sumary.component';
+import {OwnOrdersComponent} from './user/own-orders/own-orders.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -30,6 +31,11 @@ export const routes: Routes = [
   },
   { path: 'cart',
     component: CartComponent,
+    canActivate: [RoleGuardService],
+    data: { roles: [Roles.USER] }
+  },
+  { path: 'own-orders',
+    component: OwnOrdersComponent,
     canActivate: [RoleGuardService],
     data: { roles: [Roles.USER] }
   },

@@ -738,4 +738,30 @@ describe('ApiService tests', () => {
 
     req.flush(mockResponse);
   });
+
+  it('API SERVICE - debería obtener los pedidos de un usuario con token de autorización', () => {
+    const mockToken = 'mock-jwt-token';
+    const mockUserName = 'testUser';
+    const mockOrders = [
+      { orderId: 1, date: '2023-06-15', status: 'COMPLETED', total: 150 },
+      { orderId: 2, date: '2023-07-20', status: 'PROCESSING', total: 75 }
+    ];
+
+    spyOn(sessionStorage, 'getItem').and.callFake((key) => {
+      if (key === 'JWT') return mockToken;
+      if (key === 'UserName') return mockUserName;
+      return null;
+    });
+
+    service.getUserOrders().subscribe(orders => {
+      expect(orders).toEqual(mockOrders);
+    });
+
+    const expectedUrl = EndPoints.GET_USER_ORDERS + '/' + mockUserName;
+    const req = httpMock.expectOne(expectedUrl);
+    expect(req.request.method).toBe('GET');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+
+    req.flush(mockOrders);
+  });
 });

@@ -90,6 +90,12 @@
             <i class="bi bi-cart-fill"></i>
           </a>
         </li>
+        <li class="nav-item" *ngIf="isLoggedIn && userRole == 'User'">
+          <a class="nav-link" routerLink="own-orders" routerLinkActive="active">
+            Mis pedidos
+            <i class="bi bi-bookmarks-fill"></i>
+          </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="profile" routerLinkActive="active">
             Perfil
