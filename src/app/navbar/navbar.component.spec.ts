@@ -42,7 +42,7 @@ describe('NavbarComponent tests', () => {
     authServiceSubject.next(true);
     userRoleSubject.next('User');
     fixture.detectChanges();
-    expect(fixture.debugElement.query(By.css("[routerLink='user-home']"))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css("[routerLink='shop']"))).toBeTruthy();
 
     userRoleSubject.next('Vendor');
     fixture.detectChanges();

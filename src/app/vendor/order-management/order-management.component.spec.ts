@@ -100,7 +100,8 @@ describe('OrderManagementComponent tests', () => {
       orderId: 1,
       userName: 'Usuario1',
       date: '2023-11-01T12:00:00',
-      total: 100
+      total: 100,
+      price: 10.10
     };
     const mockModalElement = document.createElement('div');
     const mockModalInstance = jasmine.createSpyObj('Modal', ['show']);
@@ -145,7 +146,8 @@ describe('OrderManagementComponent tests', () => {
       orderId: 1,
       userName: 'Usuario1',
       date: '2023-11-01T12:00:00',
-      total: 100
+      total: 100,
+      price: 10.10
     };
     const mockModalElement = document.createElement('div');
     const mockModalInstance = jasmine.createSpyObj('Modal', ['show']);
@@ -167,6 +169,7 @@ describe('OrderManagementComponent tests', () => {
 
   it('ORDER MANAGEMENT COMPONENT - debería eliminar un pedido correctamente', () => {
     component.selectedOrder = { orderId: 123, userName: 'Test User', total: 100 };
+    orderManagementService.getOrders.and.returnValue(of([]));
     orderManagementService.deleteOrder.and.returnValue(of({}));
 
     spyOn(component, 'closeDeleteOrderModal');
@@ -192,5 +195,37 @@ describe('OrderManagementComponent tests', () => {
       'Ha ocurrido un error inesperado.',
       'Eliminar pedido'
     );
+  });
+
+  it('ORDER MANAGEMENT COMPONENT - ngOnInit debería manejar errores en getItems y establecer isLoading en false', () => {
+    orderManagementService.getOrders.and.returnValue(throwError(() => new Error('Error al obtener pedidos')));
+    component.isLoading = true;
+
+    component.ngOnInit();
+
+    expect(orderManagementService.getOrders).toHaveBeenCalled();
+    expect(component.isLoading).toBeFalse();
+  });
+
+  it('ORDER MANAGEMENT COMPONENT - debería formatear correctamente los precios a 2 decimales', () => {
+    const mockOrders = [
+      { orderId: 1, userName: 'Usuario1', price: 10.12345 },
+      { orderId: 2, userName: 'Usuario2', price: 99.999 },
+      { orderId: 3, userName: 'Usuario3', price: null },
+      { orderId: 4, userName: 'Usuario4', price: NaN },
+      { orderId: 5, userName: 'Usuario5', price: 150 }
+    ];
+
+    orderManagementService.getOrders.and.returnValue(of(mockOrders));
+
+    component.loadOrders();
+
+    expect(component.filteredOrders[0].price).toBe(10.12);
+    expect(component.filteredOrders[1].price).toBe(100);
+    expect(component.filteredOrders[2].price).toBeNull();
+    expect(isNaN(component.filteredOrders[3].price)).toBeTrue()
+    expect(component.filteredOrders[4].price).toBe(150);
+
+    expect(component.isLoading).toBeFalse();
   });
 });

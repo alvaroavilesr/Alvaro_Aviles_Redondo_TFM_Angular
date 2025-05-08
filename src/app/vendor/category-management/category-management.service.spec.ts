@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { CategoryManagementService } from './category-management.service';
 import { ApiService } from '../../shared/services/api.service';
 import { EndPoints } from '../../shared/end-points';
+import {of} from 'rxjs';
 
 describe('CategoryManagementService', () => {
   let service: CategoryManagementService;

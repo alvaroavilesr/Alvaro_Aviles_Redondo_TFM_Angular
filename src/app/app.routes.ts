@@ -13,6 +13,8 @@ import { Roles } from './shared/roles';
 import { ProfileComponent } from './profile/profile.component';
 import {ItemManagementComponent} from './vendor/item-management/item-management.component';
 import {OrderManagementComponent} from './vendor/order-management/order-management.component';
+import {CartComponent} from './user/cart/cart.component';
+import {OrderSumaryComponent} from './user/order-sumary/order-sumary.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -23,6 +25,16 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'shop',
     component: ShopComponent,
+    canActivate: [RoleGuardService],
+    data: { roles: [Roles.USER] }
+  },
+  { path: 'cart',
+    component: CartComponent,
+    canActivate: [RoleGuardService],
+    data: { roles: [Roles.USER] }
+  },
+  { path: 'orderSummary',
+    component: OrderSumaryComponent,
     canActivate: [RoleGuardService],
     data: { roles: [Roles.USER] }
   },

@@ -24,14 +24,25 @@ export class CategoryManagementComponent implements OnInit {
   createCategoryName: string = '';
   updateCategoryName: string = '';
   selectedCategory: any = null;
+  isLoading: boolean = true;
 
   constructor(private readonly categoryManagementService: CategoryManagementService,
               private readonly toastr: ToastrService) {}
 
   ngOnInit(): void {
-    this.categoryManagementService.getCategories().subscribe((response) => {
-      this.categories = response;
-      this.filteredCategories = response;
+    this.loadCategories();
+  }
+
+  loadCategories(): void {
+    this.categoryManagementService.getCategories().subscribe({
+      next: (response) => {
+        this.categories = response;
+        this.filteredCategories = response;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+      }
     });
   }
 
@@ -58,10 +69,7 @@ export class CategoryManagementComponent implements OnInit {
           next: () => {
             this.toastr.success('Categoria creada correctamente.', 'Crear categoria');
             this.closeCreateCategoryModal();
-            /* istanbul ignore next */
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            this.loadCategories();
           },
           error: () => {
             this.toastr.error('El nombre de categoria ya está en uso.', 'Crear categoria');
@@ -101,10 +109,7 @@ export class CategoryManagementComponent implements OnInit {
           next: () => {
             this.toastr.success('Categoria modificada correctamente.', 'Modificar categoria');
             this.closeUpdateCategoryModal();
-            /* istanbul ignore next */
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            this.loadCategories();
           },
           error: () => {
             this.toastr.error('El nombre de categoria ya está en uso.', 'Modificar categoria');
@@ -134,10 +139,7 @@ export class CategoryManagementComponent implements OnInit {
         next: () => {
           this.toastr.success('Categoria eliminada correctamente.', 'Eliminar categoria');
           this.closeDeleteCategoryModal();
-          /* istanbul ignore next */
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          this.loadCategories();
         },
         error: () => {
           this.toastr.error('La categoría ya esta asociada a un producto.', 'Eliminar categoria');

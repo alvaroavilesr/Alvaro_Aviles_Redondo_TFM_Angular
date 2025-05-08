@@ -420,4 +420,14 @@ describe('UserManagementComponent tests', () => {
     );
     expect(userManagementService.updateUserData).not.toHaveBeenCalled();
   });
+
+  it('USER MANAGEMENT - debería manejar errores y establecer isLoading en false cuando falla la llamada al servicio', () => {
+    userManagementService.getUsers.and.returnValue(throwError(() => new Error('Error al obtener usuarios')));
+    component.isLoading = true;
+
+    component.ngOnInit();
+
+    expect(userManagementService.getUsers).toHaveBeenCalled();
+    expect(component.isLoading).toBeFalse();
+  });
 });

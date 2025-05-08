@@ -23,15 +23,21 @@ export class ShopComponent implements OnInit {
   selectedCategory: string = 'Any';
   selectedProduct: any = null;
   amount: any = null;
-  itemArrayEmpty: any = [];
+  isLoading: boolean = true;
 
   constructor(private readonly shopService: ShopService,
               private readonly toastr: ToastrService) {}
 
   ngOnInit(): void {
-    this.shopService.getItems().subscribe((response) => {
-      this.products = response;
-      this.filteredProducts = this.products;
+    this.shopService.getItems().subscribe({
+      next: (response) => {
+        this.products = response;
+        this.filteredProducts = this.products;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+      }
     });
     this.shopService.getCategories().subscribe((response) => {
       this.categories = response;
