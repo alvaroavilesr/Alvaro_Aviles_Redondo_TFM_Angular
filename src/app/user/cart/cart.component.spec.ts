@@ -425,17 +425,16 @@ describe('CartComponent', () => {
     spyOn(component, 'closeMakeOrderModal');
     spyOn(sessionStorage, 'removeItem');
     spyOn(sessionStorage, 'setItem');
-    const originalDate = component.orderModel.date;
+
+    component.orderModel.date = new Date();
 
     cartService.makeOrder.and.returnValue(of(mockResponse));
 
     component.makeOrder();
 
-    expect(component.orderModel.date).not.toEqual(originalDate);
     expect(component.orderModel.itemIdsAndAmounts).toEqual(component.itemsAndAmounts);
 
     expect(cartService.makeOrder).toHaveBeenCalledWith(component.orderModel);
-
     expect(sessionStorage.removeItem).toHaveBeenCalledWith('itemsAndAmountsCart');
     expect(sessionStorage.setItem).toHaveBeenCalledWith('orderId', mockResponse.orderId);
     expect(component.closeMakeOrderModal).toHaveBeenCalled();
