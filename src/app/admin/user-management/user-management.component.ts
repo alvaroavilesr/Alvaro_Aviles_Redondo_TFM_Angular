@@ -177,7 +177,6 @@ export class UserManagementComponent implements OnInit {
           return;
         }
         this.toastr.error('Revisa tus credenciales.', 'Modificar contraseña');
-        return;
       }
     });
   }
