@@ -303,4 +303,14 @@ export class ApiService {
 
     return this.http.get(EndPoints.GET_ORDER + '/' + orderId , { headers });
   }
+
+  getUserOrders(): Observable<any> {
+    const token = sessionStorage.getItem('JWT');
+    const userName = sessionStorage.getItem('UserName');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(EndPoints.GET_USER_ORDERS + '/' + userName , { headers });
+  }
 }
