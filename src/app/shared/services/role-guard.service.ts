@@ -4,7 +4,7 @@ import { Roles } from '../roles';
 
 @Injectable({ providedIn: 'root' })
 export class RoleGuardService implements CanActivate {
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const token = sessionStorage.getItem('JWT');

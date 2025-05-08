@@ -85,7 +85,6 @@ export class ProfileComponent implements OnInit {
         },
         error: () => {
           this.toastr.error('Revisa tus credenciales.', 'Perfil');
-          return;
         }
       });
     } else {
@@ -107,12 +106,10 @@ export class ProfileComponent implements OnInit {
       error: (error) => {
         if (error.status === 401) {
           this.toastr.error('Tu sesión ha expirado.', 'Perfil');
+        } else if (error.status === 400) {
+          this.toastr.error('El formato del correo no es válido', 'Perfil');
         } else {
-          if (error.status === 400) {
-            this.toastr.error('El formato del correo no es válido', 'Perfil');
-          }else{
-            this.toastr.error('Ha ocurrido un error inesperado.', 'Perfil');
-          }
+          this.toastr.error('Ha ocurrido un error inesperado.', 'Perfil');
         }
       }
     });
