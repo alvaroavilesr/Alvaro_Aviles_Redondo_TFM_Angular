@@ -3,9 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ShopComponent } from './shop.component';
 import {ToastrService} from 'ngx-toastr';
 import {ShopService} from './shop.service';
-import {of} from 'rxjs';
+import {of, throwError} from 'rxjs';
 
-describe('UserHomeComponent tests', () => {
+describe('ShopComponent tests', () => {
   let component: ShopComponent;
   let fixture: ComponentFixture<ShopComponent>;
   let shopService: jasmine.SpyObj<ShopService>;
@@ -32,11 +32,11 @@ describe('UserHomeComponent tests', () => {
     toastrService = TestBed.inject(ToastrService) as jasmine.SpyObj<ToastrService>;
   });
 
-  it('USER HOME - should create', () => {
+  it('SHOP - should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('USER HOME - ngOnInit debería llamar a getItems y actualizar productos', () => {
+  it('SHOP - ngOnInit debería llamar a getItems y actualizar productos', () => {
     const mockItems = [{ id: 1, name: 'Product 1' }, { id: 2, name: 'Product 2' }];
 
     shopService.getItems.and.returnValue(of(mockItems));
@@ -49,7 +49,7 @@ describe('UserHomeComponent tests', () => {
     expect(component.filteredProducts).toEqual(mockItems);
   });
 
-  it('USER HOME - ngOnInit debería llamar a getCategories y actualizar categorías', () => {
+  it('SHOP - ngOnInit debería llamar a getCategories y actualizar categorías', () => {
     const mockCategories = [{ id: 1, name: 'Category 1' }, { id: 2, name: 'Category 2' }];
 
     shopService.getItems.and.returnValue(of([]));
@@ -61,7 +61,7 @@ describe('UserHomeComponent tests', () => {
     expect(component.categories).toEqual(mockCategories);
   });
 
-  it('USER HOME - filterProductsByCategory debería actualizar selectedCategory, resetear searchTerm y aplicar filtros', () => {
+  it('SHOP - filterProductsByCategory debería actualizar selectedCategory, resetear searchTerm y aplicar filtros', () => {
     component.selectedCategory = 'Any';
     component.searchTerm = 'test';
 
@@ -74,7 +74,7 @@ describe('UserHomeComponent tests', () => {
     expect(component.applyFilters).toHaveBeenCalled();
   });
 
-  it('USER HOME - searchProducts debería establecer selectedCategory como Any y aplicar filtros', () => {
+  it('SHOP - searchProducts debería establecer selectedCategory como Any y aplicar filtros', () => {
     component.selectedCategory = 'Category 1';
 
     spyOn(component, 'applyFilters');
@@ -85,7 +85,7 @@ describe('UserHomeComponent tests', () => {
     expect(component.applyFilters).toHaveBeenCalled();
   });
 
-  it('USER HOME - applyFilters debería filtrar productos por término de búsqueda', () => {
+  it('SHOP - applyFilters debería filtrar productos por término de búsqueda', () => {
     component.products = [
       { name: 'Product Apple', category: { name: 'Category 1' } },
       { name: 'Product Banana', category: { name: 'Category 1' } },
@@ -101,7 +101,7 @@ describe('UserHomeComponent tests', () => {
     expect(component.filteredProducts[1].name).toBe('Product Banana');
   });
 
-  it('USER HOME - applyFilters debería filtrar productos por categoría', () => {
+  it('SHOP - applyFilters debería filtrar productos por categoría', () => {
     component.products = [
       { name: 'Product 1', category: { name: 'Category 1' } },
       { name: 'Product 2', category: { name: 'Category 1' } },
@@ -116,7 +116,7 @@ describe('UserHomeComponent tests', () => {
     expect(component.filteredProducts[0].name).toBe('Product 3');
   });
 
-  it('USER HOME - applyFilters debería filtrar productos por término de búsqueda y categoría', () => {
+  it('SHOP - applyFilters debería filtrar productos por término de búsqueda y categoría', () => {
     component.products = [
       { name: 'Tech Laptop', category: { name: 'Electronics' } },
       { name: 'Tech Phone', category: { name: 'Electronics' } },
@@ -133,7 +133,7 @@ describe('UserHomeComponent tests', () => {
     expect(component.filteredProducts[1].name).toBe('Tech Phone');
   });
 
-  it('ITEM MANAGEMENT - should close the details product modal', () => {
+  it('SHOP - should close the details product modal', () => {
     const mockModalInstance = jasmine.createSpyObj('modalInstance', ['hide']);
     spyOn(document, 'getElementById').and.returnValue(document.createElement('div'));
     (window as any).bootstrap = {
@@ -148,7 +148,7 @@ describe('UserHomeComponent tests', () => {
     expect(mockModalInstance.hide).toHaveBeenCalled();
   });
 
-  it('ITEM MANAGEMENT - should open the details product modal', () => {
+  it('SHOP - should open the details product modal', () => {
     const mockModalInstance = jasmine.createSpyObj('modalInstance', ['show']);
     spyOn(document, 'getElementById').and.returnValue(document.createElement('div'));
     (window as any).bootstrap = {
@@ -163,7 +163,7 @@ describe('UserHomeComponent tests', () => {
     expect(mockModalInstance.show).toHaveBeenCalled();
   });
 
-  it('ITEM MANAGEMENT - should close the add to cart modal and reset amount', () => {
+  it('SHOP - should close the add to cart modal and reset amount', () => {
     component.amount = 5;
     const mockModalInstance = jasmine.createSpyObj('modalInstance', ['hide']);
     spyOn(document, 'getElementById').and.returnValue(document.createElement('div'));
@@ -180,7 +180,7 @@ describe('UserHomeComponent tests', () => {
     expect(component.amount).toBeNull();
   });
 
-  it('ITEM MANAGEMENT - should open the add to cart modal', () => {
+  it('SHOP - should open the add to cart modal', () => {
     const mockModalInstance = jasmine.createSpyObj('modalInstance', ['show']);
     spyOn(document, 'getElementById').and.returnValue(document.createElement('div'));
     (window as any).bootstrap = {
@@ -195,7 +195,7 @@ describe('UserHomeComponent tests', () => {
     expect(mockModalInstance.show).toHaveBeenCalled();
   });
 
-  it('USER HOME - addToCart should create cart in sessionStorage when empty', () => {
+  it('SHOP - addToCart should create cart in sessionStorage when empty', () => {
     component.selectedProduct = { itemId: 123, name: 'Product Test' };
     component.amount = 2;
 
@@ -220,7 +220,7 @@ describe('UserHomeComponent tests', () => {
     expect(component.closeAddToCartModal).toHaveBeenCalled();
   });
 
-  it('USER HOME - addToCart should add items to existing cart in sessionStorage', () => {
+  it('SHOP - addToCart should add items to existing cart in sessionStorage', () => {
     component.selectedProduct = { itemId: 456, name: 'Another Product' };
     component.amount = 3;
     const existingItems = [789, 1];
@@ -240,7 +240,7 @@ describe('UserHomeComponent tests', () => {
     expect(component.closeAddToCartModal).toHaveBeenCalled();
   });
 
-  it('USER HOME - addToCart should show success message and close modal', () => {
+  it('SHOP - addToCart should show success message and close modal', () => {
     component.selectedProduct = { itemId: 123, name: 'Test Product' };
     component.amount = 1;
     spyOn(sessionStorage, 'getItem').and.returnValue('[]');
@@ -251,5 +251,16 @@ describe('UserHomeComponent tests', () => {
 
     expect(toastrService.success).toHaveBeenCalledWith('Producto añadido al carrito.', 'Añadir al carrito');
     expect(component.closeAddToCartModal).toHaveBeenCalled();
+  });
+
+  it('SHOP - ngOnInit debería manejar errores en getItems y establecer isLoading en false', () => {
+    shopService.getItems.and.returnValue(throwError(() => new Error('Error al obtener productos')));
+    shopService.getCategories.and.returnValue(of([]));
+    component.isLoading = true;
+
+    component.ngOnInit();
+
+    expect(shopService.getItems).toHaveBeenCalled();
+    expect(component.isLoading).toBeFalse();
   });
 });

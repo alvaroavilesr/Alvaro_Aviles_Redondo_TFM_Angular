@@ -490,4 +490,15 @@ describe('ItemManagementComponent', () => {
     expect(itemManagementService.updateItemCategory).toHaveBeenCalledWith(1, 'New Category');
     expect(toastrService.error).toHaveBeenCalledWith('Ha ocurrido un error inesperado.', 'Modificar categoria producto');
   });
+
+  it('ITEM MANAGEMENT - ngOnInit debería manejar errores en getItems y establecer isLoading en false', () => {
+    itemManagementService.getItems.and.returnValue(throwError(() => new Error('Error al obtener productos')));
+    itemManagementService.getCategories.and.returnValue(of([]));
+    component.isLoading = true;
+
+    component.ngOnInit();
+
+    expect(itemManagementService.getItems).toHaveBeenCalled();
+    expect(component.isLoading).toBeFalse();
+  });
 });

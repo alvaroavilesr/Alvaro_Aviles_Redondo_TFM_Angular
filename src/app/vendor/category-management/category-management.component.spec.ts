@@ -236,4 +236,14 @@ describe('CategoryManagement tests', () => {
     );
     expect(categoryManagementService.updateCategory).not.toHaveBeenCalled();
   });
+
+  it('CATEGORY MANAGEMENT - debería manejar errores y establecer isLoading en false cuando falla la llamada al servicio', () => {
+    categoryManagementService.getCategories.and.returnValue(throwError(() => new Error('Error al obtener categorías')));
+    component.isLoading = true;
+
+    component.loadCategories();
+
+    expect(categoryManagementService.getCategories).toHaveBeenCalled();
+    expect(component.isLoading).toBeFalse();
+  });
 });
