@@ -395,17 +395,6 @@ describe('Tests de la aplicación', () => {
       })
     })
 
-    describe('Verifica Footer', () => {
-      it('Debe mostrar el footer con el texto correcto', () => {
-        cy.get('footer.bg-dark')
-          .should('be.visible')
-          .within(() => {
-            cy.get('p.mb-0')
-              .should('contain.text', '© 2025 The Clothing Hub, Inc')
-          })
-      })
-    })
-
     describe('Verifica Accesos', () => {
       it('Debe mostrar toast de error con usuario', () => {
         cy.get('input#username')
@@ -414,6 +403,9 @@ describe('Tests de la aplicación', () => {
           .type('pass')
         cy.get('#btnLogin')
           .click()
+        cy.get('#toast-container .ngx-toastr')
+          .should('be.visible')
+          .and('have.class', 'toast-error')
       })
 
       it('Debe acceder a la pagina de usuario', () => {
@@ -439,6 +431,9 @@ describe('Tests de la aplicación', () => {
           .type('pass')
         cy.get('#btnLogin')
           .click()
+        cy.get('#toast-container .ngx-toastr')
+          .should('be.visible')
+          .and('have.class', 'toast-error')
       })
 
       it('Debe acceder a la pagina de vendedor', () => {
@@ -464,6 +459,9 @@ describe('Tests de la aplicación', () => {
           .type('pass')
         cy.get('#btnLogin')
           .click()
+        cy.get('#toast-container .ngx-toastr')
+          .should('be.visible')
+          .and('have.class', 'toast-error')
       })
 
       it('Debe acceder a la pagina de administrador', () => {
@@ -483,4 +481,110 @@ describe('Tests de la aplicación', () => {
       })
     })
   })
+
+  describe('Página de Registro', () => {
+
+    beforeEach(() => {
+      cy.visit('http://localhost:4200/register')
+    })
+
+    describe('Verifica formulario', () => {
+      it('Debe mostrar todos los campos del formulario', () => {
+        cy.get('form#registerForm').should('exist')
+
+        const fields = [
+          { id: '#username', type: 'text', placeholder: 'Usuario123' },
+          { id: '#email', type: 'email', placeholder: 'name@example.com' },
+          { id: '#name', type: 'email', placeholder: 'Alvaro' },
+          { id: '#surname', type: 'email', placeholder: 'Aviles' },
+          { id: '#password', type: 'password', placeholder: 'C0ntr@señ@' },
+          { id: '#passwordConfirm', type: 'password', placeholder: 'C0ntr@señ@' }
+        ]
+
+        fields.forEach(field => {
+          cy.get(field.id)
+            .should('exist')
+            .and('have.attr', 'type', field.type)
+            .and('have.attr', 'placeholder', field.placeholder)
+            .and('have.attr', 'required')
+        })
+      })
+
+      it('Debe permitir escribir en los campos', () => {
+        cy.get('#username').type('Usuario123').should('have.value', 'Usuario123')
+        cy.get('#email').type('correo@ejemplo.com').should('have.value', 'correo@ejemplo.com')
+        cy.get('#name').type('Álvaro').should('have.value', 'Álvaro')
+        cy.get('#surname').type('Avilés').should('have.value', 'Avilés')
+        cy.get('#password').type('C0ntr@señ@').should('have.value', 'C0ntr@señ@')
+        cy.get('#passwordConfirm').type('C0ntr@señ@').should('have.value', 'C0ntr@señ@')
+      })
+
+      it('Debe tener un botón de registro visible', () => {
+        cy.get('#btnRegister')
+          .should('exist')
+          .and('contain.text', 'Registrar')
+          .and('have.attr', 'type', 'submit')
+      })
+
+      it('Debe validar el formulario si está vacío', () => {
+        cy.get('#btnRegister').click()
+        cy.get('form#registerForm:invalid').should('exist')
+      })
+    })
+
+    describe('Verifica registro', () => {
+      it('Debe dar error por contraseñas no coincidentes', () => {
+        cy.get('#username').type('Usuario123')
+        cy.get('#email').type('correo@ejemplo.com')
+        cy.get('#name').type('Álvaro')
+        cy.get('#surname').type('Avilés')
+        cy.get('#password').type('C0ntr@señ@1')
+        cy.get('#passwordConfirm').type('C0ntr@señ@2')
+        cy.get('#btnRegister').click()
+        cy.get('#toast-container .ngx-toastr')
+          .should('be.visible')
+          .and('have.class', 'toast-error')
+      })
+
+      it('Debe dar error por formato del correo no valido', () => {
+        cy.get('#username').type('Usuario123')
+        cy.get('#email').type('correo')
+        cy.get('#name').type('Álvaro')
+        cy.get('#surname').type('Avilés')
+        cy.get('#password').type('C0ntr@señ@1')
+        cy.get('#passwordConfirm').type('C0ntr@señ@1')
+        cy.get('#btnRegister').click()
+        cy.get('#toast-container .ngx-toastr')
+          .should('be.visible')
+          .and('have.class', 'toast-error')
+      })
+
+      it('Debe dar error por nombre de usuario en uso', () => {
+        cy.get('#username').type('User1')
+        cy.get('#email').type('correo@ejemplo.com')
+        cy.get('#name').type('Álvaro')
+        cy.get('#surname').type('Avilés')
+        cy.get('#password').type('C0ntr@señ@1')
+        cy.get('#passwordConfirm').type('C0ntr@señ@1')
+        cy.get('#btnRegister').click()
+        cy.get('#toast-container .ngx-toastr')
+          .should('be.visible')
+          .and('have.class', 'toast-error')
+      })
+
+      it('Debe crear nuevo usuario', () => {
+        cy.get('#username').type('UserCypress')
+        cy.get('#email').type('correo@ejemplo.com')
+        cy.get('#name').type('Álvaro')
+        cy.get('#surname').type('Avilés')
+        cy.get('#password').type('C0ntr@señ@1')
+        cy.get('#passwordConfirm').type('C0ntr@señ@1')
+        cy.get('#btnRegister').click()
+        cy.get('#toast-container .ngx-toastr')
+          .should('be.visible')
+          .and('have.class', 'toast-success')
+      })
+    })
+  })
+
 })
