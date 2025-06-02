@@ -131,7 +131,224 @@ describe('Tests de la aplicación', () => {
       it('Debe mostrar el título Ayuda', () => {
         cy.contains('h2', 'Ayuda').should('exist')
       })
+
+      it('Debe mostrar persona de contacto', () => {
+        cy.contains('p', 'Persona de contacto').should('exist')
+      })
+
+      it('Debe mostrar email de contacto', () => {
+        cy.contains('p', 'Email de contacto').should('exist')
+      })
+    })
+
+    describe('Verifica Footer', () => {
+      it('Debe mostrar el footer con el texto correcto', () => {
+        cy.get('footer.bg-dark')
+          .should('be.visible')
+          .within(() => {
+            cy.get('p.mb-0')
+              .should('contain.text', '© 2025 The Clothing Hub, Inc')
+          })
+      })
+    })
+
+    describe('Verifica Navbar', () => {
+      it('Debe mostrar el navbar con el título correcto', () => {
+        cy.get('nav.navbar').should('be.visible')
+        cy.get('nav.navbar .navbar-brand').should('contain.text', 'The Clothing Hub')
+      })
+
+      it('Debe mostrar los enlaces principales correctos', () => {
+        const mainLinks = [
+          {text: 'Home', href: '/home'},
+          {text: 'Ayuda', href: '/help'},
+          {text: 'Contacto', href: '/contact'},
+          {text: 'Sobre nosotros', href: '/about'}
+        ]
+
+        mainLinks.forEach(link => {
+          cy.get('nav.navbar ul.navbar-nav.me-auto li.nav-item a.nav-link')
+            .contains(link.text)
+            .should('have.attr', 'href', link.href)
+        })
+      })
+
+      it('Debe mostrar los enlaces de usuario no logueado', () => {
+        const userLinks = [
+          {text: 'Login', href: '/login'},
+          {text: 'Registro', href: '/register'}
+        ]
+
+        userLinks.forEach(link => {
+          cy.get('nav.navbar ul#notLoggedMenu li.nav-item a.nav-link')
+            .contains(link.text)
+            .should('have.attr', 'href', link.href)
+        })
+      })
+
+      it('Al hacer click en Contacto navega a la página correcta', () => {
+        cy.get('nav.navbar ul.navbar-nav.me-auto li.nav-item a.nav-link')
+          .contains('Contacto')
+          .click()
+
+        cy.url().should('include', '/contact')
+      })
     })
   })
 
+  describe('Pantalla de Contacto', () => {
+
+    beforeEach(() => {
+      cy.visit('http://localhost:4200/contact')
+    })
+
+    describe('Verifica textos', () => {
+      it('Debe mostrar el título Contacto', () => {
+        cy.contains('h2', 'Contacto').should('exist')
+      })
+
+      it('Debe mostrar persona de contacto', () => {
+        cy.contains('p', 'Persona de contacto').should('exist')
+      })
+
+      it('Debe mostrar email de contacto', () => {
+        cy.contains('p', 'Email de contacto').should('exist')
+      })
+    })
+
+    describe('Verifica Footer', () => {
+      it('Debe mostrar el footer con el texto correcto', () => {
+        cy.get('footer.bg-dark')
+          .should('be.visible')
+          .within(() => {
+            cy.get('p.mb-0')
+              .should('contain.text', '© 2025 The Clothing Hub, Inc')
+          })
+      })
+    })
+
+    describe('Verifica Navbar', () => {
+      it('Debe mostrar el navbar con el título correcto', () => {
+        cy.get('nav.navbar').should('be.visible')
+        cy.get('nav.navbar .navbar-brand').should('contain.text', 'The Clothing Hub')
+      })
+
+      it('Debe mostrar los enlaces principales correctos', () => {
+        const mainLinks = [
+          {text: 'Home', href: '/home'},
+          {text: 'Ayuda', href: '/help'},
+          {text: 'Contacto', href: '/contact'},
+          {text: 'Sobre nosotros', href: '/about'}
+        ]
+
+        mainLinks.forEach(link => {
+          cy.get('nav.navbar ul.navbar-nav.me-auto li.nav-item a.nav-link')
+            .contains(link.text)
+            .should('have.attr', 'href', link.href)
+        })
+      })
+
+      it('Debe mostrar los enlaces de usuario no logueado', () => {
+        const userLinks = [
+          {text: 'Login', href: '/login'},
+          {text: 'Registro', href: '/register'}
+        ]
+
+        userLinks.forEach(link => {
+          cy.get('nav.navbar ul#notLoggedMenu li.nav-item a.nav-link')
+            .contains(link.text)
+            .should('have.attr', 'href', link.href)
+        })
+      })
+
+      it('Al hacer click en Sobre nosotros navega a la página correcta', () => {
+        cy.get('nav.navbar ul.navbar-nav.me-auto li.nav-item a.nav-link')
+          .contains('Sobre nosotros')
+          .click()
+
+        cy.url().should('include', '/about')
+      })
+    })
+  })
+
+  describe('Pantalla de Sobre Nosotros', () => {
+
+    beforeEach(() => {
+      cy.visit('http://localhost:4200/about')
+    })
+
+    describe('Verifica textos', () => {
+      it('Debe mostrar el título Sobre Nosotros', () => {
+        cy.contains('h2', 'Sobre nosotros').should('exist')
+      })
+
+      it('Debe mostrar parrafo', () => {
+        cy.contains('p', 'Actualmente seguimos en crecimiento').should('exist')
+      })
+    })
+
+    describe('Verifica Footer', () => {
+      it('Debe mostrar el footer con el texto correcto', () => {
+        cy.get('footer.bg-dark')
+          .should('be.visible')
+          .within(() => {
+            cy.get('p.mb-0')
+              .should('contain.text', '© 2025 The Clothing Hub, Inc')
+          })
+      })
+    })
+
+    describe('Verifica Imagenes', () => {
+      it('Debe mostrar imagen 1', () => {
+        cy.get('img[src="images/Sostenible.jpg"]').should('exist')
+      })
+
+      it('Debe mostrar imagen 2', () => {
+        cy.get('img[src="images/Moda.jpg"]').should('exist')
+      })
+    })
+
+    describe('Verifica Navbar', () => {
+      it('Debe mostrar el navbar con el título correcto', () => {
+        cy.get('nav.navbar').should('be.visible')
+        cy.get('nav.navbar .navbar-brand').should('contain.text', 'The Clothing Hub')
+      })
+
+      it('Debe mostrar los enlaces principales correctos', () => {
+        const mainLinks = [
+          {text: 'Home', href: '/home'},
+          {text: 'Ayuda', href: '/help'},
+          {text: 'Contacto', href: '/contact'},
+          {text: 'Sobre nosotros', href: '/about'}
+        ]
+
+        mainLinks.forEach(link => {
+          cy.get('nav.navbar ul.navbar-nav.me-auto li.nav-item a.nav-link')
+            .contains(link.text)
+            .should('have.attr', 'href', link.href)
+        })
+      })
+
+      it('Debe mostrar los enlaces de usuario no logueado', () => {
+        const userLinks = [
+          {text: 'Login', href: '/login'},
+          {text: 'Registro', href: '/register'}
+        ]
+
+        userLinks.forEach(link => {
+          cy.get('nav.navbar ul#notLoggedMenu li.nav-item a.nav-link')
+            .contains(link.text)
+            .should('have.attr', 'href', link.href)
+        })
+      })
+
+      it('Al hacer click en Login', () => {
+        cy.get('nav.navbar a.nav-link')
+          .contains('Login')
+          .click()
+
+        cy.url().should('include', '/login')
+      })
+    })
+  })
 })
