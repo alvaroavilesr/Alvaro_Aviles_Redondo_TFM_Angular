@@ -1,6 +1,6 @@
 describe('Tests de la aplicación', () => {
 
-  describe('Pantalla de inicio', () => {
+  describe('Página de inicio', () => {
 
     beforeEach(() => {
       cy.visit('http://localhost:4200/home')
@@ -121,7 +121,7 @@ describe('Tests de la aplicación', () => {
     })
   })
 
-  describe('Pantalla de Ayuda', () => {
+  describe('Página de Ayuda', () => {
 
     beforeEach(() => {
       cy.visit('http://localhost:4200/help')
@@ -196,7 +196,7 @@ describe('Tests de la aplicación', () => {
     })
   })
 
-  describe('Pantalla de Contacto', () => {
+  describe('Página de Contacto', () => {
 
     beforeEach(() => {
       cy.visit('http://localhost:4200/contact')
@@ -271,7 +271,7 @@ describe('Tests de la aplicación', () => {
     })
   })
 
-  describe('Pantalla de Sobre Nosotros', () => {
+  describe('Página de Sobre Nosotros', () => {
 
     beforeEach(() => {
       cy.visit('http://localhost:4200/about')
@@ -342,12 +342,144 @@ describe('Tests de la aplicación', () => {
         })
       })
 
-      it('Al hacer click en Login', () => {
+      it('Al hacer click en Login navega a la página correcta', () => {
         cy.get('nav.navbar a.nav-link')
           .contains('Login')
           .click()
 
         cy.url().should('include', '/login')
+      })
+    })
+  })
+
+  describe('Página de Login', () => {
+
+    beforeEach(() => {
+      cy.visit('http://localhost:4200/login')
+    })
+
+    describe('Verifica formulario', () => {
+      it('Debe mostrar el formulario de login', () => {
+        cy.get('#loginForm').should('exist')
+      })
+
+      it('Debe mostrar el campo de nombre de usuario', () => {
+        cy.get('input#username')
+          .should('exist')
+          .should('have.attr', 'placeholder', 'User1')
+      })
+
+      it('Debe permitir escribir en el campo de nombre de usuario', () => {
+        cy.get('input#username')
+          .type('usuarioTest')
+          .should('have.value', 'usuarioTest')
+      })
+
+      it('Debe mostrar el campo de contraseña', () => {
+        cy.get('input#password')
+          .should('exist')
+          .should('have.attr', 'placeholder', 'C0ntr@señ@')
+      })
+
+      it('Debe permitir escribir en el campo de contraseña', () => {
+        cy.get('input#password')
+          .type('123456')
+          .should('have.value', '123456')
+      })
+
+      it('Debe mostrar el botón de login y permitir hacer clic', () => {
+        cy.get('#btnLogin')
+          .should('exist')
+          .and('contain.text', 'Login')
+          .click()
+      })
+    })
+
+    describe('Verifica Footer', () => {
+      it('Debe mostrar el footer con el texto correcto', () => {
+        cy.get('footer.bg-dark')
+          .should('be.visible')
+          .within(() => {
+            cy.get('p.mb-0')
+              .should('contain.text', '© 2025 The Clothing Hub, Inc')
+          })
+      })
+    })
+
+    describe('Verifica Accesos', () => {
+      it('Debe mostrar toast de error con usuario', () => {
+        cy.get('input#username')
+          .type('User1')
+        cy.get('input#password')
+          .type('pass')
+        cy.get('#btnLogin')
+          .click()
+      })
+
+      it('Debe acceder a la pagina de usuario', () => {
+        cy.get('input#username')
+          .type('User1')
+        cy.get('input#password')
+          .type('user@pass')
+        cy.get('#btnLogin')
+          .click()
+        cy.wait(1000)
+        cy.url().should('include', '/shop')
+        cy.window().then((win) => {
+          const token = win.sessionStorage.getItem('JWT')
+          expect(token).to.exist
+          expect(token).to.include('ey')
+        })
+      })
+
+      it('Debe mostrar toast de error con vendedor', () => {
+        cy.get('input#username')
+          .type('Vendor1')
+        cy.get('input#password')
+          .type('pass')
+        cy.get('#btnLogin')
+          .click()
+      })
+
+      it('Debe acceder a la pagina de vendedor', () => {
+        cy.get('input#username')
+          .type('Vendor1')
+        cy.get('input#password')
+          .type('vendor@pass')
+        cy.get('#btnLogin')
+          .click()
+        cy.wait(1000)
+        cy.url().should('include', '/category-management')
+        cy.window().then((win) => {
+          const token = win.sessionStorage.getItem('JWT')
+          expect(token).to.exist
+          expect(token).to.include('ey')
+        })
+      })
+
+      it('Debe mostrar toast de error con administrador', () => {
+        cy.get('input#username')
+          .type('Admin11')
+        cy.get('input#password')
+          .type('pass')
+        cy.get('#btnLogin')
+          .click()
+      })
+
+      it('Debe acceder a la pagina de administrador', () => {
+        cy.get('input#username')
+          .type('Admin1')
+        cy.get('input#password')
+          .type('admin@pass')
+        cy.get('#btnLogin')
+          .click()
+        cy.wait(1000)
+        cy.url().should('include', '/user-management')
+        cy.window().then((win) => {
+          const token = win.sessionStorage.getItem('JWT')
+          expect(token).to.exist
+          expect(token).to.include('ey')
+        })
       })
     })
   })
