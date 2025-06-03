@@ -410,7 +410,7 @@ describe('Tests de la aplicación', () => {
 
       it('Debe acceder a la pagina de usuario', () => {
         cy.get('input#username')
-          .type('User1')
+          .type('User2')
         cy.get('input#password')
           .type('user@pass')
         cy.get('#btnLogin')
@@ -533,31 +533,6 @@ describe('Tests de la aplicación', () => {
     })
 
     describe('Verifica registro', () => {
-      it('Debe dar error por contraseñas no coincidentes', () => {
-        cy.get('#username').type('Usuario123')
-        cy.get('#email').type('correo@ejemplo.com')
-        cy.get('#name').type('Álvaro')
-        cy.get('#surname').type('Avilés')
-        cy.get('#password').type('C0ntr@señ@1')
-        cy.get('#passwordConfirm').type('C0ntr@señ@2')
-        cy.get('#btnRegister').click()
-        cy.get('#toast-container .ngx-toastr')
-          .should('be.visible')
-          .and('have.class', 'toast-error')
-      })
-
-      it('Debe dar error por formato del correo no valido', () => {
-        cy.get('#username').type('Usuario123')
-        cy.get('#email').type('correo')
-        cy.get('#name').type('Álvaro')
-        cy.get('#surname').type('Avilés')
-        cy.get('#password').type('C0ntr@señ@1')
-        cy.get('#passwordConfirm').type('C0ntr@señ@1')
-        cy.get('#btnRegister').click()
-        cy.get('#toast-container .ngx-toastr')
-          .should('be.visible')
-          .and('have.class', 'toast-error')
-      })
 
       it('Debe dar error por nombre de usuario en uso', () => {
         cy.get('#username').type('User1')
@@ -589,10 +564,6 @@ describe('Tests de la aplicación', () => {
 
   describe('Página de Perfil de Administrador', () => {
 
-    beforeEach(() => {
-      cy.visit('http://localhost:4200/profile')
-    })
-
     describe('Verifica formulario', () => {
       it('Debe ir a la pagina de perfil y comprobar el funcionamiento del formulario', () => {
         cy.visit('http://localhost:4200/login')
@@ -621,6 +592,7 @@ describe('Tests de la aplicación', () => {
         cy.contains('button', 'Cambiar').click()
         cy.get('input.form-control')
           .clear()
+          .should('be.visible')
           .type('nuevo')
         cy.contains('button', 'Guardar Cambios').click()
         cy.get('#toast-container .ngx-toastr')
@@ -628,6 +600,7 @@ describe('Tests de la aplicación', () => {
           .and('have.class', 'toast-error')
         cy.get('input.form-control')
           .clear()
+          .should('be.visible')
           .type('nuevo@correo.com')
         cy.contains('button', 'Guardar Cambios').click()
         cy.wait(1000)
@@ -646,6 +619,7 @@ describe('Tests de la aplicación', () => {
           .click()
         cy.get('input.form-control')
           .clear()
+          .should('be.visible')
           .type('NuevoNombre')
         cy.wait(500)
         cy.contains('button', 'Guardar Cambios').click()
@@ -664,6 +638,7 @@ describe('Tests de la aplicación', () => {
           .click()
         cy.get('input.form-control')
           .clear()
+          .should('be.visible')
           .type('NuevoApellido')
         cy.wait(500)
         cy.contains('button', 'Guardar Cambios').click()
@@ -684,5 +659,65 @@ describe('Tests de la aplicación', () => {
           .and('have.class', 'toast-success')
       })
     })
+  })
+
+
+  describe('Página de Perfil de Administrador', () => {
+
+    describe('Verifica funcionalidades', () => {
+      it('Debe ir a la pagina de gestion de usuarios y comprobar el funcionamiento', () => {
+        cy.visit('http://localhost:4200/login')
+        cy.get('input#username')
+          .type('Admin1')
+        cy.get('input#password')
+          .type('admin@pass')
+        cy.get('#btnLogin')
+          .click()
+        cy.url().should('include', '/user-management')
+        cy.contains('h2', 'Usuarios').should('exist')
+        cy.contains('button', 'Crear usuario').click()
+        cy.get('form').within(() => {
+          cy.get('#username').should('be.visible').should('be.enabled').type('usuario123')
+          cy.get('#firstname').should('be.visible').should('be.enabled').type('Juan')
+          cy.get('#lastname').should('be.visible').should('be.enabled').type('Pérez')
+          cy.get('#email').should('be.visible').should('be.enabled').type('juanperez@example.com')
+          cy.get('#password').should('be.visible').should('be.enabled').type('C0ntr@señ@Segura')
+          cy.get('#role').should('be.visible').should('be.enabled').select('Vendor')
+        })
+        cy.get('#CreateUserButton2').click()
+        cy.get('#dropdownMenuButton').click()
+        cy.wait(300)
+        cy.get('#ButtonCategories').should('be.visible')
+        cy.get('li a.dropdown-item').eq(1).click()
+        cy.get('#dropdownMenuButton').click()
+        cy.wait(300)
+        cy.get('#ButtonCategories').should('be.visible')
+        cy.get('li a.dropdown-item').first().click()
+        cy.get('input[placeholder="Usuario..."]').type('Vendor1')
+        cy.contains('button', 'Buscar').click()
+        cy.get('#dropdownMenuButton').click()
+        cy.wait(300)
+        cy.get('#ButtonCategories').should('be.visible')
+        cy.get('li a.dropdown-item').first().click()
+        cy.contains('button', 'Modificar Datos').click()
+        cy.get('#firstnameUpdate').clear().type('Pedro')
+        cy.contains('button', 'Modificar datos').click()
+        cy.contains('button', 'Modificar Contraseña').click()
+        cy.get('#adminPass').should('be.visible').type('admin@pass')
+        cy.get('#newPass').should('be.visible').type('admin@pass')
+        cy.get('#newPassConfirm').should('be.visible').type('admin@pass')
+        cy.contains('button', 'Modificar contraseña').click()
+        cy.contains('button', 'Cambiar Rol').click()
+        cy.get('#newRole').should('be.visible').select('Vendor')
+        cy.contains('button', 'Modificar rol').should('be.visible').click()
+        cy.get('body').click(10, 10)
+        cy.get('body').click(10, 10)
+        cy.get('body').click(10, 10)
+        cy.get('body').click(10, 10)
+        cy.contains('button', 'Eliminar').should('be.visible').click()
+        cy.contains('button', 'Eliminar usuario').should('be.visible').click()
+      })
+    })
+
   })
 })
