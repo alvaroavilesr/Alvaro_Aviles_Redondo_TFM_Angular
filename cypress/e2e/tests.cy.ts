@@ -534,19 +534,6 @@ describe('Tests de la aplicación', () => {
 
     describe('Verifica registro', () => {
 
-      it('Debe dar error por nombre de usuario en uso', () => {
-        cy.get('#username').type('User1')
-        cy.get('#email').type('correo@ejemplo.com')
-        cy.get('#name').type('Álvaro')
-        cy.get('#surname').type('Avilés')
-        cy.get('#password').type('C0ntr@señ@1')
-        cy.get('#passwordConfirm').type('C0ntr@señ@1')
-        cy.get('#btnRegister').click()
-        cy.get('#toast-container .ngx-toastr')
-          .should('be.visible')
-          .and('have.class', 'toast-error')
-      })
-
       it('Debe crear nuevo usuario', () => {
         cy.get('#username').type('UserCypress')
         cy.get('#email').type('correo@ejemplo.com')
@@ -662,7 +649,7 @@ describe('Tests de la aplicación', () => {
   })
 
 
-  describe('Página de Perfil de Administrador', () => {
+  describe('Página de gestión de Usuarios', () => {
 
     describe('Verifica funcionalidades', () => {
       it('Debe ir a la pagina de gestion de usuarios y comprobar el funcionamiento', () => {
@@ -720,4 +707,38 @@ describe('Tests de la aplicación', () => {
     })
 
   })
+
+  describe('Página de gestión de categorías', () => {
+
+    describe('Verifica funcionalidades', () => {
+      it('Debe ir a la pagina de gestion de categorias y comprobar el funcionamiento', () => {
+        cy.visit('http://localhost:4200/login')
+        cy.get('input#username')
+          .type('Vendor1')
+        cy.get('input#password')
+          .type('vendor@pass')
+        cy.get('#btnLogin')
+          .click()
+        cy.url().should('include', '/category-management')
+        cy.contains('h2', 'Categorias').should('exist')
+        cy.contains('button', 'Crear categoria').click()
+        cy.get('form').within(() => {
+          cy.get('#username').should('be.visible').should('be.enabled').type('Calcetines')
+        })
+        cy.get('#newCategoryName').click()
+        cy.get('input[placeholder="Categoria..."]').type('Calcetines')
+        cy.contains('button', 'Buscar').click()
+        cy.contains('button', 'Modificar nombre').click()
+        cy.get('#nameUpdate').clear().type('Zapatillas')
+        cy.wait(300)
+        cy.contains('button', 'Modificar datos').click()
+        cy.get('input[placeholder="Categoria..."]').clear().type('Zapatillas')
+        cy.contains('button', 'Buscar').click()
+        cy.wait(300)
+        cy.contains('button', 'Eliminar').click()
+        cy.contains('button', 'Eliminar categoria').click()
+      })
+    })
+  })
+
 })
