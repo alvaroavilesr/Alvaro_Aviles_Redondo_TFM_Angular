@@ -48,7 +48,7 @@
         <p>{{selectedProduct.longDescription}}</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="closeDetailsProductModal()">Cerrar</button>
+        <button type="button" id='CloseButton' class="btn btn-danger" (click)="closeDetailsProductModal()">Cerrar</button>
       </div>
     </div>
   </div>
@@ -65,7 +65,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeDeleteFromCartModal()">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="deleteProductFromCart()">Eliminar del carrito</button>
+        <button type="button" id='DeleteFromCartButton' class="btn btn-primary" (click)="deleteProductFromCart()">Eliminar del carrito</button>
       </div>
     </div>
   </div>
@@ -87,7 +87,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeMakeOrderModal()">Cancelar</button>
-        <button type="button" class="btn btn-success" (click)="makeOrder()">Hacer pedido</button>
+        <button type="button" id='MakeOrderButton' class="btn btn-success" (click)="makeOrder()">Hacer pedido</button>
       </div>
     </div>
   </div>
