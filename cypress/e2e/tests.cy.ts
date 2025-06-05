@@ -1098,4 +1098,40 @@ describe('Tests de la aplicación', () => {
       })
     })
   })
+
+
+  describe('Página de pedidos propios', () => {
+
+    describe('Verifica funcionalidades', () => {
+      it('Debe ir a la pagina de pedidos propios y comprobar el funcionamiento', () => {
+        cy.visit('http://localhost:4200/login')
+        cy.get('input#username')
+          .type('User1')
+        cy.get('input#password')
+          .type('user@pass')
+        cy.get('#btnLogin')
+          .click()
+        cy.url().should('include', '/shop')
+        cy.get('nav.navbar a.nav-link')
+          .contains('Mis pedidos')
+          .click()
+        cy.contains('h2', 'Mis pedidos').should('exist')
+        cy.contains('button', 'Ver detalles').click()
+        cy.get('.modal-title').should('exist')
+        cy.contains('p', 'Usuario:').should('exist')
+        cy.contains('p', 'Precio:').should('exist')
+        cy.contains('p', 'Total productos:').should('exist')
+        cy.contains('p', 'Fecha:').should('exist')
+        cy.contains('p', 'Dirección:').should('exist')
+        cy.get('h5').contains('Productos asociados').should('exist');
+        cy.contains('button', 'Cerrar').click()
+        cy.wait(500)
+        cy.get('body').click(10, 10)
+        cy.contains('button', 'Cancelar pedido').click()
+        cy.contains('button', 'Eliminar pedido').click()
+        cy.wait(500)
+        cy.get('body').click(10, 10)
+      })
+    })
+  })
 })
